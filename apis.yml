@@ -1,0 +1,111 @@
+aid: trustarc
+name: TrustArc
+description: >-
+  TrustArc is a Walnut Creek, California enterprise privacy management
+  platform that helps organizations operationalize global data privacy
+  programs. Its product portfolio spans three suites. Privacy Studio
+  covers consumer-facing consent and rights with Cookie Consent Manager,
+  Consent & Preference Manager, Individual Rights Manager (DSR
+  automation), and the Unified Trust Center. The Governance Suite covers
+  internal privacy program operations with PrivacyCentral, Data Mapping
+  & Risk Manager, Assessment Manager (PIA/DPIA/TIA), and Nymity Research
+  for regulatory intelligence. Assurance Services delivers third-party
+  attestations including Data Privacy Framework verification, GDPR and
+  CCPA/CPRA validation, APEC CBPR/PRP, and TRUSTe Responsible AI
+  Certification. TrustArc exposes a developer surface through gated APIs
+  documented in the customer help center — including the Gateway API,
+  Individual Rights Manager Rapid/Client APIs, Cookie Consent Manager
+  Reporting API, Consent & Preference Manager Rapid/Standard APIs, and
+  Assessment Manager Internal API — plus a Mobile Consent SDK (iOS),
+  300+ prebuilt connectors to platforms such as Salesforce, HubSpot,
+  Marketo, Adobe Experience Manager, Microsoft Dynamics, Jira, and
+  Google Workspace, and a Google Consent Mode v2 template published on
+  GitHub. Founded over 28 years ago and serving 1,500+ enterprises
+  including Abbott, ADP, GE, Nike, and Starbucks, TrustArc operates on a
+  commercial SaaS model; complete API specifications are not publicly
+  available.
+type: Index
+position: Provider
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Privacy
+  - Data Privacy
+  - Privacy Management
+  - Consent Management
+  - Cookie Consent
+  - Preference Management
+  - Data Subject Rights
+  - DSR
+  - Privacy Governance
+  - Data Mapping
+  - Privacy Assessments
+  - PIA
+  - DPIA
+  - GDPR
+  - CCPA
+  - CPRA
+  - Data Privacy Framework
+  - TRUSTe
+  - AI Governance
+  - Responsible AI
+  - Compliance
+  - Certifications
+  - RegTech
+  - Trust Center
+  - Enterprise SaaS
+url: https://raw.githubusercontent.com/api-evangelist/trustarc/refs/heads/main/apis.yml
+created: '2026-05-25'
+modified: '2026-05-25'
+specificationVersion: '0.20'
+apis: []
+common:
+  - type: Website
+    url: https://trustarc.com
+  - type: Company
+    url: https://trustarc.com/company/
+  - type: Products
+    url: https://trustarc.com/products/
+  - type: PrivacyStudio
+    url: https://trustarc.com/products/consent-consumer-rights/
+  - type: CookieConsentManager
+    url: https://trustarc.com/products/consent-consumer-rights/cookie-consent-manager/
+  - type: ConsentPreferenceManager
+    url: https://trustarc.com/products/consent-consumer-rights/consent-preference-manager/
+  - type: IndividualRightsManager
+    url: https://trustarc.com/products/consent-consumer-rights/individual-rights-manager/
+  - type: TrustCenter
+    url: https://trustarc.com/products/consent-consumer-rights/trust-center/
+  - type: GovernanceSuite
+    url: https://trustarc.com/products/privacy-data-governance/
+  - type: PrivacyCentral
+    url: https://trustarc.com/products/privacy-data-governance/privacycentral/
+  - type: DataMappingRiskManager
+    url: https://trustarc.com/products/privacy-data-governance/data-inventory-mapping/
+  - type: AssessmentManager
+    url: https://trustarc.com/products/privacy-data-governance/assessment-manager/
+  - type: NymityResearch
+    url: https://trustarc.com/products/privacy-data-governance/nymity-research/
+  - type: AssuranceServices
+    url: https://trustarc.com/products/assurance-certifications/
+  - type: Integrations
+    url: https://trustarc.com/products/integrations/
+  - type: HelpCenter
+    url: https://trustarchelp.zendesk.com/hc/en-us
+  - type: APIGuides
+    url: https://trustarchelp.zendesk.com/hc/en-us/sections/36115648969363-API-Guides
+  - type: MobileSDKiOS
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/32900734257939-iOS-SDK-API-Reference
+  - type: Resources
+    url: https://trustarc.com/resources/
+  - type: Login
+    url: https://login.truste.com
+  - type: GitHub
+    url: https://github.com/trustarc
+  - type: Twitter
+    url: https://twitter.com/TrustArc
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/trustarc
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

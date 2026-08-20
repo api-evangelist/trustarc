@@ -64,6 +64,32 @@ tags:
   - Certifications
   - RegTech
   - Trust Center
+  - Enterprise Saas
+tags_raw:
+  - Privacy
+  - Data Privacy
+  - Privacy Management
+  - Consent Management
+  - Cookie Consent
+  - Preference Management
+  - Data Subject Rights
+  - DSR
+  - Privacy Governance
+  - Data Mapping
+  - Privacy Assessments
+  - PIA
+  - DPIA
+  - GDPR
+  - CCPA
+  - CPRA
+  - Data Privacy Framework
+  - TRUSTe
+  - AI Governance
+  - Responsible AI
+  - Compliance
+  - Certifications
+  - RegTech
+  - Trust Center
   - Enterprise SaaS
 url: https://raw.githubusercontent.com/api-evangelist/trustarc/refs/heads/main/apis.yml
 created: '2026-05-25'

@@ -20,10 +20,21 @@ description: >-
   300+ prebuilt connectors to platforms such as Salesforce, HubSpot,
   Marketo, Adobe Experience Manager, Microsoft Dynamics, Jira, and
   Google Workspace, and a Google Consent Mode v2 template published on
-  GitHub. Founded over 28 years ago and serving 1,500+ enterprises
+  GitHub. The developer surface is larger than it looks: TrustArc serves
+  one machine-readable contract openly — the Guardian identity API at
+  login.truste.com/v3/api-docs, an OpenAPI 3.1.0 document with 205 paths,
+  276 operations and 158 schemas that includes a standards-compliant SCIM
+  2.0 provisioning surface — plus OpenID Connect and RFC 8414 discovery
+  documents advertising PKCE, mTLS-bound tokens, DPoP and token exchange.
+  Six further external APIs (Cookie Consent Manager External v1, CCM
+  Reporting, Individual Rights Manager, Consent & Preference Manager, the
+  Data Mapping Hub external-integration API and Assessment Manager) are
+  fully documented in the public help center with endpoints, payloads,
+  status codes and a versioning and deprecation policy, but publish no
+  OpenAPI. Founded over 28 years ago and serving 1,500+ enterprises
   including Abbott, ADP, GE, Nike, and Starbucks, TrustArc operates on a
-  commercial SaaS model; complete API specifications are not publicly
-  available.
+  commercial SaaS model with no published pricing; API credentials are
+  issued by an account administrator rather than self-service.
 type: Index
 accessModel:
   pricing: unknown
@@ -42,6 +53,11 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/trustarc.p
 tags:
   - Privacy
   - Data Privacy
+  - SCIM
+  - Identity
+  - OAuth
+  - OpenID Connect
+  - User Provisioning
   - Privacy Management
   - Consent Management
   - Cookie Consent
@@ -68,6 +84,11 @@ tags:
 tags_raw:
   - Privacy
   - Data Privacy
+  - SCIM
+  - Identity
+  - OAuth
+  - OpenID Connect
+  - User Provisioning
   - Privacy Management
   - Consent Management
   - Cookie Consent
@@ -93,10 +114,197 @@ tags_raw:
   - Enterprise SaaS
 url: https://raw.githubusercontent.com/api-evangelist/trustarc/refs/heads/main/apis.yml
 created: '2026-05-25'
-modified: '2026-05-25'
+modified: '2026-08-27'
 specificationVersion: '0.23'
-apis: []
+apis:
+  - name: TrustArc Guardian Identity API
+    description: >-
+      TrustArc's platform identity, account and access-management service. Publishes a full
+      OpenAPI 3.1.0 contract with 205 paths, 276 operations and 158 schemas covering users,
+      user profiles, groups, permission profiles, accounts, OAuth clients, SSO/external auth
+      configuration, email templates, navigation menus, meta-tagging and licensing — plus a
+      standards-compliant SCIM 2.0 provisioning surface at /external/api/v2/scim/ (Users,
+      Groups, ServiceProviderConfig, Schemas, ResourceTypes). This is the only TrustArc API
+      with a machine-readable contract; the spec is served openly at /v3/api-docs even
+      though the Swagger UI that renders it is closed. Auth is OAuth 2.0; the host publishes
+      OpenID Connect and RFC 8414 discovery documents advertising authorization_code,
+      client_credentials, refresh_token and token exchange, with PKCE, mTLS-bound tokens and
+      DPoP.
+    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+    baseURL: https://login.truste.com
+    tags:
+      - Identity
+      - Authentication
+      - OAuth
+      - OpenID Connect
+      - SCIM
+      - User Provisioning
+      - Access Management
+      - SSO
+    properties:
+      - type: OpenAPI
+        url: openapi/trustarc-guardian-openapi.yml
+      - type: Documentation
+        url: https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+      - type: Authentication
+        url: authentication/trustarc-authentication.yml
+      - type: OAuthScopes
+        url: scopes/trustarc-scopes.yml
+      - type: DataModel
+        url: data-model/trustarc-data-model.yml
+      - type: Overlay
+        url: overlays/trustarc-guardian-overlay.yaml
+      - type: AgentSkill
+        url: skills/trustarc-scim-user-provisioning.md
+      - type: OpenIDConnect
+        url: https://login.truste.com/.well-known/openid-configuration
+  - name: TrustArc Cookie Consent Manager External API
+    description: >-
+      Manage the website inventory of a Cookie Consent Manager instance and queue tracker
+      scans. Version v1.0, released 2025-04-23, with a published versioning policy (URI
+      versioning, 12-month support for superseded major versions), a dated changelog and a
+      troubleshooting reference. Endpoints add and remove websites against a cmUuid, queue
+      asynchronous cookie scans, and read the tracker inventory. Returns per-item result
+      arrays with 207 Multi-Status on partial success. Requires SUPER_ADMIN, ADMIN or
+      DESIGNER. No OpenAPI is published. The base host is per-tenant: TrustArc's own API
+      reference writes it as https://<your-ccm-domain>/external/v1, so the templated form is
+      recorded rather than a guessed shared host.
+    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+    baseURL: https://{your-ccm-domain}
+    tags:
+      - Cookie Consent
+      - Consent Management
+      - Tracker Scanning
+      - Privacy
+    properties:
+      - type: APIReference
+        url: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+      - type: GettingStarted
+        url: https://trustarchelp.zendesk.com/hc/en-us/articles/53517235461651-Getting-Started
+      - type: ChangeLog
+        url: https://trustarchelp.zendesk.com/hc/en-us/articles/53518189041043-API-Versioning-Changelog
+      - type: Support
+        url: https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting
+      - type: AgentSkill
+        url: skills/trustarc-cookie-consent-website-scan.md
+      - type: ErrorCatalog
+        url: errors/trustarc-problem-types.yml
+  - name: TrustArc Individual Rights Manager External API
+    description: >-
+      Create, label, search and close data subject requests (DSR/DSAR) in Individual Rights
+      Manager, and register callbacks for request status changes. Request bodies are keyed by
+      per-form field IDs discovered from GET /api/v1/external/forms/all rather than by
+      display labels. Includes request status and verification-type references, custom label
+      management, request task operations, and an external callback controller filtered by
+      request type, form, data subject type, status, brand, jurisdiction and verification
+      type. Documented in the help center; no OpenAPI is published.
+    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/52354102146579-DROP-Process-to-IRM-API-Integration-Guide
+    baseURL: https://irm.trustarc.com/server/api/v1
+    tags:
+      - Data Subject Rights
+      - DSR
+      - DSAR
+      - Privacy
+      - Webhooks
+    properties:
+      - type: Documentation
+        url: https://trustarchelp.zendesk.com/hc/en-us/articles/52354102146579-DROP-Process-to-IRM-API-Integration-Guide
+      - type: APIReference
+        url: https://trustarchelp.zendesk.com/hc/en-us/sections/31910350237203-Individual-Rights-RESTful-API-Overview
+      - type: Webhooks
+        url: asyncapi/trustarc-webhooks.yml
+      - type: AgentSkill
+        url: skills/trustarc-dsr-request-lifecycle.md
+  - name: TrustArc Consent & Preference Manager External API
+    description: >-
+      Read and write consent records, consent forms, data subjects and their callbacks in
+      Consent & Preference Manager, with a matching EU data-residency deployment at
+      cpm.trustarc.eu. Exposes external consent, consent form, data subject and report
+      controllers plus consent and data-subject callback registration filtered by account,
+      brand, program, consent form and data subject type. A real-time consent enqueue
+      endpoint shipped in the 2026-07-15 release. Also offers Rapid API, a customer-authored
+      integration template for connecting CPM to third-party systems over REST.
+    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/40520220419475-External-Consent-Controller
+    baseURL: https://cpm.trustarc.com/server/api/v1
+    tags:
+      - Consent Management
+      - Preference Management
+      - Privacy
+      - Webhooks
+    properties:
+      - type: Documentation
+        url: https://trustarchelp.zendesk.com/hc/en-us/articles/40520220419475-External-Consent-Controller
+      - type: Webhooks
+        url: asyncapi/trustarc-webhooks.yml
+  - name: TrustArc Data Mapping Hub External Integration API
+    description: >-
+      Synchronize the privacy data inventory — Business Processes, IT Systems, Company
+      Affiliates and Third Parties — between a customer system of record and TrustArc's Data
+      Mapping & Risk Manager. Every resource is addressable by both TrustArc's internalId and
+      the customer's own externalId, with upsert operations keyed on externalId, and each
+      resource exposes a dated change-event feed (integration-events) filtered by eventType
+      and a since timestamp for incremental sync. Paginated with the Spring Data page
+      envelope. Documented in the help center; no OpenAPI is published.
+    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/49882097212435-Retrieve-All-Business-Processes
+    baseURL: https://api.trustarc.com/api/hub/external-integration
+    tags:
+      - Data Mapping
+      - Data Inventory
+      - Privacy Governance
+      - Third Party Risk
+    properties:
+      - type: Documentation
+        url: https://trustarchelp.zendesk.com/hc/en-us/articles/49882097212435-Retrieve-All-Business-Processes
+      - type: Authentication
+        url: authentication/trustarc-authentication.yml
+      - type: DataModel
+        url: data-model/trustarc-data-model.yml
+  - name: TrustArc Cookie Consent Manager Reporting API
+    description: >-
+      Pull consent analytics out of Cookie Consent Manager — analytics reports, consent
+      locations and GDPR reports, in JSON and CSV. Version 1.4 of the guide, last updated
+      2026-01-07. Auth server login.truste.com, reporting server
+      api.trustarc.com/api/ccm-reporting/.
+    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/35645279167891-Overview
+    baseURL: https://api.trustarc.com/api/ccm-reporting
+    tags:
+      - Consent Management
+      - Reporting
+      - Analytics
+      - GDPR
+    properties:
+      - type: Documentation
+        url: https://trustarchelp.zendesk.com/hc/en-us/articles/35645279167891-Overview
+      - type: Authentication
+        url: authentication/trustarc-authentication.yml
+  - name: TrustArc Assessment Manager API
+    description: >-
+      Create Assessment Manager projects (PIA/DPIA/TIA) programmatically over a RESTful
+      surface, plus an external-integration project answer endpoint and packaged Salesforce
+      and ServiceNow connectors. Documents both a production host (assess.truste.com) and a
+      staging host (assess-stage.truste.com). Documented in the help center; no OpenAPI is
+      published.
+    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/38618198125331-Understanding-the-API-Endpoint
+    baseURL: https://assess.truste.com/api/v1
+    tags:
+      - Privacy Assessments
+      - PIA
+      - DPIA
+      - Privacy Governance
+    properties:
+      - type: Documentation
+        url: https://trustarchelp.zendesk.com/hc/en-us/articles/38618198125331-Understanding-the-API-Endpoint
+      - type: GettingStarted
+        url: https://trustarchelp.zendesk.com/hc/en-us/articles/38618328259091-Creating-an-Assessment-via-API
+      - type: Sandbox
+        url: sandbox/trustarc-sandbox.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/trustarc-agentic-access.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
   - type: TrustCenter
     url: security/trustarc-trust-center.yml
   - type: DomainSecurity
@@ -115,7 +323,7 @@ common:
     url: https://trustarc.com/products/consent-consumer-rights/consent-preference-manager/
   - type: IndividualRightsManager
     url: https://trustarc.com/products/consent-consumer-rights/individual-rights-manager/
-  - type: TrustCenter
+  - type: UnifiedTrustCenter
     url: https://trustarc.com/products/consent-consumer-rights/trust-center/
   - type: GovernanceSuite
     url: https://trustarc.com/products/privacy-data-governance/
@@ -136,7 +344,7 @@ common:
   - type: APIGuides
     url: https://trustarchelp.zendesk.com/hc/en-us/sections/36115648969363-API-Guides
   - type: MobileSDKiOS
-    url: https://trustarchelp.zendesk.com/hc/en-us/articles/32900734257939-iOS-SDK-API-Reference
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/32900734257939-iOS
   - type: Resources
     url: https://trustarc.com/resources/
   - type: Login
@@ -147,6 +355,71 @@ common:
     url: https://twitter.com/TrustArc
   - type: LinkedIn
     url: https://www.linkedin.com/company/trustarc
+  - type: Packages
+    url: packages/trustarc-packages.yml
+  - type: SDKs
+    url: packages/trustarc-packages.yml
+  - type: WellKnown
+    url: well-known/trustarc-well-known.yml
+  - type: LLMsTxt
+    url: llms/trustarc-llms.txt
+  - type: Conformance
+    url: conformance/trustarc-conformance.yml
+  - type: Compliance
+    url: https://trust.trustarc.com/en-US/security
+  - type: TrustCenter
+    url: https://trust.trustarc.com/en-US/
+  - type: ErrorCatalog
+    url: errors/trustarc-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/trustarc-lifecycle.yml
+  - type: StatusPage
+    url: https://status.trustarc.com/
+  - type: Deprecation
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/53518189041043-API-Versioning-Changelog
+  - type: Conventions
+    url: conventions/trustarc-conventions.yml
+  - type: ChangeLog
+    url: changelog/trustarc-changelog.yml
+  - type: Components
+    url: components/trustarc-components.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: Webhooks
+    url: asyncapi/trustarc-webhooks.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Sandbox
+    url: sandbox/trustarc-sandbox.yml
+  - type: RateLimits
+    url: rate-limits/trustarc-rate-limits.yml
+  - type: Plans
+    url: plans/trustarc-plans-pricing.yml
+  - type: Overlay
+    url: overlays/trustarc-guardian-overlay.yaml
+  - type: Documentation
+    url: https://trustarchelp.zendesk.com/hc/en-us
+  - type: APIReference
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+  - type: GettingStarted
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/53517235461651-Getting-Started
+  - type: Support
+    url: https://trustarc.com/contact/
+  - type: Blog
+    url: https://trustarc.com/resources/?action=resources&type=blog
+  - type: GitHubOrganization
+    url: https://github.com/trustarc
+  - type: TermsOfService
+    url: https://trust.trustarc.com/en-US/policies/site-terms
+  - type: PrivacyPolicy
+    url: https://trust.trustarc.com/en-US/policies/trustarc-privacy-notice
+  - type: SignUp
+    url: https://trustarc.com/demo-request/
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-27'
+  status: enriched
+  artifacts_added: 26
+  pass: local-v1

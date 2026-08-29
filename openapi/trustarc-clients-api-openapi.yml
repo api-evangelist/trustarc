@@ -1,0 +1,877 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Clients API
+  version: v1
+  description: 'Operations tagged Clients across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Clients
+paths:
+  /api/v1/clients/{id}:
+    get:
+      tags:
+      - Clients
+      operationId: get_11
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/ClientApplication'
+                - $ref: '#/components/schemas/CustomerClientApplication'
+                - $ref: '#/components/schemas/InternalClientApplication'
+      security:
+      - guardianAuth: []
+    put:
+      tags:
+      - Clients
+      operationId: update_10
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/ClientApplication'
+              - $ref: '#/components/schemas/CustomerClientApplication'
+              - $ref: '#/components/schemas/InternalClientApplication'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/ClientApplication'
+                - $ref: '#/components/schemas/CustomerClientApplication'
+                - $ref: '#/components/schemas/InternalClientApplication'
+      security:
+      - guardianAuth: []
+    delete:
+      tags:
+      - Clients
+      operationId: delete_9
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients:
+    get:
+      tags:
+      - Clients
+      operationId: list_11
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ASC
+          enum:
+          - ASC
+          - DESC
+      - name: columnName
+        in: query
+        required: false
+        schema:
+          type: string
+          default: clientName
+      - name: showontopheader
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: userId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: usingUserRolesOrGroups
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: usingUserGroups
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+          default: Internal
+          enum:
+          - Internal
+          - Customer
+      - name: modifiedStart
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: modifiedEnd
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageClientApplication'
+      security:
+      - guardianAuth: []
+    post:
+      tags:
+      - Clients
+      operationId: create_11
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/ClientApplication'
+              - $ref: '#/components/schemas/CustomerClientApplication'
+              - $ref: '#/components/schemas/InternalClientApplication'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/ClientApplication'
+                - $ref: '#/components/schemas/CustomerClientApplication'
+                - $ref: '#/components/schemas/InternalClientApplication'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients/{id}/roles:
+    get:
+      tags:
+      - Clients
+      operationId: getRoles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientApplicationRole'
+                uniqueItems: true
+      security:
+      - guardianAuth: []
+    post:
+      tags:
+      - Clients
+      operationId: createRoles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ClientApplicationRole'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientApplicationRole'
+                uniqueItems: true
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients/{id}/key/reset:
+    post:
+      tags:
+      - Clients
+      operationId: resetKey
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientApplicationKey'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients/metrics/promote:
+    post:
+      tags:
+      - Clients
+      operationId: promote
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients/metrics:
+    get:
+      tags:
+      - Clients
+      operationId: list_24
+      parameters:
+      - name: clientId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: apiId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: startDate
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: endDate
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: valueAgo
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          default: 1
+      - name: unitAgo
+        in: query
+        required: false
+        schema:
+          type: string
+          default: Weeks
+          enum:
+          - NANOS
+          - MICROS
+          - MILLIS
+          - SECONDS
+          - MINUTES
+          - HOURS
+          - HALF_DAYS
+          - DAYS
+          - WEEKS
+          - MONTHS
+          - YEARS
+          - DECADES
+          - CENTURIES
+          - MILLENNIA
+          - ERAS
+          - FOREVER
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientApplicationMetric'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients/metrics/raw:
+    get:
+      tags:
+      - Clients
+      operationId: listRaw
+      parameters:
+      - name: clientId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerMeterDTO'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients/metrics/histogram:
+    get:
+      tags:
+      - Clients
+      operationId: histogram
+      parameters:
+      - name: clientId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: apiId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: startDate
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: endDate
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: valueAgo
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          default: 1
+      - name: unitAgo
+        in: query
+        required: false
+        schema:
+          type: string
+          default: Weeks
+          enum:
+          - NANOS
+          - MICROS
+          - MILLIS
+          - SECONDS
+          - MINUTES
+          - HOURS
+          - HALF_DAYS
+          - DAYS
+          - WEEKS
+          - MONTHS
+          - YEARS
+          - DECADES
+          - CENTURIES
+          - MILLENNIA
+          - ERAS
+          - FOREVER
+      - name: buckets
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          default: 10
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientMetricHistogram'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients/legacyid/{id}:
+    get:
+      tags:
+      - Clients
+      operationId: getByLegacyId
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/ClientApplication'
+                - $ref: '#/components/schemas/CustomerClientApplication'
+                - $ref: '#/components/schemas/InternalClientApplication'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients/grant-types:
+    get:
+      tags:
+      - Clients
+      operationId: getSupportedGrantTypes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients/clientid/{clientId}:
+    get:
+      tags:
+      - Clients
+      operationId: getByClientId
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/ClientApplication'
+                - $ref: '#/components/schemas/CustomerClientApplication'
+                - $ref: '#/components/schemas/InternalClientApplication'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients/metrics/raw/clear:
+    delete:
+      tags:
+      - Clients
+      operationId: clearRaw
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients/metrics/raw/clear/{clientId}:
+    delete:
+      tags:
+      - Clients
+      operationId: reset
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    MetricApi:
+      properties:
+        id:
+          type: string
+          format: uuid
+        method:
+          type: string
+        status:
+          type: integer
+          format: int32
+        path:
+          type: string
+    HistogramData:
+      properties:
+        sumFreq:
+          type: integer
+          format: int64
+        dateTime:
+          type: string
+          format: date-time
+    ApiMetricHistogram:
+      properties:
+        metricApi:
+          $ref: '#/components/schemas/MetricApi'
+        histogram:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistogramData'
+    APIMeterDTO:
+      properties:
+        api:
+          type: string
+        status:
+          type: integer
+          format: int32
+        count:
+          type: integer
+          format: int64
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    PageClientApplication:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ClientApplication'
+            - $ref: '#/components/schemas/CustomerClientApplication'
+            - $ref: '#/components/schemas/InternalClientApplication'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    CustomerClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          requestLimit:
+            type: integer
+            format: int64
+      required:
+      - clientId
+    ClientApplicationMetric:
+      properties:
+        id:
+          type: string
+          format: uuid
+        date:
+          type: string
+          format: date-time
+        count:
+          type: integer
+          format: int64
+        applicationId:
+          type: string
+        apiId:
+          type: string
+          format: uuid
+    InternalClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          siteUri:
+            type: string
+          logoUri:
+            type: string
+          helpUri:
+            type: string
+          redirectPriority:
+            type: integer
+            format: int32
+          showOnTopheader:
+            type: boolean
+      required:
+      - clientId
+    ClientApplicationKey:
+      properties:
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+    ClientMetricHistogram:
+      properties:
+        clientId:
+          type: string
+        buckets:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiMetricHistogram'
+        dateTimes:
+          type: array
+          items:
+            type: string
+            format: date-time
+    CustomerMeterDTO:
+      properties:
+        clientId:
+          type: string
+        count:
+          type: integer
+          format: int64
+        apiList:
+          type: array
+          items:
+            $ref: '#/components/schemas/APIMeterDTO'
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
+    GrantedAuthority:
+      properties:
+        authority:
+          type: string
+    ClientApplication:
+      discriminator:
+        propertyName: type
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+          maxLength: 2147483647
+          minLength: 1
+        clientSecret:
+          oneOf:
+          - $ref: '#/components/schemas/ClientApplication'
+          - $ref: '#/components/schemas/CustomerClientApplication'
+          - $ref: '#/components/schemas/InternalClientApplication'
+          writeOnly: true
+        clientName:
+          type: string
+        resourceIds:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        scopes:
+          type: string
+        grantTypes:
+          type: string
+        authorities:
+          type: array
+          items:
+            $ref: '#/components/schemas/GrantedAuthority'
+        redirectUris:
+          type: string
+        autoApproveScopes:
+          type: string
+        allowedAudiences:
+          type: string
+        legacyIdentifier:
+          type: string
+        enabled:
+          type: boolean
+        requiresLicense:
+          type: boolean
+        accessTokenValiditySeconds:
+          type: integer
+          format: int32
+        refreshTokenValiditySeconds:
+          type: integer
+          format: int32
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        type:
+          type: string
+          enum:
+          - Internal
+          - Customer
+        accountId:
+          type: string
+        usingUserGroups:
+          type: boolean
+        delegateUserId:
+          type: string
+        usingUserRoles:
+          type: boolean
+        usingUserRolesOrGroups:
+          type: boolean
+        usingAccountRegistration:
+          type: boolean
+        usingLicense:
+          type: boolean
+        modifiedById:
+          type: string
+      required:
+      - clientId
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

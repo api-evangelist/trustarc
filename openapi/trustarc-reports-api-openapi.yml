@@ -1,0 +1,259 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Reports API
+  version: v1
+  description: 'Operations tagged Reports across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Reports
+paths:
+  /api/v1/reports:
+    get:
+      tags:
+      - Reports
+      operationId: list_4
+      parameters:
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: reportStoreType
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - EXPORT_LOGIN_REPORT
+          - EXPORT_FULL_LOGIN_REPORT
+          - EXPORT_USER_GROUP
+          - EXPORT_NEW_USER_REPORT
+      - name: page
+        in: query
+        description: Results page you want to retrieve (0..N).
+        schema:
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: Number of recods per page.
+        schema:
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+        schema:
+          type: array
+          items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageReportStore'
+      security:
+      - guardianAuth: []
+    post:
+      tags:
+      - Reports
+      operationId: create_4
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportStoreRequest'
+        required: true
+      responses:
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                type: object
+        '202':
+          description: Accepted
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/reports/{id}:
+    get:
+      tags:
+      - Reports
+      operationId: get_23
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportStore'
+      security:
+      - guardianAuth: []
+    delete:
+      tags:
+      - Reports
+      operationId: delete_18
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    PageReportStore:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportStore'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    ReportStoreRequestParam:
+      properties:
+        accountId:
+          type: string
+        createdStart:
+          type: string
+          format: date-time
+        createdEnd:
+          type: string
+          format: date-time
+      required:
+      - accountId
+      - createdEnd
+      - createdStart
+    ReportStoreRequest:
+      properties:
+        type:
+          type: string
+          enum:
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - EXPORT_LOGIN_REPORT
+          - EXPORT_FULL_LOGIN_REPORT
+          - EXPORT_USER_GROUP
+          - EXPORT_NEW_USER_REPORT
+        param:
+          $ref: '#/components/schemas/ReportStoreRequestParam'
+      required:
+      - param
+      - type
+    ReportStore:
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - EXPORT_LOGIN_REPORT
+          - EXPORT_FULL_LOGIN_REPORT
+          - EXPORT_USER_GROUP
+          - EXPORT_NEW_USER_REPORT
+        fileName:
+          type: string
+        file:
+          type: string
+          format: byte
+          writeOnly: true
+        fileType:
+          type: string
+          enum:
+          - CSV
+        createdDate:
+          type: string
+          format: date-time
+        createdById:
+          type: string
+        ownerAccountId:
+          type: string
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

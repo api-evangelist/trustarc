@@ -1,0 +1,373 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Accounts Extension API
+  version: v1
+  description: 'Operations tagged Accounts-Extension across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Accounts-Extension
+paths:
+  /api/v1/accounts/{accountId}/extension:
+    get:
+      tags:
+      - Accounts-Extension
+      operationId: get_14
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAccountExtension'
+      security:
+      - guardianAuth: []
+    put:
+      tags:
+      - Accounts-Extension
+      operationId: upsert
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerAccountExtension'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerAccountExtension'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{accountId}/extension/licenses/clients/clientid/{clientId}:
+    get:
+      tags:
+      - Accounts-Extension
+      operationId: getAccountLicense
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerAccountExtensionClientExtensionLicense'
+      security:
+      - guardianAuth: []
+    put:
+      tags:
+      - Accounts-Extension
+      operationId: updateAccountLicense
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerAccountExtensionClientExtensionLicense'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerAccountExtensionClientExtensionLicense'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{accountId}/extension/runFilePuller:
+    post:
+      tags:
+      - Accounts-Extension
+      operationId: runFilePuller
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAccountExtension'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{accountId}/extension/sso-info:
+    get:
+      tags:
+      - Accounts-Extension
+      operationId: getSSOInfo
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SSOInfoDTO'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/withuploads:
+    get:
+      tags:
+      - Accounts-Extension
+      operationId: get_26
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerAccountExtension'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/extensions:
+    get:
+      tags:
+      - Accounts-Extension
+      operationId: list_33
+      parameters:
+      - name: ssoLoginOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: withUploads
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: legalName
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: page
+        in: query
+        description: Results page you want to retrieve (0..N).
+        schema:
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: Number of recods per page.
+        schema:
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+        schema:
+          type: array
+          items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageCustomerAccountExtension'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    ClientExtensionLicense:
+      properties:
+        id:
+          type: string
+          format: uuid
+        identifier:
+          type: string
+        name:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    PageCustomerAccountExtension:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerAccountExtension'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    AccountClientTrustArcLicense:
+      properties:
+        licenseId:
+          type: string
+        emptyJustification:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+        modifiedById:
+          type: string
+    SSOInfoDTO:
+      properties:
+        status:
+          type: string
+          enum:
+          - SSO_ONLY
+          - HYBRID
+          - NONE
+    CustomerAccountExtensionClientExtensionLicense:
+      properties:
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+        license:
+          $ref: '#/components/schemas/ClientExtensionLicense'
+    CustomerAccountExtension:
+      properties:
+        id:
+          type: string
+        uploadHome:
+          type: string
+        defaultUserRoles:
+          type: string
+        defaultUserGroups:
+          type: string
+        applicationLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientExtensionLicense'
+          uniqueItems: true
+        trustArcLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountClientTrustArcLicense'
+          uniqueItems: true
+        extLoginOnly:
+          type: boolean
+        accountId:
+          type: string
+        adminPersonId:
+          type: string
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

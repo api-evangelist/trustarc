@@ -1,0 +1,259 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Users History API
+  version: v1
+  description: 'Operations tagged Users-History across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Users-History
+paths:
+  /api/v1/user_actions:
+    get:
+      tags:
+      - Users-History
+      operationId: list_17
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          default: DESC
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageUserAction'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/user_actions/{username}:
+    get:
+      tags:
+      - Users-History
+      operationId: listByUsername_1
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          default: DESC
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageUserAction'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/user_actions/download:
+    get:
+      tags:
+      - Users-History
+      operationId: download
+      parameters:
+      - name: accountId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: userIds
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: startDate
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: endDate
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportStore'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    UserAction:
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        dateCreated:
+          type: string
+          format: date-time
+        action:
+          type: string
+        additionalInformation:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    PageUserAction:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserAction'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    ReportStore:
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - EXPORT_LOGIN_REPORT
+          - EXPORT_FULL_LOGIN_REPORT
+          - EXPORT_USER_GROUP
+          - EXPORT_NEW_USER_REPORT
+        fileName:
+          type: string
+        file:
+          type: string
+          format: byte
+          writeOnly: true
+        fileType:
+          type: string
+          enum:
+          - CSV
+        createdDate:
+          type: string
+          format: date-time
+        createdById:
+          type: string
+        ownerAccountId:
+          type: string
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

@@ -1,0 +1,181 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Nymity API
+  version: v1
+  description: 'Operations tagged Nymity across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Nymity
+paths:
+  /api/v1/nymity/sync:
+    post:
+      tags:
+      - Nymity
+      operationId: sync
+      parameters:
+      - name: accountId
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BatchJob'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/nymity/sync-info:
+    get:
+      tags:
+      - Nymity
+      operationId: syncInfo
+      parameters:
+      - name: accountId
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/NymitySyncInfo'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    BatchJobError:
+      properties:
+        entry:
+          type: string
+        message:
+          type: string
+    BatchJob:
+      properties:
+        id:
+          type: string
+        jobInstanceId:
+          type: integer
+          format: int64
+        jobExecutionId:
+          type: integer
+          format: int64
+        createTime:
+          type: string
+          format: date-time
+        lastRunTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        currentStatus:
+          type: string
+        resourceName:
+          type: string
+        batchJobType:
+          type: string
+          enum:
+          - DELETE_USER
+          - IMPORT_ORG
+          - IMPORT_USER
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - REFRESH_USER_SEARCH
+          - RUN_TASK
+          - TASK_UNMANAGE_PASSWORD
+          - TASK_RESET_PASSWORD
+          - TASK_UPDATE_PERMISSION
+          - TASK_REFRESH_USER_CACHE
+          - TASK_REFRESH_USER_META_CACHE
+          - TASK_SFTP_PULLER
+          - TASK_LOGIN_ATTEMPT_CLEANUP
+          - TASK_REPORT_STORE_CLEANUP
+          - TASK_STORAGE_CLEANUP
+          - TASK_ACTIVATION_CLEANUP
+          - TASK_API_METER_PROMOTE
+          - TASK_EMAIL_LOGIN_REPORT
+          - TASK_NYMITY_SYNC_ACCOUNT
+          - TASK_EMAIL_FULL_LOGIN_REPORT
+          - TASK_IMPORT_PICK_TAGS
+          - TASK_DYNAMIC_REPORT
+          - TASK_IMPORT_CUSTOM_META_TAG
+          - TASK_TOKEN_EXP_EMAIL
+          - TASK_EMAIL_NEW_USER_REPORT
+        percentDone:
+          type: integer
+          format: int64
+        currentMessage:
+          type: string
+        writeCount:
+          type: integer
+          format: int64
+        readCount:
+          type: integer
+          format: int64
+        totalCount:
+          type: integer
+          format: int64
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchJobError'
+          uniqueItems: true
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BatchJobParameter'
+        startedByUserId:
+          type: string
+        targetAccountId:
+          type: string
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+    NymitySyncInfo:
+      properties:
+        accountId:
+          type: string
+        nymityId:
+          type: string
+        totalUsers:
+          type: integer
+          format: int64
+        syncUsers:
+          type: integer
+          format: int64
+        accountSynced:
+          type: boolean
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

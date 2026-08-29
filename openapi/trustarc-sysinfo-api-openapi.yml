@@ -1,0 +1,51 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Sysinfo API
+  version: v1
+  description: 'Operations tagged Sysinfo across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Sysinfo
+paths:
+  /api/v1/sys_info:
+    get:
+      tags:
+      - Sysinfo
+      operationId: get_22
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SysInfo'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    SysInfo:
+      properties:
+        version:
+          type: string
+        buildTimestamp:
+          type: integer
+          format: int64
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

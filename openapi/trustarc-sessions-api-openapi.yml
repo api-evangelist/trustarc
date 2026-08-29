@@ -1,0 +1,266 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Sessions API
+  version: v1
+  description: 'Operations tagged Sessions across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Sessions
+paths:
+  /api/v1/sessions/userprofiles:
+    get:
+      tags:
+      - Sessions
+      operationId: listActiveUsers
+      parameters:
+      - name: username
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: page
+        in: query
+        description: Results page you want to retrieve (0..N).
+        schema:
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: Number of recods per page.
+        schema:
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+        schema:
+          type: array
+          items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageUserProfileSessionCountDto'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/sessions/userprofiles/count:
+    get:
+      tags:
+      - Sessions
+      operationId: countActiveUsers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/sessions/usernames/count:
+    get:
+      tags:
+      - Sessions
+      operationId: countActiveUsersSessions
+      parameters:
+      - name: usernames
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/sessions/usernames:
+    delete:
+      tags:
+      - Sessions
+      operationId: deleteAllActiveUser
+      parameters:
+      - name: usernames
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/sessions/usernames/{username}:
+    delete:
+      tags:
+      - Sessions
+      operationId: deleteActiveUser
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    UserProfileSessionCountDto:
+      properties:
+        userProfile:
+          $ref: '#/components/schemas/UserProfile'
+        sessionCount:
+          type: integer
+          format: int32
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    PageUserProfileSessionCountDto:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileSessionCountDto'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    UserProfile:
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        username:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+          writeOnly: true
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        jobTitle:
+          type: string
+        expertiseList:
+          type: string
+        timeZone:
+          type: string
+        locale:
+          type: string
+        status:
+          type: string
+          enum:
+          - Active
+          - Inactive
+        credentialsNonExpired:
+          type: boolean
+        userCount:
+          type: integer
+          format: int64
+        totpEnabled:
+          type: boolean
+        modifiedById:
+          type: string
+      required:
+      - password
+      - username
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

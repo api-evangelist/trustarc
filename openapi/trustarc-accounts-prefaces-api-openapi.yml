@@ -1,0 +1,316 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Accounts Prefaces API
+  version: v1
+  description: 'Operations tagged Accounts-Prefaces across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Accounts-Prefaces
+paths:
+  /api/v1/accounts/{accountId}/prefaces/{prefaceId}:
+    get:
+      tags:
+      - Accounts-Prefaces
+      operationId: get_13
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: prefaceId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAccountPreface'
+      security:
+      - guardianAuth: []
+    put:
+      tags:
+      - Accounts-Prefaces
+      operationId: update_13
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: prefaceId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerAccountPreface'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAccountPreface'
+      security:
+      - guardianAuth: []
+    delete:
+      tags:
+      - Accounts-Prefaces
+      operationId: delete_11
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: prefaceId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{accountId}/prefaces:
+    get:
+      tags:
+      - Accounts-Prefaces
+      operationId: listByAccount
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Results page you want to retrieve (0..N).
+        schema:
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: Number of recods per page.
+        schema:
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+        schema:
+          type: array
+          items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageCustomerAccountPreface'
+      security:
+      - guardianAuth: []
+    post:
+      tags:
+      - Accounts-Prefaces
+      operationId: create_14
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerAccountPreface'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAccountPreface'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/prefaces:
+    get:
+      tags:
+      - Accounts-Prefaces
+      operationId: list_32
+      parameters:
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: page
+        in: query
+        description: Results page you want to retrieve (0..N).
+        schema:
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: Number of recods per page.
+        schema:
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+        schema:
+          type: array
+          items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageEntryStringListCustomerAccountPreface'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    CustomerAccountPreface:
+      properties:
+        enabled:
+          type: boolean
+        accountId:
+          type: string
+        prefaceId:
+          type: string
+          format: uuid
+    PageEntryStringListCustomerAccountPreface:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerAccountPreface'
+              key:
+                type: string
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    PageCustomerAccountPreface:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerAccountPreface'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

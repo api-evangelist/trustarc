@@ -1,0 +1,624 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Accounts Sub Account API
+  version: v1
+  description: 'Operations tagged Accounts-SubAccount across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Accounts-SubAccount
+paths:
+  /api/v1/accounts/{id}/subaccounts:
+    get:
+      tags:
+      - Accounts-SubAccount
+      operationId: list_27
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: legalName
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: businessName
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: location
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: numberUsers
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: applications
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: licenses
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: modifiedStart
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: modifiedEnd
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - legalName
+            - businessName
+            - prefixName
+            - logo
+            - confirmMessage
+            - mailingAsPhysical
+            - netSuiteId
+            - nymityId
+            - status
+            - allowedDomains
+            - internalOnly
+            - mailingAddress
+            - physicalAddress
+            - businessType
+            - industryType
+            - application
+            - extension
+            - type
+            - userCount
+            - metaTags
+      - name: page
+        in: query
+        description: Results page you want to retrieve (0..N).
+        schema:
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: Number of recods per page.
+        schema:
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+        schema:
+          type: array
+          items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageCustomerAccount'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{id}/subaccounts/count:
+    get:
+      tags:
+      - Accounts-SubAccount
+      operationId: count_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: legalName
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: businessName
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: location
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: numberUsers
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: applications
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: licenses
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: modifiedStart
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: modifiedEnd
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    CustomerAccountExtension:
+      properties:
+        id:
+          type: string
+        uploadHome:
+          type: string
+        defaultUserRoles:
+          type: string
+        defaultUserGroups:
+          type: string
+        applicationLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientExtensionLicense'
+          uniqueItems: true
+        trustArcLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountClientTrustArcLicense'
+          uniqueItems: true
+        extLoginOnly:
+          type: boolean
+        accountId:
+          type: string
+        adminPersonId:
+          type: string
+    MetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        required:
+          type: boolean
+        displayName:
+          type: string
+    ClientExtensionLicense:
+      properties:
+        id:
+          type: string
+          format: uuid
+        identifier:
+          type: string
+        name:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    Address:
+      properties:
+        formatted:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        region:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    PageCustomerAccount:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerAccount'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    CustomerClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          requestLimit:
+            type: integer
+            format: int64
+      required:
+      - clientId
+    InternalClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          siteUri:
+            type: string
+          logoUri:
+            type: string
+          helpUri:
+            type: string
+          redirectPriority:
+            type: integer
+            format: int32
+          showOnTopheader:
+            type: boolean
+      required:
+      - clientId
+    AccountClientTrustArcLicense:
+      properties:
+        licenseId:
+          type: string
+        emptyJustification:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+        modifiedById:
+          type: string
+    CustomerAccount:
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        legalName:
+          type: string
+          minLength: 1
+        businessName:
+          type: string
+        prefixName:
+          type: string
+        logo:
+          type: string
+        confirmMessage:
+          type: string
+        mailingAsPhysical:
+          type: boolean
+        netSuiteId:
+          type: string
+        nymityId:
+          type: string
+        status:
+          type: string
+          enum:
+          - Active
+          - Inactive
+        allowedDomains:
+          type: string
+        internalOnly:
+          type: boolean
+        mailingAddress:
+          $ref: '#/components/schemas/Address'
+        physicalAddress:
+          $ref: '#/components/schemas/Address'
+        businessType:
+          type: array
+          items:
+            type: string
+            enum:
+            - Internet
+            - Manufacturing
+            - Automotive
+            - Banking
+            - Finance
+            - Pharmaceutical
+            - Advertising
+            - Government
+            - Telecommunications
+            - Insurance
+            - Travel
+            - Energy
+            - Technology
+            - Consumer
+            - Electronics
+            - Other
+          uniqueItems: true
+        industryType:
+          type: array
+          items:
+            type: string
+            enum:
+            - ProfessionalServices
+            - Scientific
+            - TechnicalServices
+            - Legal
+            - Shopping
+            - MediaAndEntertainment
+            - BusinessServices
+            - ComputerAndElectronics
+            - ConsumerServices
+            - Education
+            - EnergyAndUtilities
+            - FinancialServices
+            - Government
+            - Health
+            - PharmaceuticalsAndBiotech
+            - Retail
+            - SoftwareAndInternet
+            - TransportationAndStorage
+            - TravelRecreationAndLeisure
+            - WholesaleAndDistribution
+            - RealEstateAndConstruction
+            - AgricultureAndMining
+            - Other
+          uniqueItems: true
+        application:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ClientApplication'
+            - $ref: '#/components/schemas/CustomerClientApplication'
+            - $ref: '#/components/schemas/InternalClientApplication'
+          uniqueItems: true
+        extension:
+          $ref: '#/components/schemas/CustomerAccountExtension'
+        type:
+          type: string
+          enum:
+          - Default
+          - Reseller
+        userCount:
+          type: integer
+          format: int64
+        metaTags:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/MetaTag'
+        modifiedById:
+          type: string
+      required:
+      - legalName
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
+    GrantedAuthority:
+      properties:
+        authority:
+          type: string
+    ClientApplication:
+      discriminator:
+        propertyName: type
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+          maxLength: 2147483647
+          minLength: 1
+        clientSecret:
+          oneOf:
+          - $ref: '#/components/schemas/ClientApplication'
+          - $ref: '#/components/schemas/CustomerClientApplication'
+          - $ref: '#/components/schemas/InternalClientApplication'
+          writeOnly: true
+        clientName:
+          type: string
+        resourceIds:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        scopes:
+          type: string
+        grantTypes:
+          type: string
+        authorities:
+          type: array
+          items:
+            $ref: '#/components/schemas/GrantedAuthority'
+        redirectUris:
+          type: string
+        autoApproveScopes:
+          type: string
+        allowedAudiences:
+          type: string
+        legacyIdentifier:
+          type: string
+        enabled:
+          type: boolean
+        requiresLicense:
+          type: boolean
+        accessTokenValiditySeconds:
+          type: integer
+          format: int32
+        refreshTokenValiditySeconds:
+          type: integer
+          format: int32
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        type:
+          type: string
+          enum:
+          - Internal
+          - Customer
+        accountId:
+          type: string
+        usingUserGroups:
+          type: boolean
+        delegateUserId:
+          type: string
+        usingUserRoles:
+          type: boolean
+        usingUserRolesOrGroups:
+          type: boolean
+        usingAccountRegistration:
+          type: boolean
+        usingLicense:
+          type: boolean
+        modifiedById:
+          type: string
+      required:
+      - clientId
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

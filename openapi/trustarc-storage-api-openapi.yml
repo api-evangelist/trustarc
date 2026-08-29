@@ -1,0 +1,95 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Storage API
+  version: v1
+  description: 'Operations tagged Storage across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Storage
+paths:
+  /api/v1/storage:
+    post:
+      tags:
+      - Storage
+      operationId: upload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+              - file
+          application/json:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+              - file
+      responses:
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                type: object
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoredObject'
+      security:
+      - guardianAuth: []
+    delete:
+      tags:
+      - Storage
+      operationId: deleteAllUnused
+      responses:
+        '200':
+          description: OK
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    StoredObject:
+      properties:
+        id:
+          type: string
+          format: uuid
+        file:
+          type: string
+          format: byte
+          writeOnly: true
+        uri:
+          type: string
+        type:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

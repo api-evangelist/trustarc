@@ -1,0 +1,154 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Accounts Report Configs API
+  version: v1
+  description: 'Operations tagged Accounts-ReportConfigs across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Accounts-ReportConfigs
+paths:
+  /api/v1/accounts/reportconfigs/{id}:
+    get:
+      tags:
+      - Accounts-ReportConfigs
+      operationId: get_15
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountReportConfig'
+      security:
+      - guardianAuth: []
+    put:
+      tags:
+      - Accounts-ReportConfigs
+      operationId: update_15
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountReportConfig'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountReportConfig'
+      security:
+      - guardianAuth: []
+    delete:
+      tags:
+      - Accounts-ReportConfigs
+      operationId: delete_13
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/reportconfigs:
+    post:
+      tags:
+      - Accounts-ReportConfigs
+      operationId: create_16
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountReportConfig'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountReportConfig'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{accountId}/reportconfigs:
+    get:
+      tags:
+      - Accounts-ReportConfigs
+      operationId: list_28
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountReportConfig'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    AccountReportConfig:
+      properties:
+        id:
+          type: string
+          format: uuid
+        config:
+          type: object
+          additionalProperties:
+            type: object
+        enabled:
+          type: boolean
+        accountId:
+          type: string
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

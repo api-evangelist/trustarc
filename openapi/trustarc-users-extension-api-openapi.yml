@@ -1,0 +1,60 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Users Extension API
+  version: v1
+  description: 'Operations tagged Users-Extension across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Users-Extension
+paths:
+  /api/v1/users/{userId}/extension:
+    get:
+      tags:
+      - Users-Extension
+      operationId: get_21
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserExtensionDTO'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    UserExtensionDTO:
+      properties:
+        userMgrId:
+          type: string
+        timeZone:
+          type: string
+        locale:
+          type: string
+        totpEnabled:
+          type: boolean
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

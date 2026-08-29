@@ -1,0 +1,138 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Translations API
+  version: v1
+  description: 'Operations tagged Translations across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Translations
+paths:
+  /api/v1/translations:
+    post:
+      tags:
+      - Translations
+      operationId: upsert_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Translation'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Translation'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/translations/screen/{screen}/locale/{locale}:
+    get:
+      tags:
+      - Translations
+      operationId: fetchByScreenAndLocale
+      parameters:
+      - name: screen
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - TOP_HEADER
+          - ADMIN
+          - USER_PROFILE
+      - name: locale
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Translation'
+      security:
+      - guardianAuth: []
+    post:
+      tags:
+      - Translations
+      operationId: uploadCsvTranslation
+      parameters:
+      - name: screen
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - TOP_HEADER
+          - ADMIN
+          - USER_PROFILE
+      - name: locale
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                type: object
+        '200':
+          description: OK
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    Translation:
+      properties:
+        id:
+          type: string
+          format: uuid
+        screen:
+          type: string
+          enum:
+          - TOP_HEADER
+          - ADMIN
+          - USER_PROFILE
+        locale:
+          type: string
+        translation:
+          type: object
+          additionalProperties:
+            type: string
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

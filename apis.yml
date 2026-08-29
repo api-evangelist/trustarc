@@ -128,188 +128,1260 @@ created: '2026-05-25'
 modified: '2026-08-27'
 specificationVersion: '0.23'
 apis:
-  - name: TrustArc Guardian Identity API
-    description: >-
-      TrustArc's platform identity, account and access-management service. Publishes a full
-      OpenAPI 3.1.0 contract with 205 paths, 276 operations and 158 schemas covering users,
-      user profiles, groups, permission profiles, accounts, OAuth clients, SSO/external auth
-      configuration, email templates, navigation menus, meta-tagging and licensing — plus a
-      standards-compliant SCIM 2.0 provisioning surface at /external/api/v2/scim/ (Users,
-      Groups, ServiceProviderConfig, Schemas, ResourceTypes). This is the only TrustArc API
-      with a machine-readable contract; the spec is served openly at /v3/api-docs even
-      though the Swagger UI that renders it is closed. Auth is OAuth 2.0; the host publishes
-      OpenID Connect and RFC 8414 discovery documents advertising authorization_code,
-      client_credentials, refresh_token and token exchange, with PKCE, mTLS-bound tokens and
-      DPoP.
-    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
-    baseURL: https://login.truste.com
-    tags:
-      - Identity
-      - Authentication
-      - OAuth
-      - OpenID Connect
-      - SCIM
-      - User Provisioning
-      - Access Management
-      - SSO
-    properties:
-      - type: OpenAPI
-        url: openapi/trustarc-guardian-openapi.yml
-      - type: Documentation
-        url: https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
-      - type: Authentication
-        url: authentication/trustarc-authentication.yml
-      - type: OAuthScopes
-        url: scopes/trustarc-scopes.yml
-      - type: DataModel
-        url: data-model/trustarc-data-model.yml
-      - type: Overlay
-        url: overlays/trustarc-guardian-overlay.yaml
-      - type: AgentSkill
-        url: skills/trustarc-scim-user-provisioning.md
-      - type: OpenIDConnect
-        url: https://login.truste.com/.well-known/openid-configuration
-  - name: TrustArc Cookie Consent Manager External API
-    description: >-
-      Manage the website inventory of a Cookie Consent Manager instance and queue tracker
-      scans. Version v1.0, released 2025-04-23, with a published versioning policy (URI
-      versioning, 12-month support for superseded major versions), a dated changelog and a
-      troubleshooting reference. Endpoints add and remove websites against a cmUuid, queue
-      asynchronous cookie scans, and read the tracker inventory. Returns per-item result
-      arrays with 207 Multi-Status on partial success. Requires SUPER_ADMIN, ADMIN or
-      DESIGNER. No OpenAPI is published. The base host is per-tenant: TrustArc's own API
-      reference writes it as https://<your-ccm-domain>/external/v1, so the templated form is
-      recorded rather than a guessed shared host.
-    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
-    baseURL: https://{your-ccm-domain}
-    tags:
-      - Cookie Consent
-      - Consent Management
-      - Tracker Scanning
-      - Privacy
-    properties:
-      - type: APIReference
-        url: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
-      - type: GettingStarted
-        url: https://trustarchelp.zendesk.com/hc/en-us/articles/53517235461651-Getting-Started
-      - type: ChangeLog
-        url: https://trustarchelp.zendesk.com/hc/en-us/articles/53518189041043-API-Versioning-Changelog
-      - type: Support
-        url: https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting
-      - type: AgentSkill
-        url: skills/trustarc-cookie-consent-website-scan.md
-      - type: ErrorCatalog
-        url: errors/trustarc-problem-types.yml
-  - name: TrustArc Individual Rights Manager External API
-    description: >-
-      Create, label, search and close data subject requests (DSR/DSAR) in Individual Rights
-      Manager, and register callbacks for request status changes. Request bodies are keyed by
-      per-form field IDs discovered from GET /api/v1/external/forms/all rather than by
-      display labels. Includes request status and verification-type references, custom label
-      management, request task operations, and an external callback controller filtered by
-      request type, form, data subject type, status, brand, jurisdiction and verification
-      type. Documented in the help center; no OpenAPI is published.
-    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/52354102146579-DROP-Process-to-IRM-API-Integration-Guide
-    baseURL: https://irm.trustarc.com/server/api/v1
-    tags:
-      - Data Subject Rights
-      - DSR
-      - DSAR
-      - Privacy
-      - Webhooks
-    properties:
-      - type: Documentation
-        url: https://trustarchelp.zendesk.com/hc/en-us/articles/52354102146579-DROP-Process-to-IRM-API-Integration-Guide
-      - type: APIReference
-        url: https://trustarchelp.zendesk.com/hc/en-us/sections/31910350237203-Individual-Rights-RESTful-API-Overview
-      - type: Webhooks
-        url: asyncapi/trustarc-webhooks.yml
-      - type: AgentSkill
-        url: skills/trustarc-dsr-request-lifecycle.md
-  - name: TrustArc Consent & Preference Manager External API
-    description: >-
-      Read and write consent records, consent forms, data subjects and their callbacks in
-      Consent & Preference Manager, with a matching EU data-residency deployment at
-      cpm.trustarc.eu. Exposes external consent, consent form, data subject and report
-      controllers plus consent and data-subject callback registration filtered by account,
-      brand, program, consent form and data subject type. A real-time consent enqueue
-      endpoint shipped in the 2026-07-15 release. Also offers Rapid API, a customer-authored
-      integration template for connecting CPM to third-party systems over REST.
-    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/40520220419475-External-Consent-Controller
-    baseURL: https://cpm.trustarc.com/server/api/v1
-    tags:
-      - Consent Management
-      - Preference Management
-      - Privacy
-      - Webhooks
-    properties:
-      - type: Documentation
-        url: https://trustarchelp.zendesk.com/hc/en-us/articles/40520220419475-External-Consent-Controller
-      - type: Webhooks
-        url: asyncapi/trustarc-webhooks.yml
-  - name: TrustArc Data Mapping Hub External Integration API
-    description: >-
-      Synchronize the privacy data inventory — Business Processes, IT Systems, Company
-      Affiliates and Third Parties — between a customer system of record and TrustArc's Data
-      Mapping & Risk Manager. Every resource is addressable by both TrustArc's internalId and
-      the customer's own externalId, with upsert operations keyed on externalId, and each
-      resource exposes a dated change-event feed (integration-events) filtered by eventType
-      and a since timestamp for incremental sync. Paginated with the Spring Data page
-      envelope. Documented in the help center; no OpenAPI is published.
-    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/49882097212435-Retrieve-All-Business-Processes
-    baseURL: https://api.trustarc.com/api/hub/external-integration
-    tags:
-      - Data Mapping
-      - Data Inventory
-      - Privacy Governance
-      - Third Party Risk
-    properties:
-      - type: Documentation
-        url: https://trustarchelp.zendesk.com/hc/en-us/articles/49882097212435-Retrieve-All-Business-Processes
-      - type: Authentication
-        url: authentication/trustarc-authentication.yml
-      - type: DataModel
-        url: data-model/trustarc-data-model.yml
-  - name: TrustArc Cookie Consent Manager Reporting API
-    description: >-
-      Pull consent analytics out of Cookie Consent Manager — analytics reports, consent
-      locations and GDPR reports, in JSON and CSV. Version 1.4 of the guide, last updated
-      2026-01-07. Auth server login.truste.com, reporting server
-      api.trustarc.com/api/ccm-reporting/.
-    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/35645279167891-Overview
-    baseURL: https://api.trustarc.com/api/ccm-reporting
-    tags:
-      - Consent Management
-      - Reporting
-      - Analytics
-      - GDPR
-    properties:
-      - type: Documentation
-        url: https://trustarchelp.zendesk.com/hc/en-us/articles/35645279167891-Overview
-      - type: Authentication
-        url: authentication/trustarc-authentication.yml
-  - name: TrustArc Assessment Manager API
-    description: >-
-      Create Assessment Manager projects (PIA/DPIA/TIA) programmatically over a RESTful
-      surface, plus an external-integration project answer endpoint and packaged Salesforce
-      and ServiceNow connectors. Documents both a production host (assess.truste.com) and a
-      staging host (assess-stage.truste.com). Documented in the help center; no OpenAPI is
-      published.
-    humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/38618198125331-Understanding-the-API-Endpoint
-    baseURL: https://assess.truste.com/api/v1
-    tags:
-      - Privacy Assessments
-      - PIA
-      - DPIA
-      - Privacy Governance
-    properties:
-      - type: Documentation
-        url: https://trustarchelp.zendesk.com/hc/en-us/articles/38618198125331-Understanding-the-API-Endpoint
-      - type: GettingStarted
-        url: https://trustarchelp.zendesk.com/hc/en-us/articles/38618328259091-Creating-an-Assessment-via-API
-      - type: Sandbox
-        url: sandbox/trustarc-sandbox.yml
+- name: TrustArc Cookie Consent Manager External API
+  description: >-
+    Manage the website inventory of a Cookie Consent Manager instance and queue tracker scans. Version
+    v1.0, released 2025-04-23, with a published versioning policy (URI versioning, 12-month support for
+    superseded major versions), a dated changelog and a troubleshooting reference. Endpoints add and remove
+    websites against a cmUuid, queue asynchronous cookie scans, and read the tracker inventory. Returns
+    per-item result arrays with 207 Multi-Status on partial success. Requires SUPER_ADMIN, ADMIN or DESIGNER.
+    No OpenAPI is published. The base host is per-tenant: TrustArc's own API reference writes it as https://<your-ccm-domain>/external/v1,
+    so the templated form is recorded rather than a guessed shared host.
+  humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+  baseURL: https://{your-ccm-domain}
+  tags:
+  - Cookie Consent
+  - Consent Management
+  - Tracker Scanning
+  - Privacy
+  properties:
+  - type: APIReference
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+  - type: GettingStarted
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/53517235461651-Getting-Started
+  - type: ChangeLog
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/53518189041043-API-Versioning-Changelog
+  - type: Support
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting
+  - type: AgentSkill
+    url: skills/trustarc-cookie-consent-website-scan.md
+  - type: ErrorCatalog
+    url: errors/trustarc-problem-types.yml
+- name: TrustArc Individual Rights Manager External API
+  description: >-
+    Create, label, search and close data subject requests (DSR/DSAR) in Individual Rights Manager, and
+    register callbacks for request status changes. Request bodies are keyed by per-form field IDs discovered
+    from GET /api/v1/external/forms/all rather than by display labels. Includes request status and verification-type
+    references, custom label management, request task operations, and an external callback controller
+    filtered by request type, form, data subject type, status, brand, jurisdiction and verification type.
+    Documented in the help center; no OpenAPI is published.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/52354102146579-DROP-Process-to-IRM-API-Integration-Guide
+  baseURL: https://irm.trustarc.com/server/api/v1
+  tags:
+  - Data Subject Rights
+  - DSR
+  - DSAR
+  - Privacy
+  - Webhooks
+  properties:
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/52354102146579-DROP-Process-to-IRM-API-Integration-Guide
+  - type: APIReference
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/sections/31910350237203-Individual-Rights-RESTful-API-Overview
+  - type: Webhooks
+    url: asyncapi/trustarc-webhooks.yml
+  - type: AgentSkill
+    url: skills/trustarc-dsr-request-lifecycle.md
+- name: TrustArc Consent & Preference Manager External API
+  description: >-
+    Read and write consent records, consent forms, data subjects and their callbacks in Consent & Preference
+    Manager, with a matching EU data-residency deployment at cpm.trustarc.eu. Exposes external consent,
+    consent form, data subject and report controllers plus consent and data-subject callback registration
+    filtered by account, brand, program, consent form and data subject type. A real-time consent enqueue
+    endpoint shipped in the 2026-07-15 release. Also offers Rapid API, a customer-authored integration
+    template for connecting CPM to third-party systems over REST.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/40520220419475-External-Consent-Controller
+  baseURL: https://cpm.trustarc.com/server/api/v1
+  tags:
+  - Consent Management
+  - Preference Management
+  - Privacy
+  - Webhooks
+  properties:
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/40520220419475-External-Consent-Controller
+  - type: Webhooks
+    url: asyncapi/trustarc-webhooks.yml
+- name: TrustArc Data Mapping Hub External Integration API
+  description: >-
+    Synchronize the privacy data inventory — Business Processes, IT Systems, Company Affiliates and Third
+    Parties — between a customer system of record and TrustArc's Data Mapping & Risk Manager. Every resource
+    is addressable by both TrustArc's internalId and the customer's own externalId, with upsert operations
+    keyed on externalId, and each resource exposes a dated change-event feed (integration-events) filtered
+    by eventType and a since timestamp for incremental sync. Paginated with the Spring Data page envelope.
+    Documented in the help center; no OpenAPI is published.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49882097212435-Retrieve-All-Business-Processes
+  baseURL: https://api.trustarc.com/api/hub/external-integration
+  tags:
+  - Data Mapping
+  - Data Inventory
+  - Privacy Governance
+  - Third Party Risk
+  properties:
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49882097212435-Retrieve-All-Business-Processes
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+- name: TrustArc Cookie Consent Manager Reporting API
+  description: >-
+    Pull consent analytics out of Cookie Consent Manager — analytics reports, consent locations and GDPR
+    reports, in JSON and CSV. Version 1.4 of the guide, last updated 2026-01-07. Auth server login.truste.com,
+    reporting server api.trustarc.com/api/ccm-reporting/.
+  humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/35645279167891-Overview
+  baseURL: https://api.trustarc.com/api/ccm-reporting
+  tags:
+  - Consent Management
+  - Reporting
+  - Analytics
+  - GDPR
+  properties:
+  - type: Documentation
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/35645279167891-Overview
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+- name: TrustArc Assessment Manager API
+  description: >-
+    Create Assessment Manager projects (PIA/DPIA/TIA) programmatically over a RESTful surface, plus an
+    external-integration project answer endpoint and packaged Salesforce and ServiceNow connectors. Documents
+    both a production host (assess.truste.com) and a staging host (assess-stage.truste.com). Documented
+    in the help center; no OpenAPI is published.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/38618198125331-Understanding-the-API-Endpoint
+  baseURL: https://assess.truste.com/api/v1
+  tags:
+  - Privacy Assessments
+  - PIA
+  - DPIA
+  - Privacy Governance
+  properties:
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/38618198125331-Understanding-the-API-Endpoint
+  - type: GettingStarted
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/38618328259091-Creating-an-Assessment-via-API
+  - type: Sandbox
+    url: sandbox/trustarc-sandbox.yml
+- aid: trustarc:trustarc-accounts-api
+  name: TrustArc Accounts API
+  description: The Accounts API from TrustArc — 14 operation(s) for accounts.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-accounts-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-accounts-custommetatags-api
+  name: TrustArc Accounts Custom Meta Tags API
+  description: >-
+    The Accounts-CustomMetaTags API from TrustArc — 7 operation(s) for accounts-custommetatags.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Accounts-CustomMetaTags
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-accounts-custommetatags-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-accounts-extension-api
+  name: TrustArc Accounts Extension API
+  description: The Accounts-Extension API from TrustArc — 6 operation(s) for accounts-extension.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Accounts-Extension
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-accounts-extension-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-accounts-fieldtypes-api
+  name: TrustArc Accounts Fieldtypes API
+  description: The Accounts-fieldtypes API from TrustArc — 3 operation(s) for accounts-fieldtypes.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Accounts-fieldtypes
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-accounts-fieldtypes-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-accounts-metatags-api
+  name: TrustArc Accounts Meta Tags API
+  description: The Accounts-MetaTags API from TrustArc — 3 operation(s) for accounts-metatags.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Accounts-MetaTags
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-accounts-metatags-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-accounts-organizationalstructure-api
+  name: TrustArc Accounts Organizational Structure API
+  description: >-
+    The Accounts-OrganizationalStructure API from TrustArc — 6 operation(s) for accounts-organizationalstructure.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Accounts-OrganizationalStructure
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-accounts-organizationalstructure-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-accounts-picktags-api
+  name: TrustArc Accounts Pick Tags API
+  description: The Accounts-PickTags API from TrustArc — 4 operation(s) for accounts-picktags.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Accounts-PickTags
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-accounts-picktags-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-accounts-prefaces-api
+  name: TrustArc Accounts Prefaces API
+  description: The Accounts-Prefaces API from TrustArc — 3 operation(s) for accounts-prefaces.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Accounts-Prefaces
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-accounts-prefaces-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-accounts-reportconfigs-api
+  name: TrustArc Accounts Report Configs API
+  description: >-
+    The Accounts-ReportConfigs API from TrustArc — 3 operation(s) for accounts-reportconfigs.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Accounts-ReportConfigs
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-accounts-reportconfigs-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-accounts-subaccount-api
+  name: TrustArc Accounts Sub Account API
+  description: The Accounts-SubAccount API from TrustArc — 2 operation(s) for accounts-subaccount.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Accounts-SubAccount
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-accounts-subaccount-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-accounts-tokens-api
+  name: TrustArc Accounts Tokens API
+  description: The Accounts-Tokens API from TrustArc — 3 operation(s) for accounts-tokens.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Accounts-Tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-accounts-tokens-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-accounts-usergroups-api
+  name: TrustArc Accounts User Groups API
+  description: The Accounts-UserGroups API from TrustArc — 1 operation(s) for accounts-usergroups.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Accounts-UserGroups
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-accounts-usergroups-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-actuator-api
+  name: TrustArc Actuator API
+  description: Monitor and interact
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Actuator
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-actuator-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-anon-credential-resource-api
+  name: TrustArc Anon Credential Resource API
+  description: >-
+    The anon-credential-resource API from TrustArc — 2 operation(s) for anon-credential-resource.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - anon-credential-resource
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-anon-credential-resource-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-anon-session-controller-api
+  name: TrustArc Anon Session Controller API
+  description: >-
+    The anon-session-controller API from TrustArc — 1 operation(s) for anon-session-controller.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - anon-session-controller
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-anon-session-controller-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-clients-api
+  name: TrustArc Clients API
+  description: The Clients API from TrustArc — 13 operation(s) for clients.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Clients
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-clients-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-clients-extension-api
+  name: TrustArc Clients Extension API
+  description: The Clients-Extension API from TrustArc — 1 operation(s) for clients-extension.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Clients-Extension
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-clients-extension-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-clients-extension-license-api
+  name: TrustArc Clients Extension License API
+  description: >-
+    The Clients-Extension-License API from TrustArc — 3 operation(s) for clients-extension-license.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Clients-Extension-License
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-clients-extension-license-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-clients-roles-api
+  name: TrustArc Clients Roles API
+  description: The Clients-Roles API from TrustArc — 2 operation(s) for clients-roles.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Clients-Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-clients-roles-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-clients-usergroups-api
+  name: TrustArc Clients User Groups API
+  description: The Clients-UserGroups API from TrustArc — 3 operation(s) for clients-usergroups.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Clients-UserGroups
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-clients-usergroups-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-email-templates-api
+  name: TrustArc Email Templates API
+  description: The Email Templates API from TrustArc — 4 operation(s) for email templates.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Email Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-email-templates-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-entity-configs-api
+  name: TrustArc Entity Configs API
+  description: The Entity Configs API from TrustArc — 4 operation(s) for entity configs.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Entity Configs
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-entity-configs-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-groups-api
+  name: TrustArc Groups API
+  description: The Groups API from TrustArc — 2 operation(s) for groups.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-groups-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-history-api
+  name: TrustArc History API
+  description: The History API from TrustArc — 3 operation(s) for history.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - History
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-history-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-jobs-api
+  name: TrustArc Jobs API
+  description: The Jobs API from TrustArc — 3 operation(s) for jobs.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-jobs-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-navigation-menus-api
+  name: TrustArc Navigation Menus API
+  description: The Navigation-Menus API from TrustArc — 4 operation(s) for navigation-menus.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Navigation-Menus
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-navigation-menus-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-nymity-api
+  name: TrustArc Nymity API
+  description: The Nymity API from TrustArc — 2 operation(s) for nymity.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Nymity
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-nymity-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-permissionprofiles-api
+  name: TrustArc Permission Profiles API
+  description: The PermissionProfiles API from TrustArc — 5 operation(s) for permissionprofiles.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - PermissionProfiles
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-permissionprofiles-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-preface-api
+  name: TrustArc Preface API
+  description: The Preface API from TrustArc — 3 operation(s) for preface.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Preface
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-preface-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-reports-api
+  name: TrustArc Reports API
+  description: The Reports API from TrustArc — 2 operation(s) for reports.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-reports-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-schedules-api
+  name: TrustArc Schedules API
+  description: The Schedules API from TrustArc — 3 operation(s) for schedules.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Schedules
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-schedules-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-scim-api
+  name: TrustArc SCIM API
+  description: The Scim API from TrustArc — 5 operation(s) for scim.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Scim
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-scim-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-sessions-api
+  name: TrustArc Sessions API
+  description: The Sessions API from TrustArc — 5 operation(s) for sessions.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-sessions-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-sso-login-controller-api
+  name: TrustArc SSO Login Controller API
+  description: The sso-login-controller API from TrustArc — 1 operation(s) for sso-login-controller.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - sso-login-controller
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-sso-login-controller-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-storage-api
+  name: TrustArc Storage API
+  description: The Storage API from TrustArc — 1 operation(s) for storage.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Storage
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-storage-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-sysinfo-api
+  name: TrustArc Sysinfo API
+  description: The Sysinfo API from TrustArc — 1 operation(s) for sysinfo.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Sysinfo
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-sysinfo-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-translations-api
+  name: TrustArc Translations API
+  description: The Translations API from TrustArc — 2 operation(s) for translations.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Translations
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-translations-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-user-info-resource-api
+  name: TrustArc User Info Resource API
+  description: The user-info-resource API from TrustArc — 1 operation(s) for user-info-resource.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - user-info-resource
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-user-info-resource-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-userprofiles-activations-api
+  name: TrustArc User Profiles Activations API
+  description: >-
+    The UserProfiles-Activations API from TrustArc — 2 operation(s) for userprofiles-activations.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - UserProfiles-Activations
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-userprofiles-activations-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-userprofiles-api
+  name: TrustArc User Profiles API
+  description: The UserProfiles API from TrustArc — 11 operation(s) for userprofiles.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - UserProfiles
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-userprofiles-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-userprofiles-users-api
+  name: TrustArc User Profiles Users API
+  description: The UserProfiles-Users API from TrustArc — 4 operation(s) for userprofiles-users.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - UserProfiles-Users
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-userprofiles-users-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-users-api
+  name: TrustArc Users API
+  description: The Users API from TrustArc — 34 operation(s) for users.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-users-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-users-audits-api
+  name: TrustArc Users Audits API
+  description: The Users-Audits API from TrustArc — 1 operation(s) for users-audits.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Users-Audits
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-users-audits-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-users-extension-api
+  name: TrustArc Users Extension API
+  description: The Users-Extension API from TrustArc — 1 operation(s) for users-extension.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Users-Extension
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-users-extension-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-users-fieldtypes-api
+  name: TrustArc Users Fieldtypes API
+  description: The Users-fieldtypes API from TrustArc — 2 operation(s) for users-fieldtypes.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Users-fieldtypes
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-users-fieldtypes-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-users-history-api
+  name: TrustArc Users History API
+  description: The Users-History API from TrustArc — 3 operation(s) for users-history.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Users-History
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-users-history-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-users-metatags-api
+  name: TrustArc Users Meta Tags API
+  description: The Users-MetaTags API from TrustArc — 4 operation(s) for users-metatags.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Users-MetaTags
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-users-metatags-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-users-simple-api
+  name: TrustArc Users Simple API
+  description: The Users-Simple API from TrustArc — 1 operation(s) for users-simple.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Users-Simple
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-users-simple-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-users-switch-api
+  name: TrustArc Users Switch API
+  description: The Users-Switch API from TrustArc — 1 operation(s) for users-switch.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Users-Switch
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-users-switch-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-xauths-api
+  name: TrustArc Xauths API
+  description: The Xauths API from TrustArc — 4 operation(s) for xauths.
+  humanURL: >-
+    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  baseURL: https://login.truste.com
+  tags:
+  - Xauths
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-xauths-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
 common:
+  - type: AgentSkill
+    url: skills/trustarc-scim-user-provisioning.md
   - type: AgenticAccess
     url: agentic-access/trustarc-agentic-access.yml
   - type: OAuthScopes

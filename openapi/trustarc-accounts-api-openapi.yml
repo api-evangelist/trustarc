@@ -1,0 +1,1631 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Accounts API
+  version: v1
+  description: 'Operations tagged Accounts across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Accounts
+paths:
+  /api/v1/accounts/{id}:
+    get:
+      tags:
+      - Accounts
+      operationId: get_12
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - legalName
+            - businessName
+            - prefixName
+            - logo
+            - confirmMessage
+            - mailingAsPhysical
+            - netSuiteId
+            - nymityId
+            - status
+            - allowedDomains
+            - internalOnly
+            - mailingAddress
+            - physicalAddress
+            - businessType
+            - industryType
+            - application
+            - extension
+            - type
+            - userCount
+            - metaTags
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAccount'
+      security:
+      - guardianAuth: []
+    put:
+      tags:
+      - Accounts
+      operationId: update_11
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includeExtension
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerAccount'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerAccount'
+      security:
+      - guardianAuth: []
+    delete:
+      tags:
+      - Accounts
+      operationId: delete_10
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts:
+    get:
+      tags:
+      - Accounts
+      operationId: list_12
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ASC
+          enum:
+          - ASC
+          - DESC
+      - name: columnName
+        in: query
+        required: false
+        schema:
+          type: array
+          default:
+          - legalName
+          items:
+            type: string
+      - name: legalName
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: businessName
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: location
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: numberUsers
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: showSubAccounts
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: applications
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: licenses
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: modifiedStart
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: modifiedEnd
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: isInternalOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - legalName
+            - businessName
+            - prefixName
+            - logo
+            - confirmMessage
+            - mailingAsPhysical
+            - netSuiteId
+            - nymityId
+            - status
+            - allowedDomains
+            - internalOnly
+            - mailingAddress
+            - physicalAddress
+            - businessType
+            - industryType
+            - application
+            - extension
+            - type
+            - userCount
+            - metaTags
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageCustomerAccount'
+      security:
+      - guardianAuth: []
+    post:
+      tags:
+      - Accounts
+      operationId: create_12
+      parameters:
+      - name: includeExtension
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerAccount'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAccount'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{id}/users/upload:
+    get:
+      tags:
+      - Accounts
+      operationId: uploadStatus
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+      security:
+      - guardianAuth: []
+    post:
+      tags:
+      - Accounts
+      operationId: uploadUsers
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BatchJob'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{id}/tasks:
+    post:
+      tags:
+      - Accounts
+      operationId: tasks
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: taskType
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - UNMANAGE_PASSWORD
+          - RESET_PASSWORD
+      - name: userIds
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{id}/enable:
+    post:
+      tags:
+      - Accounts
+      operationId: enable_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerAccount'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{id}/disable:
+    post:
+      tags:
+      - Accounts
+      operationId: disable_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerAccount'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{id}/activations:
+    post:
+      tags:
+      - Accounts
+      operationId: activation
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Response'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{id}/users:
+    get:
+      tags:
+      - Accounts
+      operationId: listUsers
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ASC
+          enum:
+          - ASC
+          - DESC
+      - name: columnName
+        in: query
+        required: false
+        schema:
+          type: array
+          default:
+          - username
+          - id
+          items:
+            type: string
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - Active
+          - Inactive
+      - name: isNotPending
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: location
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: showSubAccounts
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: applications
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: role
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: userGroups
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: orgId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: username
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: modifiedStart
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: modifiedEnd
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: passwordStatus
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - TRUSTARC_MANAGED
+          - SSO_AUTHENTICATION
+          - EXPIRED
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageUserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{id}/users/download:
+    get:
+      tags:
+      - Accounts
+      operationId: downloadUsers
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: applications
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      responses:
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                type: object
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ReportStore'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{id}/useractions/download:
+    get:
+      tags:
+      - Accounts
+      operationId: downloadUserActivity
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: createdStart
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: createdEnd
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ReportStore'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{id}/uploadstatus:
+    get:
+      tags:
+      - Accounts
+      operationId: getUploadStatus
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UploadStatus'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/nymityid/{nymityId}:
+    get:
+      tags:
+      - Accounts
+      operationId: getAccountByNymityId
+      parameters:
+      - name: nymityId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - legalName
+            - businessName
+            - prefixName
+            - logo
+            - confirmMessage
+            - mailingAsPhysical
+            - netSuiteId
+            - nymityId
+            - status
+            - allowedDomains
+            - internalOnly
+            - mailingAddress
+            - physicalAddress
+            - businessType
+            - industryType
+            - application
+            - extension
+            - type
+            - userCount
+            - metaTags
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerAccount'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/netsuiteid/{netSuiteId}:
+    get:
+      tags:
+      - Accounts
+      operationId: getAccountByNetSuiteId
+      parameters:
+      - name: netSuiteId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - legalName
+            - businessName
+            - prefixName
+            - logo
+            - confirmMessage
+            - mailingAsPhysical
+            - netSuiteId
+            - nymityId
+            - status
+            - allowedDomains
+            - internalOnly
+            - mailingAddress
+            - physicalAddress
+            - businessType
+            - industryType
+            - application
+            - extension
+            - type
+            - userCount
+            - metaTags
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerAccount'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/legalname/{legalName}:
+    get:
+      tags:
+      - Accounts
+      operationId: getByLegalName
+      parameters:
+      - name: legalName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - legalName
+            - businessName
+            - prefixName
+            - logo
+            - confirmMessage
+            - mailingAsPhysical
+            - netSuiteId
+            - nymityId
+            - status
+            - allowedDomains
+            - internalOnly
+            - mailingAddress
+            - physicalAddress
+            - businessType
+            - industryType
+            - application
+            - extension
+            - type
+            - userCount
+            - metaTags
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAccount'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    MetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        required:
+          type: boolean
+        displayName:
+          type: string
+    PageUserCredentials:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCredentials'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    PageCustomerAccount:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerAccount'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    UserMetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
+    UploadStatus:
+      properties:
+        message:
+          type: string
+    ReportStore:
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - EXPORT_LOGIN_REPORT
+          - EXPORT_FULL_LOGIN_REPORT
+          - EXPORT_USER_GROUP
+          - EXPORT_NEW_USER_REPORT
+        fileName:
+          type: string
+        file:
+          type: string
+          format: byte
+          writeOnly: true
+        fileType:
+          type: string
+          enum:
+          - CSV
+        createdDate:
+          type: string
+          format: date-time
+        createdById:
+          type: string
+        ownerAccountId:
+          type: string
+    CustomerAccount:
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        legalName:
+          type: string
+          minLength: 1
+        businessName:
+          type: string
+        prefixName:
+          type: string
+        logo:
+          type: string
+        confirmMessage:
+          type: string
+        mailingAsPhysical:
+          type: boolean
+        netSuiteId:
+          type: string
+        nymityId:
+          type: string
+        status:
+          type: string
+          enum:
+          - Active
+          - Inactive
+        allowedDomains:
+          type: string
+        internalOnly:
+          type: boolean
+        mailingAddress:
+          $ref: '#/components/schemas/Address'
+        physicalAddress:
+          $ref: '#/components/schemas/Address'
+        businessType:
+          type: array
+          items:
+            type: string
+            enum:
+            - Internet
+            - Manufacturing
+            - Automotive
+            - Banking
+            - Finance
+            - Pharmaceutical
+            - Advertising
+            - Government
+            - Telecommunications
+            - Insurance
+            - Travel
+            - Energy
+            - Technology
+            - Consumer
+            - Electronics
+            - Other
+          uniqueItems: true
+        industryType:
+          type: array
+          items:
+            type: string
+            enum:
+            - ProfessionalServices
+            - Scientific
+            - TechnicalServices
+            - Legal
+            - Shopping
+            - MediaAndEntertainment
+            - BusinessServices
+            - ComputerAndElectronics
+            - ConsumerServices
+            - Education
+            - EnergyAndUtilities
+            - FinancialServices
+            - Government
+            - Health
+            - PharmaceuticalsAndBiotech
+            - Retail
+            - SoftwareAndInternet
+            - TransportationAndStorage
+            - TravelRecreationAndLeisure
+            - WholesaleAndDistribution
+            - RealEstateAndConstruction
+            - AgricultureAndMining
+            - Other
+          uniqueItems: true
+        application:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ClientApplication'
+            - $ref: '#/components/schemas/CustomerClientApplication'
+            - $ref: '#/components/schemas/InternalClientApplication'
+          uniqueItems: true
+        extension:
+          $ref: '#/components/schemas/CustomerAccountExtension'
+        type:
+          type: string
+          enum:
+          - Default
+          - Reseller
+        userCount:
+          type: integer
+          format: int64
+        metaTags:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/MetaTag'
+        modifiedById:
+          type: string
+      required:
+      - legalName
+    BatchJobError:
+      properties:
+        entry:
+          type: string
+        message:
+          type: string
+    GrantedAuthority:
+      properties:
+        authority:
+          type: string
+    UserExtensionDTO:
+      properties:
+        userMgrId:
+          type: string
+        timeZone:
+          type: string
+        locale:
+          type: string
+        totpEnabled:
+          type: boolean
+    BatchJob:
+      properties:
+        id:
+          type: string
+        jobInstanceId:
+          type: integer
+          format: int64
+        jobExecutionId:
+          type: integer
+          format: int64
+        createTime:
+          type: string
+          format: date-time
+        lastRunTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        currentStatus:
+          type: string
+        resourceName:
+          type: string
+        batchJobType:
+          type: string
+          enum:
+          - DELETE_USER
+          - IMPORT_ORG
+          - IMPORT_USER
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - REFRESH_USER_SEARCH
+          - RUN_TASK
+          - TASK_UNMANAGE_PASSWORD
+          - TASK_RESET_PASSWORD
+          - TASK_UPDATE_PERMISSION
+          - TASK_REFRESH_USER_CACHE
+          - TASK_REFRESH_USER_META_CACHE
+          - TASK_SFTP_PULLER
+          - TASK_LOGIN_ATTEMPT_CLEANUP
+          - TASK_REPORT_STORE_CLEANUP
+          - TASK_STORAGE_CLEANUP
+          - TASK_ACTIVATION_CLEANUP
+          - TASK_API_METER_PROMOTE
+          - TASK_EMAIL_LOGIN_REPORT
+          - TASK_NYMITY_SYNC_ACCOUNT
+          - TASK_EMAIL_FULL_LOGIN_REPORT
+          - TASK_IMPORT_PICK_TAGS
+          - TASK_DYNAMIC_REPORT
+          - TASK_IMPORT_CUSTOM_META_TAG
+          - TASK_TOKEN_EXP_EMAIL
+          - TASK_EMAIL_NEW_USER_REPORT
+        percentDone:
+          type: integer
+          format: int64
+        currentMessage:
+          type: string
+        writeCount:
+          type: integer
+          format: int64
+        readCount:
+          type: integer
+          format: int64
+        totalCount:
+          type: integer
+          format: int64
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchJobError'
+          uniqueItems: true
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BatchJobParameter'
+        startedByUserId:
+          type: string
+        targetAccountId:
+          type: string
+    ClientExtensionLicense:
+      properties:
+        id:
+          type: string
+          format: uuid
+        identifier:
+          type: string
+        name:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    PermissionProfileUserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
+    AccountClientTrustArcLicense:
+      properties:
+        licenseId:
+          type: string
+        emptyJustification:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+        modifiedById:
+          type: string
+    ClientApplication:
+      discriminator:
+        propertyName: type
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+          maxLength: 2147483647
+          minLength: 1
+        clientSecret:
+          oneOf:
+          - $ref: '#/components/schemas/ClientApplication'
+          - $ref: '#/components/schemas/CustomerClientApplication'
+          - $ref: '#/components/schemas/InternalClientApplication'
+          writeOnly: true
+        clientName:
+          type: string
+        resourceIds:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        scopes:
+          type: string
+        grantTypes:
+          type: string
+        authorities:
+          type: array
+          items:
+            $ref: '#/components/schemas/GrantedAuthority'
+        redirectUris:
+          type: string
+        autoApproveScopes:
+          type: string
+        allowedAudiences:
+          type: string
+        legacyIdentifier:
+          type: string
+        enabled:
+          type: boolean
+        requiresLicense:
+          type: boolean
+        accessTokenValiditySeconds:
+          type: integer
+          format: int32
+        refreshTokenValiditySeconds:
+          type: integer
+          format: int32
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        type:
+          type: string
+          enum:
+          - Internal
+          - Customer
+        accountId:
+          type: string
+        usingUserGroups:
+          type: boolean
+        delegateUserId:
+          type: string
+        usingUserRoles:
+          type: boolean
+        usingUserRolesOrGroups:
+          type: boolean
+        usingAccountRegistration:
+          type: boolean
+        usingLicense:
+          type: boolean
+        modifiedById:
+          type: string
+      required:
+      - clientId
+    UserCredentials:
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        firstName:
+          type: string
+        lastName:
+          type: string
+        usageConfirmed:
+          type: boolean
+        userIdentifier:
+          type: string
+        orgIdentifier:
+          type: string
+        nymityId:
+          type: string
+        status:
+          type: string
+          enum:
+          - Active
+          - Inactive
+        extension:
+          $ref: '#/components/schemas/UserExtensionDTO'
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        metaTags:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/UserMetaTag'
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserGroup'
+          uniqueItems: true
+        permissionProfiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfile'
+          uniqueItems: true
+        location:
+          type: string
+        fullName:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+        accountId:
+          type: string
+        username:
+          type: string
+        credentialsNonExpired:
+          type: boolean
+        permissionProfileId:
+          type: string
+          format: uuid
+        phone:
+          type: string
+        jobTitle:
+          type: string
+        expertiseList:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        modifiedById:
+          type: string
+    PermissionProfile:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        externalId:
+          type: string
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfileUserGroup'
+          uniqueItems: true
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        modifiedById:
+          type: string
+        userCount:
+          type: integer
+          format: int64
+        accountId:
+          type: string
+    Address:
+      properties:
+        formatted:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        region:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    Response:
+      properties:
+        size:
+          type: integer
+          format: int32
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
+    CustomerClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          requestLimit:
+            type: integer
+            format: int64
+      required:
+      - clientId
+    InternalClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          siteUri:
+            type: string
+          logoUri:
+            type: string
+          helpUri:
+            type: string
+          redirectPriority:
+            type: integer
+            format: int32
+          showOnTopheader:
+            type: boolean
+      required:
+      - clientId
+    UserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        applicationClientId:
+          type: string
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+    CustomerAccountExtension:
+      properties:
+        id:
+          type: string
+        uploadHome:
+          type: string
+        defaultUserRoles:
+          type: string
+        defaultUserGroups:
+          type: string
+        applicationLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientExtensionLicense'
+          uniqueItems: true
+        trustArcLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountClientTrustArcLicense'
+          uniqueItems: true
+        extLoginOnly:
+          type: boolean
+        accountId:
+          type: string
+        adminPersonId:
+          type: string
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

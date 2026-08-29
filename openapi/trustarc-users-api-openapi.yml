@@ -1,0 +1,2699 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Users API
+  version: v1
+  description: 'Operations tagged Users across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Users
+paths:
+  /external/api/v2/scim/Users/{id}:
+    get:
+      tags:
+      - Users
+      operationId: getUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: attributes
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+            enum:
+            - groups
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ScimUserResource'
+      security:
+      - guardianAuth: []
+    put:
+      tags:
+      - Users
+      operationId: updateUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: attributes
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+            enum:
+            - groups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScimUserResource'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ScimUserResource'
+      security:
+      - guardianAuth: []
+    delete:
+      tags:
+      - Users
+      operationId: deleteUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    patch:
+      tags:
+      - Users
+      operationId: patchUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: attributes
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+            enum:
+            - groups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ScimUserResource'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/{id}:
+    get:
+      tags:
+      - Users
+      operationId: get_4
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    put:
+      tags:
+      - Users
+      operationId: update_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includeUserGroups
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCredentials'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    delete:
+      tags:
+      - Users
+      operationId: delete_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/{id}/nymity:
+    put:
+      tags:
+      - Users
+      operationId: updateNymityId
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: nymityId
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /external/api/v2/scim/Users:
+    get:
+      tags:
+      - Users
+      operationId: getUsers
+      parameters:
+      - name: count
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: startIndex
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: filter
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: attributes
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+            enum:
+            - groups
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ListResponseScimUserResource'
+      security:
+      - guardianAuth: []
+    post:
+      tags:
+      - Users
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScimUserResource'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ScimUserResource'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /external/api/v1/users:
+    post:
+      tags:
+      - Users
+      operationId: upsert_1
+      parameters:
+      - name: hardUpdateRoles
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCredentials'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /external/api/v1/users/batch:
+    post:
+      tags:
+      - Users
+      operationId: upsertAll
+      parameters:
+      - name: hardUpdateRoles
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/UserCredentials'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchUpsertResult'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users:
+    get:
+      tags:
+      - Users
+      operationId: list_2
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ASC
+          enum:
+          - ASC
+          - DESC
+      - name: columnName
+        in: query
+        required: false
+        schema:
+          type: array
+          default:
+          - username
+          items:
+            type: string
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - Active
+          - Inactive
+      - name: isNotPending
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: location
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: showSubAccounts
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: applications
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: role
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: userGroups
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: orgId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: username
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: modifiedStart
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: modifiedEnd
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: passwordStatus
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - TRUSTARC_MANAGED
+          - SSO_AUTHENTICATION
+          - EXPIRED
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageUserCredentials'
+      security:
+      - guardianAuth: []
+    post:
+      tags:
+      - Users
+      operationId: create_2
+      parameters:
+      - name: sendPasswordReset
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: totpEnabled
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCredentials'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/{id}/unmanagepassword:
+    post:
+      tags:
+      - Users
+      operationId: unmanagePassword
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/{id}/unlockpassword:
+    post:
+      tags:
+      - Users
+      operationId: unlockPassword
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/{id}/totp/reset:
+    post:
+      tags:
+      - Users
+      operationId: resetTotp
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/{id}/totp/enable:
+    post:
+      tags:
+      - Users
+      operationId: enableTotp
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/{id}/totp/disable:
+    post:
+      tags:
+      - Users
+      operationId: disableTotp
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/{id}/resetpassword:
+    post:
+      tags:
+      - Users
+      operationId: resetPassword_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: expHrsVal
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/{id}/enable:
+    post:
+      tags:
+      - Users
+      operationId: enable
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/{id}/disable:
+    post:
+      tags:
+      - Users
+      operationId: disable
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/{id}/confirmcredentials:
+    post:
+      tags:
+      - Users
+      operationId: confirmCredentials
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/search/refresh:
+    post:
+      tags:
+      - Users
+      operationId: searchRefresh
+      parameters:
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/enable:
+    post:
+      tags:
+      - Users
+      operationId: enableAllIn
+      parameters:
+      - name: ids
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/disable:
+    post:
+      tags:
+      - Users
+      operationId: disableAllIn
+      parameters:
+      - name: ids
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/confirmcredentials:
+    post:
+      tags:
+      - Users
+      operationId: confirmCredsAllIn
+      parameters:
+      - name: ids
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /external/api/v1/users/externalIds:
+    get:
+      tags:
+      - Users
+      operationId: getByExternalIds
+      parameters:
+      - name: externalIds
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /external/api/v1/users/externalId:
+    get:
+      tags:
+      - Users
+      operationId: getByExternalId
+      parameters:
+      - name: externalId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/username_account:
+    get:
+      tags:
+      - Users
+      operationId: getByUserNameAndAccountId
+      parameters:
+      - name: userName
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: accountId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: matchOne
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/username/{username}:
+    get:
+      tags:
+      - Users
+      operationId: getByUserName
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/search:
+    get:
+      tags:
+      - Users
+      operationId: search
+      parameters:
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: roles
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: array
+          default:
+          - ACTIVE
+          items:
+            type: string
+            enum:
+            - ACTIVE
+            - INACTIVE
+            - PENDING
+      - name: orRolesFilter
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: userIds
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: page
+        in: query
+        description: Results page you want to retrieve (0..N).
+        schema:
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: Number of recods per page.
+        schema:
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+        schema:
+          type: array
+          items: {}
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SliceUserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/nymity/{nymityId}:
+    get:
+      tags:
+      - Users
+      operationId: getByNymityId
+      parameters:
+      - name: nymityId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/listoffset:
+    get:
+      tags:
+      - Users
+      operationId: listOffset
+      parameters:
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          default: Active
+          enum:
+          - Active
+          - Inactive
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          default: 0
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: page
+        in: query
+        description: Results page you want to retrieve (0..N).
+        schema:
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: Number of recods per page.
+        schema:
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+        schema:
+          type: array
+          items: {}
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SliceUserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/list:
+    get:
+      tags:
+      - Users
+      operationId: list_14
+      parameters:
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - Active
+          - Inactive
+      - name: isNotPending
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: location
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: showSubAccounts
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: applications
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: role
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: userGroups
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: orgId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: username
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: modifiedStart
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: modifiedEnd
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: passwordStatus
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - TRUSTARC_MANAGED
+          - SSO_AUTHENTICATION
+          - EXPIRED
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: page
+        in: query
+        description: Results page you want to retrieve (0..N).
+        schema:
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: Number of recods per page.
+        schema:
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+        schema:
+          type: array
+          items: {}
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/ids:
+    get:
+      tags:
+      - Users
+      operationId: getUserByIds
+      parameters:
+      - name: ids
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      - name: includeMetaTags
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/externalIds:
+    get:
+      tags:
+      - Users
+      operationId: getByExternalIds_1
+      parameters:
+      - name: externalIds
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: accountId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/externalId:
+    get:
+      tags:
+      - Users
+      operationId: getByExternalId_1
+      parameters:
+      - name: externalId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: accountId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - firstName
+            - lastName
+            - usageConfirmed
+            - userIdentifier
+            - orgIdentifier
+            - nymityId
+            - status
+            - extension
+            - applicationRoles
+            - metaTags
+            - userGroups
+            - permissionProfiles
+            - username
+            - credentialsNonExpired
+            - password
+            - accountId
+            - fullName
+            - phone
+            - jobTitle
+            - location
+            - expertiseList
+            - permissionProfileId
+      - name: includeExtension
+        in: query
+        schema: {}
+      - name: includeUserGroups
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/users/count:
+    get:
+      tags:
+      - Users
+      operationId: count
+      parameters:
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - Active
+          - Inactive
+      - name: isNotPending
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: location
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: showSubAccounts
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: applications
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: role
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: userGroups
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: orgId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: username
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: modifiedStart
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: modifiedEnd
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: passwordStatus
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - TRUSTARC_MANAGED
+          - SSO_AUTHENTICATION
+          - EXPIRED
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int64
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /external/api/v1/users/usernames:
+    delete:
+      tags:
+      - Users
+      operationId: deleteAll
+      parameters:
+      - name: usernames
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /external/api/v1/users/username/{username}:
+    delete:
+      tags:
+      - Users
+      operationId: delete_19
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    Meta:
+      properties:
+        resourceType:
+          type: string
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        location:
+          type: string
+          format: uri
+        version:
+          type: string
+        createdMillis:
+          $ref: '#/components/schemas/Meta'
+        lastModifiedMillis:
+          $ref: '#/components/schemas/Meta'
+    RemoveOperation:
+      allOf:
+      - $ref: '#/components/schemas/PatchOperation'
+      - type: object
+        properties:
+          value:
+            $ref: '#/components/schemas/JsonNode'
+      required:
+      - path
+    PageUserCredentials:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCredentials'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    ReplaceOperation:
+      allOf:
+      - $ref: '#/components/schemas/PatchOperation'
+      - type: object
+        properties:
+          value:
+            $ref: '#/components/schemas/JsonNode'
+    UserMetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
+    UserExtensionDTO:
+      properties:
+        userMgrId:
+          type: string
+        timeZone:
+          type: string
+        locale:
+          type: string
+        totpEnabled:
+          type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PhoneNumber:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    ScimUserResource:
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        id:
+          type: string
+        externalId:
+          type: string
+        meta:
+          $ref: '#/components/schemas/Meta'
+        userName:
+          type: string
+        name:
+          $ref: '#/components/schemas/ScimUserName'
+        displayName:
+          type: string
+        emails:
+          type: array
+          items:
+            $ref: '#/components/schemas/Email'
+        active:
+          type: boolean
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimGroup'
+          readOnly: true
+        nickName:
+          type: string
+          writeOnly: true
+        profileUrl:
+          type: string
+          format: uri
+          writeOnly: true
+        title:
+          type: string
+          writeOnly: true
+        userType:
+          type: string
+          writeOnly: true
+        preferredLanguage:
+          type: string
+          writeOnly: true
+        locale:
+          type: string
+          writeOnly: true
+        timezone:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+          writeOnly: true
+        ims:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstantMessagingAddress'
+          writeOnly: true
+        photos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Photo'
+          writeOnly: true
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+          writeOnly: true
+        entitlements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Entitlement'
+          writeOnly: true
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+          writeOnly: true
+        x509Certificates:
+          type: array
+          items:
+            $ref: '#/components/schemas/X509Certificate'
+          writeOnly: true
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    X509Certificate:
+      properties:
+        value:
+          type: string
+          format: byte
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    PermissionProfileUserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
+    Role:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    ScimUserName:
+      properties:
+        familyName:
+          type: string
+        givenName:
+          type: string
+    BatchUpsertResult:
+      properties:
+        createCount:
+          type: integer
+          format: int64
+        updateCount:
+          type: integer
+          format: int64
+        errorList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorList'
+    UserCredentials:
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        firstName:
+          type: string
+        lastName:
+          type: string
+        usageConfirmed:
+          type: boolean
+        userIdentifier:
+          type: string
+        orgIdentifier:
+          type: string
+        nymityId:
+          type: string
+        status:
+          type: string
+          enum:
+          - Active
+          - Inactive
+        extension:
+          $ref: '#/components/schemas/UserExtensionDTO'
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        metaTags:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/UserMetaTag'
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserGroup'
+          uniqueItems: true
+        permissionProfiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfile'
+          uniqueItems: true
+        location:
+          type: string
+        fullName:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+        accountId:
+          type: string
+        username:
+          type: string
+        credentialsNonExpired:
+          type: boolean
+        permissionProfileId:
+          type: string
+          format: uuid
+        phone:
+          type: string
+        jobTitle:
+          type: string
+        expertiseList:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        modifiedById:
+          type: string
+    PatchRequest:
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        id:
+          type: string
+        externalId:
+          type: string
+        Operations:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/AddOperation'
+            - $ref: '#/components/schemas/RemoveOperation'
+            - $ref: '#/components/schemas/ReplaceOperation'
+        meta:
+          $ref: '#/components/schemas/Meta'
+      required:
+      - Operations
+    PermissionProfile:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        externalId:
+          type: string
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfileUserGroup'
+          uniqueItems: true
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        modifiedById:
+          type: string
+        userCount:
+          type: integer
+          format: int64
+        accountId:
+          type: string
+    ScimGroup:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        $ref:
+          type: string
+          format: uri
+    InstantMessagingAddress:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    Address:
+      properties:
+        formatted:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        region:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    PatchOperation:
+      discriminator:
+        propertyName: op
+      properties:
+        path:
+          type: string
+        removeOpValue:
+          oneOf:
+          - $ref: '#/components/schemas/AddOperation'
+          - $ref: '#/components/schemas/RemoveOperation'
+          - $ref: '#/components/schemas/ReplaceOperation'
+          writeOnly: true
+        op:
+          type: string
+      required:
+      - op
+    Entitlement:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    JsonNode:
+      properties:
+        container:
+          type: boolean
+        integralNumber:
+          type: boolean
+        string:
+          type: boolean
+        missingNode:
+          type: boolean
+        valueNode:
+          type: boolean
+        object:
+          type: boolean
+        pojo:
+          type: boolean
+        floatingPointNumber:
+          type: boolean
+        short:
+          type: boolean
+        int:
+          type: boolean
+        long:
+          type: boolean
+        double:
+          type: boolean
+        bigDecimal:
+          type: boolean
+        bigInteger:
+          type: boolean
+        textual:
+          type: boolean
+          deprecated: true
+        boolean:
+          type: boolean
+        binary:
+          type: boolean
+        array:
+          type: boolean
+        empty:
+          type: boolean
+        'null':
+          type: boolean
+        float:
+          type: boolean
+        nodeType:
+          type: string
+          enum:
+          - ARRAY
+          - BINARY
+          - BOOLEAN
+          - MISSING
+          - 'NULL'
+          - NUMBER
+          - OBJECT
+          - POJO
+          - STRING
+        number:
+          type: boolean
+        embeddedValue:
+          type: boolean
+    Email:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
+    AddOperation:
+      allOf:
+      - $ref: '#/components/schemas/PatchOperation'
+      - type: object
+        properties:
+          value:
+            $ref: '#/components/schemas/JsonNode'
+    Photo:
+      properties:
+        value:
+          type: string
+          format: uri
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    ErrorList:
+      properties:
+        entryNumber:
+          type: integer
+          format: int64
+        message:
+          type: string
+    SliceUserCredentials:
+      properties:
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCredentials'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    ListResponseScimUserResource:
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        totalResults:
+          type: integer
+          format: int32
+        startIndex:
+          type: integer
+          format: int32
+        itemsPerPage:
+          type: integer
+          format: int32
+        Resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimUserResource'
+      required:
+      - Resources
+    UserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        applicationClientId:
+          type: string
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

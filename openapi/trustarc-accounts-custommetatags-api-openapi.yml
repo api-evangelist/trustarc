@@ -1,0 +1,575 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Accounts Custom Meta Tags API
+  version: v1
+  description: 'Operations tagged Accounts-CustomMetaTags across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Accounts-CustomMetaTags
+paths:
+  /api/v1/accounts/custommetatags/{id}:
+    get:
+      tags:
+      - Accounts-CustomMetaTags
+      operationId: get_16
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomMetaTag'
+      security:
+      - guardianAuth: []
+    put:
+      tags:
+      - Accounts-CustomMetaTags
+      operationId: update_16
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomMetaTag'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomMetaTag'
+      security:
+      - guardianAuth: []
+    delete:
+      tags:
+      - Accounts-CustomMetaTags
+      operationId: delete_14
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/custommetatags:
+    post:
+      tags:
+      - Accounts-CustomMetaTags
+      operationId: create_17
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomMetaTag'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomMetaTag'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/custommetatags/{id}/values/upload:
+    post:
+      tags:
+      - Accounts-CustomMetaTags
+      operationId: uploadMetaTags
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+          application/json:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/BatchJob'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/{accountId}/custommetatags:
+    get:
+      tags:
+      - Accounts-CustomMetaTags
+      operationId: list_30
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: page
+        in: query
+        description: Results page you want to retrieve (0..N).
+        schema:
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: Number of recods per page.
+        schema:
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+        schema:
+          type: array
+          items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PageCustomMetaTag'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/custommetatags/{id}/values:
+    get:
+      tags:
+      - Accounts-CustomMetaTags
+      operationId: getValues
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: page
+        in: query
+        description: Results page you want to retrieve (0..N).
+        schema:
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: Number of recods per page.
+        schema:
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+        schema:
+          type: array
+          items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SliceCustomMetaTagValue'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/custommetatags/{id}/tags:
+    get:
+      tags:
+      - Accounts-CustomMetaTags
+      operationId: tags
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/accounts/custommetatags/{id}/search:
+    get:
+      tags:
+      - Accounts-CustomMetaTags
+      operationId: search_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: primaryTag
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: value
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: supplementaryTags
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: page
+        in: query
+        description: Results page you want to retrieve (0..N).
+        schema:
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: Number of recods per page.
+        schema:
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+        schema:
+          type: array
+          items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SliceCustomMetaTagSearchDTO'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    BatchJob:
+      properties:
+        id:
+          type: string
+        jobInstanceId:
+          type: integer
+          format: int64
+        jobExecutionId:
+          type: integer
+          format: int64
+        createTime:
+          type: string
+          format: date-time
+        lastRunTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        currentStatus:
+          type: string
+        resourceName:
+          type: string
+        batchJobType:
+          type: string
+          enum:
+          - DELETE_USER
+          - IMPORT_ORG
+          - IMPORT_USER
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - REFRESH_USER_SEARCH
+          - RUN_TASK
+          - TASK_UNMANAGE_PASSWORD
+          - TASK_RESET_PASSWORD
+          - TASK_UPDATE_PERMISSION
+          - TASK_REFRESH_USER_CACHE
+          - TASK_REFRESH_USER_META_CACHE
+          - TASK_SFTP_PULLER
+          - TASK_LOGIN_ATTEMPT_CLEANUP
+          - TASK_REPORT_STORE_CLEANUP
+          - TASK_STORAGE_CLEANUP
+          - TASK_ACTIVATION_CLEANUP
+          - TASK_API_METER_PROMOTE
+          - TASK_EMAIL_LOGIN_REPORT
+          - TASK_NYMITY_SYNC_ACCOUNT
+          - TASK_EMAIL_FULL_LOGIN_REPORT
+          - TASK_IMPORT_PICK_TAGS
+          - TASK_DYNAMIC_REPORT
+          - TASK_IMPORT_CUSTOM_META_TAG
+          - TASK_TOKEN_EXP_EMAIL
+          - TASK_EMAIL_NEW_USER_REPORT
+        percentDone:
+          type: integer
+          format: int64
+        currentMessage:
+          type: string
+        writeCount:
+          type: integer
+          format: int64
+        readCount:
+          type: integer
+          format: int64
+        totalCount:
+          type: integer
+          format: int64
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchJobError'
+          uniqueItems: true
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BatchJobParameter'
+        startedByUserId:
+          type: string
+        targetAccountId:
+          type: string
+    SliceCustomMetaTagValue:
+      properties:
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomMetaTagValue'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    CustomMetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 1
+        displayName:
+          type: string
+          minLength: 1
+        accountId:
+          type: string
+      required:
+      - displayName
+      - name
+    CustomMetaTagValue:
+      properties:
+        id:
+          type: string
+          format: uuid
+        content:
+          type: object
+          additionalProperties:
+            type: object
+    SliceCustomMetaTagSearchDTO:
+      properties:
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomMetaTagSearchDTO'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    CustomMetaTagSearchDTO:
+      properties:
+        primaryTag:
+          type: object
+          properties:
+            value:
+              type: string
+            key:
+              type: string
+        supplementaryTags:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              key:
+                type: string
+    PageCustomMetaTag:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomMetaTag'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+    BatchJobError:
+      properties:
+        entry:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

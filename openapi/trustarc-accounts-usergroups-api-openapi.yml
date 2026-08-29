@@ -1,0 +1,86 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Accounts User Groups API
+  version: v1
+  description: 'Operations tagged Accounts-UserGroups across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Accounts-UserGroups
+paths:
+  /api/v1/accounts/{accountId}/userGroups/{tagGroupId}/download:
+    post:
+      tags:
+      - Accounts-UserGroups
+      operationId: downloadUserGroups
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: tagGroupId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ReportStore'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    ReportStore:
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - EXPORT_LOGIN_REPORT
+          - EXPORT_FULL_LOGIN_REPORT
+          - EXPORT_USER_GROUP
+          - EXPORT_NEW_USER_REPORT
+        fileName:
+          type: string
+        file:
+          type: string
+          format: byte
+          writeOnly: true
+        fileType:
+          type: string
+          enum:
+          - CSV
+        createdDate:
+          type: string
+          format: date-time
+        createdById:
+          type: string
+        ownerAccountId:
+          type: string
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

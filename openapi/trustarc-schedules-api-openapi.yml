@@ -1,0 +1,167 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Schedules API
+  version: v1
+  description: 'Operations tagged Schedules across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Schedules
+paths:
+  /api/v1/schedules/triggers:
+    get:
+      tags:
+      - Schedules
+      operationId: listTriggers
+      parameters:
+      - name: jobName
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: groupName
+        in: query
+        required: false
+        schema:
+          type: string
+          default: STATIC
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trigger'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/schedules/triggerkeys:
+    get:
+      tags:
+      - Schedules
+      operationId: listTriggerKeys
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TriggerKey'
+                uniqueItems: true
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/schedules/jobkeys:
+    get:
+      tags:
+      - Schedules
+      operationId: listJobKeys
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobKey'
+                uniqueItems: true
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    ScheduleBuilderTrigger: {}
+    JobKey:
+      properties:
+        name:
+          type: string
+        group:
+          type: string
+    TriggerBuilderTrigger: {}
+    Trigger:
+      properties:
+        nextFireTime:
+          type: string
+          format: date-time
+        jobDataMap:
+          type: object
+          additionalProperties:
+            type: object
+          properties:
+            dirty:
+              type: boolean
+            allowsTransientData:
+              type: boolean
+              deprecated: true
+            keys:
+              type: array
+              items:
+                type: string
+            wrappedMap:
+              type: object
+              additionalProperties:
+                type: object
+            empty:
+              type: boolean
+        key:
+          $ref: '#/components/schemas/TriggerKey'
+        priority:
+          type: integer
+          format: int32
+        finalFireTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        jobKey:
+          $ref: '#/components/schemas/JobKey'
+        calendarName:
+          type: string
+        previousFireTime:
+          type: string
+          format: date-time
+        misfireInstruction:
+          type: integer
+          format: int32
+        triggerBuilder:
+          $ref: '#/components/schemas/TriggerBuilderTrigger'
+        scheduleBuilder:
+          $ref: '#/components/schemas/ScheduleBuilderTrigger'
+        startTime:
+          type: string
+          format: date-time
+        description:
+          type: string
+    TriggerKey:
+      properties:
+        name:
+          type: string
+        group:
+          type: string
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

@@ -1,0 +1,180 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Clients User Groups API
+  version: v1
+  description: 'Operations tagged Clients-UserGroups across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Clients-UserGroups
+paths:
+  /api/v1/clients/{clientId}/usergroups/move:
+    post:
+      tags:
+      - Clients-UserGroups
+      operationId: moveUserGroup
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: previousName
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: currentName
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients/{clientId}/usergroupinfo:
+    get:
+      tags:
+      - Clients-UserGroups
+      operationId: get_18
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ClientUserGroup'
+      security:
+      - guardianAuth: []
+    post:
+      tags:
+      - Clients-UserGroups
+      operationId: upsert_5
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientUserGroup'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ClientUserGroup'
+      security:
+      - guardianAuth: []
+    delete:
+      tags:
+      - Clients-UserGroups
+      operationId: delete_16
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/clients/{clientId}/usergroups/uses:
+    get:
+      tags:
+      - Clients-UserGroups
+      operationId: getUserGroupUses
+      parameters:
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserGroupUsesDto'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    ClientUserGroup:
+      properties:
+        id:
+          type: string
+          format: uuid
+        hostUri:
+          type: string
+        groupPrefix:
+          type: string
+    UserGroupUsesDto:
+      properties:
+        isUsed:
+          type: boolean
+        uses:
+          type: array
+          items:
+            type: string
+            enum:
+            - USER_PERMISSION
+            - EX_AUTH_CONFIG_DEFAULT
+          uniqueItems: true
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

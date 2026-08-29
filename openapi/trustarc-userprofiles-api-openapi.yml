@@ -1,0 +1,565 @@
+openapi: 3.2.0
+info:
+  title: Trustarc User Profiles API
+  version: v1
+  description: 'Operations tagged UserProfiles across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: UserProfiles
+paths:
+  /api/v1/userprofiles/{id}:
+    get:
+      tags:
+      - UserProfiles
+      operationId: get_5
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - username
+            - password
+            - firstName
+            - lastName
+            - phone
+            - jobTitle
+            - expertiseList
+            - timeZone
+            - locale
+            - status
+            - credentialsNonExpired
+            - userCount
+            - totpEnabled
+            - currentUser
+            - root
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+      security:
+      - guardianAuth: []
+    put:
+      tags:
+      - UserProfiles
+      operationId: update_4
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+      security:
+      - guardianAuth: []
+    delete:
+      tags:
+      - UserProfiles
+      operationId: delete_3
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/userprofiles/{id}/totp/reset:
+    post:
+      tags:
+      - UserProfiles
+      operationId: resetTotpSecret
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/userprofiles/{id}/totp/enable:
+    post:
+      tags:
+      - UserProfiles
+      operationId: enableTotp_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/userprofiles/{id}/totp/disable:
+    post:
+      tags:
+      - UserProfiles
+      operationId: disableTotp_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/userprofiles/{id}/totp/disable/own:
+    post:
+      tags:
+      - UserProfiles
+      operationId: disableTotp_2
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TotpBodyDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/userprofiles/{id}/enable:
+    post:
+      tags:
+      - UserProfiles
+      operationId: enable_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/userprofiles/{id}/disable:
+    post:
+      tags:
+      - UserProfiles
+      operationId: disable_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/userprofiles/{id}/confirmcredentials:
+    post:
+      tags:
+      - UserProfiles
+      operationId: confirmCredentials_1
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/userprofiles/confirmcredentials:
+    post:
+      tags:
+      - UserProfiles
+      operationId: confirmCredentials_2
+      parameters:
+      - name: ids
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserProfile'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/userprofiles:
+    get:
+      tags:
+      - UserProfiles
+      operationId: list_15
+      parameters:
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: isNotPending
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - Active
+          - Inactive
+      - name: modifiedStart
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: modifiedEnd
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - username
+            - password
+            - firstName
+            - lastName
+            - phone
+            - jobTitle
+            - expertiseList
+            - timeZone
+            - locale
+            - status
+            - credentialsNonExpired
+            - userCount
+            - totpEnabled
+            - currentUser
+            - root
+      - name: page
+        in: query
+        description: Results page you want to retrieve (0..N).
+        schema:
+          default: 0
+          minimum: 0
+      - name: size
+        in: query
+        description: Number of recods per page.
+        schema:
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+        schema:
+          type: array
+          items: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageUserProfile'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/userprofiles/username/{username}:
+    get:
+      tags:
+      - UserProfiles
+      operationId: getByUsername
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fields
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - id
+            - createdDate
+            - modifiedDate
+            - modifiedById
+            - username
+            - password
+            - firstName
+            - lastName
+            - phone
+            - jobTitle
+            - expertiseList
+            - timeZone
+            - locale
+            - status
+            - credentialsNonExpired
+            - userCount
+            - totpEnabled
+            - currentUser
+            - root
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageUserProfile:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfile'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    TotpBodyDto:
+      properties:
+        authenticatorCode:
+          type: string
+    UserProfile:
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        username:
+          type: string
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+          writeOnly: true
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        jobTitle:
+          type: string
+        expertiseList:
+          type: string
+        timeZone:
+          type: string
+        locale:
+          type: string
+        status:
+          type: string
+          enum:
+          - Active
+          - Inactive
+        credentialsNonExpired:
+          type: boolean
+        userCount:
+          type: integer
+          format: int64
+        totpEnabled:
+          type: boolean
+        modifiedById:
+          type: string
+      required:
+      - password
+      - username
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

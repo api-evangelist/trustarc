@@ -1,0 +1,228 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Navigation Menus API
+  version: v1
+  description: 'Operations tagged Navigation-Menus across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Navigation-Menus
+paths:
+  /api/v1/navigation-menus/{menuId}:
+    get:
+      tags:
+      - Navigation-Menus
+      operationId: get_8
+      parameters:
+      - name: menuId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApplicationMenu'
+      security:
+      - guardianAuth: []
+    put:
+      tags:
+      - Navigation-Menus
+      operationId: update_7
+      parameters:
+      - name: menuId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationMenu'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApplicationMenu'
+      security:
+      - guardianAuth: []
+    delete:
+      tags:
+      - Navigation-Menus
+      operationId: delete_6
+      parameters:
+      - name: menuId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/navigation-menus:
+    get:
+      tags:
+      - Navigation-Menus
+      operationId: list_7
+      parameters:
+      - name: clientId
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: parentId
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationMenu'
+      security:
+      - guardianAuth: []
+    post:
+      tags:
+      - Navigation-Menus
+      operationId: create_7
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationMenu'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApplicationMenu'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/navigation-menus/order:
+    post:
+      tags:
+      - Navigation-Menus
+      operationId: order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationMenu'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/navigation-menus/full:
+    get:
+      tags:
+      - Navigation-Menus
+      operationId: fullList
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationMenu'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    ApplicationMenu:
+      properties:
+        id:
+          type: string
+          format: uuid
+        text:
+          type: string
+        order:
+          type: integer
+          format: int32
+        url:
+          type: string
+        icon:
+          type: string
+        iconV2:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        parentId:
+          type: string
+          format: uuid
+        clientId:
+          type: string
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

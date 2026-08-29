@@ -1,0 +1,519 @@
+openapi: 3.2.0
+info:
+  title: Trustarc Jobs API
+  version: v1
+  description: 'Operations tagged Jobs across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: Jobs
+paths:
+  /api/v1/jobs:
+    get:
+      tags:
+      - Jobs
+      operationId: list_8
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ASC
+          enum:
+          - ASC
+          - DESC
+      - name: columnName
+        in: query
+        required: false
+        schema:
+          type: string
+          default: lastRunTime
+      - name: currentStatus
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+            enum:
+            - COMPLETED
+            - STARTING
+            - STARTED
+            - STOPPING
+            - STOPPED
+            - FAILED
+            - ABANDONED
+            - UNKNOWN
+      - name: jobTypes
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+            enum:
+            - DELETE_USER
+            - IMPORT_ORG
+            - IMPORT_USER
+            - EXPORT_USER
+            - EXPORT_USER_ACTION
+            - EXPORT_USER_AUDIT_EVENTS
+            - REFRESH_USER_SEARCH
+            - RUN_TASK
+            - TASK_UNMANAGE_PASSWORD
+            - TASK_RESET_PASSWORD
+            - TASK_UPDATE_PERMISSION
+            - TASK_REFRESH_USER_CACHE
+            - TASK_REFRESH_USER_META_CACHE
+            - TASK_SFTP_PULLER
+            - TASK_LOGIN_ATTEMPT_CLEANUP
+            - TASK_REPORT_STORE_CLEANUP
+            - TASK_STORAGE_CLEANUP
+            - TASK_ACTIVATION_CLEANUP
+            - TASK_API_METER_PROMOTE
+            - TASK_EMAIL_LOGIN_REPORT
+            - TASK_NYMITY_SYNC_ACCOUNT
+            - TASK_EMAIL_FULL_LOGIN_REPORT
+            - TASK_IMPORT_PICK_TAGS
+            - TASK_DYNAMIC_REPORT
+            - TASK_IMPORT_CUSTOM_META_TAG
+            - TASK_TOKEN_EXP_EMAIL
+            - TASK_EMAIL_NEW_USER_REPORT
+      - name: targetAccountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: startedByUserId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: startedByAccountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageBatchJob'
+      security:
+      - guardianAuth: []
+    post:
+      tags:
+      - Jobs
+      operationId: create_8
+      parameters:
+      - name: jobType
+        in: query
+        required: false
+        schema:
+          type: string
+          default: IMPORT_USER
+          enum:
+          - DELETE_USER
+          - IMPORT_ORG
+          - IMPORT_USER
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - REFRESH_USER_SEARCH
+          - RUN_TASK
+          - TASK_UNMANAGE_PASSWORD
+          - TASK_RESET_PASSWORD
+          - TASK_UPDATE_PERMISSION
+          - TASK_REFRESH_USER_CACHE
+          - TASK_REFRESH_USER_META_CACHE
+          - TASK_SFTP_PULLER
+          - TASK_LOGIN_ATTEMPT_CLEANUP
+          - TASK_REPORT_STORE_CLEANUP
+          - TASK_STORAGE_CLEANUP
+          - TASK_ACTIVATION_CLEANUP
+          - TASK_API_METER_PROMOTE
+          - TASK_EMAIL_LOGIN_REPORT
+          - TASK_NYMITY_SYNC_ACCOUNT
+          - TASK_EMAIL_FULL_LOGIN_REPORT
+          - TASK_IMPORT_PICK_TAGS
+          - TASK_DYNAMIC_REPORT
+          - TASK_IMPORT_CUSTOM_META_TAG
+          - TASK_TOKEN_EXP_EMAIL
+          - TASK_EMAIL_NEW_USER_REPORT
+      - name: accountId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: permissionProfileId
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: customMetaTagId
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uuid
+      - name: applications
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: applicationRoles
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: userGroups
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: hardUpdateRoles
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: userIds
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: actionType
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+      - name: recipients
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: excludePatterns
+        in: query
+        required: false
+        schema:
+          type: array
+          default: []
+          items:
+            type: string
+      - name: createdStart
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      - name: createdEnd
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          description: Timestamp in seconds since epoch
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+          application/json:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '503':
+          description: Service Unavailable
+          content:
+            '*/*':
+              schema:
+                type: object
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJob'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/jobs/{id}:
+    get:
+      tags:
+      - Jobs
+      operationId: get_25
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJob'
+      security:
+      - guardianAuth: []
+    delete:
+      tags:
+      - Jobs
+      operationId: deleteJob
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+  /api/v1/jobs/info:
+    get:
+      tags:
+      - Jobs
+      operationId: info
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchJobInfoWrapper'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    BatchJob:
+      properties:
+        id:
+          type: string
+        jobInstanceId:
+          type: integer
+          format: int64
+        jobExecutionId:
+          type: integer
+          format: int64
+        createTime:
+          type: string
+          format: date-time
+        lastRunTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        currentStatus:
+          type: string
+        resourceName:
+          type: string
+        batchJobType:
+          type: string
+          enum:
+          - DELETE_USER
+          - IMPORT_ORG
+          - IMPORT_USER
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - REFRESH_USER_SEARCH
+          - RUN_TASK
+          - TASK_UNMANAGE_PASSWORD
+          - TASK_RESET_PASSWORD
+          - TASK_UPDATE_PERMISSION
+          - TASK_REFRESH_USER_CACHE
+          - TASK_REFRESH_USER_META_CACHE
+          - TASK_SFTP_PULLER
+          - TASK_LOGIN_ATTEMPT_CLEANUP
+          - TASK_REPORT_STORE_CLEANUP
+          - TASK_STORAGE_CLEANUP
+          - TASK_ACTIVATION_CLEANUP
+          - TASK_API_METER_PROMOTE
+          - TASK_EMAIL_LOGIN_REPORT
+          - TASK_NYMITY_SYNC_ACCOUNT
+          - TASK_EMAIL_FULL_LOGIN_REPORT
+          - TASK_IMPORT_PICK_TAGS
+          - TASK_DYNAMIC_REPORT
+          - TASK_IMPORT_CUSTOM_META_TAG
+          - TASK_TOKEN_EXP_EMAIL
+          - TASK_EMAIL_NEW_USER_REPORT
+        percentDone:
+          type: integer
+          format: int64
+        currentMessage:
+          type: string
+        writeCount:
+          type: integer
+          format: int64
+        readCount:
+          type: integer
+          format: int64
+        totalCount:
+          type: integer
+          format: int64
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchJobError'
+          uniqueItems: true
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BatchJobParameter'
+        startedByUserId:
+          type: string
+        targetAccountId:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    BatchJobRequestParam: {}
+    BatchJobInfoWrapper:
+      properties:
+        paramMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BatchJobRequestParam'
+    PageBatchJob:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchJob'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    BatchJobError:
+      properties:
+        entry:
+          type: string
+        message:
+          type: string
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

@@ -1,0 +1,247 @@
+openapi: 3.2.0
+info:
+  title: Trustarc SSO Login Controller API
+  version: v1
+  description: 'Operations tagged sso-login-controller across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://login.truste.com
+  description: Generated server url
+tags:
+- name: sso-login-controller
+paths:
+  /services/anonymous/xauths:
+    post:
+      tags:
+      - sso-login-controller
+      operationId: getUserSSOCOnfig
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+              required:
+              - username
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSSOConfig'
+      security:
+      - guardianAuth: []
+    servers:
+    - url: https://login.truste.com
+      description: Generated server url
+components:
+  schemas:
+    ExAuthMetaTag:
+      properties:
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
+    PermissionProfile:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        externalId:
+          type: string
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfileUserGroup'
+          uniqueItems: true
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        modifiedById:
+          type: string
+        userCount:
+          type: integer
+          format: int64
+        accountId:
+          type: string
+    PermissionProfileUserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
+    ExternalAuthConfig:
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+          maxLength: 2147483647
+          minLength: 1
+        displayName:
+          type: string
+        uriSubdomain:
+          type: string
+          maxLength: 2147483647
+          minLength: 1
+        authType:
+          type: string
+        entityId:
+          type: string
+        bindingType:
+          type: string
+          enum:
+          - POST
+          - REDIRECT
+        authWorkflow:
+          type: string
+          enum:
+          - SP_INITIATED
+          - IDP_INITIATED
+        idpUrl:
+          type: string
+        idpUrl1:
+          type: string
+        acsHomeUrl:
+          type: string
+        logoutUrl:
+          type: string
+        publicCerts:
+          type: string
+        publicCerts1:
+          type: string
+        autoNewuser:
+          type: boolean
+        appType:
+          type: string
+        samlOption:
+          type: integer
+          format: int32
+        description:
+          type: string
+        domainMatches:
+          type: string
+        issuerMatch:
+          type: string
+        issuerMatch1:
+          type: string
+        samlEmailAttribute:
+          type: string
+        samlFirstNameAttribute:
+          type: string
+        samlLastNameAttribute:
+          type: string
+        samlFullNameAttribute:
+          type: string
+        samlAutoUserAttribute:
+          type: string
+        samlPhoneAttribute:
+          type: string
+        samlTitleAttribute:
+          type: string
+        samlOrgAttribute:
+          type: string
+        samlUserIdAttribute:
+          type: string
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalAuthConfigUserGroup'
+          uniqueItems: true
+        permissionProfiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfile'
+          uniqueItems: true
+        metaTags:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ExAuthMetaTag'
+        tags:
+          type: object
+          additionalProperties:
+            type: object
+        accountId:
+          type: string
+        modifiedById:
+          type: string
+      required:
+      - clientId
+      - uriSubdomain
+    UserSSOConfig:
+      properties:
+        configs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalAuthConfig'
+        usernameHint:
+          type: string
+        hasGoogleAuth:
+          type: boolean
+        saml2Only:
+          type: boolean
+    ExternalAuthConfigUserGroup:
+      properties:
+        name:
+          type: string
+        externalAuthConfigId:
+          type: string
+          writeOnly: true
+        clientId:
+          type: string
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
+  securitySchemes:
+    guardianAuth:
+      type: oauth2
+      scheme: bearer
+      bearerFormat: JWT
+      flows:
+        implicit:
+          authorizationUrl: https://login.truste.com/oauth/authorize
+          tokenUrl: https://login.truste.com/oauth/token
+          scopes:
+            openid: OpenID
+x-refined-from:
+- trustarc-guardian-openapi.json
+- trustarc-guardian-openapi.yml

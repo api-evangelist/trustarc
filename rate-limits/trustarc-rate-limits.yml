@@ -1,0 +1,34 @@
+generated: '2026-08-27'
+method: searched
+source: https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting
+limit_count: 0
+note: >-
+  TrustArc documents that rate limiting EXISTS and tells callers how to react to it, but
+  publishes no numbers: "Rate limit thresholds vary by account tier. Contact your TrustArc
+  Account Manager for your specific limits." An integrator therefore cannot size a client
+  from the public docs, and an agent cannot plan a batch. Recorded as an honest zero.
+status_on_exhaustion: 429
+guidance: Implement exponential backoff when receiving 429 Too Many Requests responses.
+response_headers: []
+response_headers_note: >-
+  No X-RateLimit-*, RateLimit-* or Retry-After header is documented anywhere in the
+  TrustArc API guides, and none appears in the Guardian OpenAPI. Every unauthenticated
+  probe run on 2026-08-27 (api.trustarc.com, login.truste.com, irm.trustarc.com,
+  cpm.trustarc.com, assess.truste.com) returned 401 without any rate-limit header, so
+  none could be observed live either. Without a header an agent has no runtime signal —
+  only the 429 itself.
+limits: []
+scopes_documented:
+  - scope: per-account-tier
+    window: null
+    limit: null
+    burst: null
+    note: Threshold is contractual and disclosed by the account manager, not published.
+related_throttles:
+  - name: duplicate data-subject request limiting
+    kind: product policy, not an API rate limit
+    note: >-
+      IRM lets admins "limit the number of requests a user can make in a given period of
+      time" and limit duplicate submissions by request type. This is a tenant-configured
+      anti-abuse control on the consumer intake form, not an API quota.
+    docs: https://trustarchelp.zendesk.com/hc/en-us/articles/34814578367635-Requests-Tab

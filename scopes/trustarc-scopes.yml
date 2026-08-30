@@ -1,0 +1,31 @@
+generated: '2026-08-27'
+method: searched
+source: openapi/_original/trustarc-guardian-openapi.json
+docs: https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+discovery: well-known/trustarc-openid-configuration.json
+note: >-
+  TrustArc's OAuth surface is effectively scope-free. The published discovery document
+  declares scopes_supported: ["openid"] and nothing else, and the Guardian OpenAPI declares
+  the same single scope. The token response echoes "openid profile email", but profile and
+  email are not advertised as grantable scopes in discovery. Authorization is decided by
+  ROLE (SUPER_ADMIN / ADMIN / DESIGNER), not by scope — see
+  authentication/trustarc-authentication.yml. No scopes or permissions reference page exists
+  in the TrustArc help center; the search returned none. Nothing invented to fill the gap.
+schemes:
+  - name: guardianAuth
+    source: openapi/_original/trustarc-guardian-openapi.json
+    flows:
+      - flow: implicit
+        authorizationUrl: https://login.truste.com/oauth/authorize
+        tokenUrl: https://login.truste.com/oauth/token
+scopes:
+  - scope: openid
+    description: OpenID
+    flows: [implicit]
+    sources:
+      - openapi/_original/trustarc-guardian-openapi.json
+      - well-known/trustarc-openid-configuration.json
+observed_in_token_response:
+  - openid
+  - profile
+  - email

@@ -1,0 +1,92 @@
+generated: '2026-08-27'
+method: searched
+source: >-
+  TrustArc help center API guides — External Callback Controller, External Data Subject
+  Callback Controller, External Consent Callback Controller, and the Hub
+  integration-events endpoints
+spec_type: none
+asyncapi_published: false
+asyncapi_note: >-
+  TrustArc publishes no AsyncAPI document. /asyncapi.yaml and /asyncapi.json return 404 on
+  api.trustarc.com and no event catalog exists in the GitHub org. The event surface below
+  was read from the REST callback-registration APIs and the change-event feeds, which is
+  what TrustArc actually ships.
+webhooks:
+  supported: true
+  model: >-
+    Callbacks are registered THROUGH the API rather than configured in a portal: the caller
+    POSTs a callback registration containing a target url plus the filters that decide which
+    events reach it. There is no signing scheme, retry policy or delivery-guarantee
+    statement in the published documentation.
+  registration_apis:
+    - name: IRM External Callback
+      operations:
+        - method: GET
+          url: https://irm.trustarc.com/server/api/v1/external/callback
+          operation: getExternalCallback
+        - method: POST
+          url: https://irm.trustarc.com/server/api/v1/external/callback
+          operation: upsertExternalCallback
+      filters:
+        - requestTypeIds
+        - formIds
+        - dataSubjectTypeIds
+        - requestStatuses
+        - brandNames
+        - residentOfs
+        - requestVerificationTypes
+      payload_fields: [id, url, requestTypeIds, formIds, dataSubjectTypeIds, requestStatuses, brandNames, residentOfs, requestVerificationTypes, accountId]
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/31951858635667-External-Callback-Controller
+      probe: {url: 'https://irm.trustarc.com/server/api/v1/external/forms/all', status: 401, checked: '2026-08-27'}
+    - name: CPM External Consent Callback
+      operations:
+        - method: GET
+          url: https://cpm.trustarc.com/server/api/v1/external/consent-callbacks
+          operation: getConsentCallbacks
+        - method: GET
+          url: https://cpm.trustarc.com/server/api/v1/external/consent-callbacks/{id}
+          operation: getConsentCallbackById
+      eu_url: https://cpm.trustarc.eu/server/api/v1/external/consent-callbacks
+      filters: [accountId, brandIds, consentFormIds, dataSubjectTypeIds, programIds, eventTypes]
+      event_types_documented: [CREATED]
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/40519947190547-External-Consent-Callback-Controller
+      probe: {url: 'https://cpm.trustarc.com/server/api/v1/external/consent-callbacks', status: 401, checked: '2026-08-27'}
+    - name: CPM External Data Subject Callback
+      operations:
+        - method: GET
+          url: https://cpm.trustarc.com/server/api/v1/external/data-subject-callbacks
+          operation: getDataSubjectCallbacks
+        - method: GET
+          url: https://cpm.trustarc.com/server/api/v1/external/data-subject-callbacks/{id}
+          operation: getDataSubjectCallbackById
+      eu_url: https://cpm.trustarc.eu/server/api/v1/external/data-subject-callbacks
+      filters: [dataSubjectTypeIds, eventTypes]
+      event_types_documented: [CREATED]
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/40523049932051-External-Data-Subject-Callback-Controller
+    - name: Platform integration event intake
+      operations:
+        - method: POST
+          url: https://api.trustarc.com/api/integration/event
+      note: >-
+        Referenced in the integration guides as the platform event intake endpoint. Its
+        payload schema is not published.
+change_event_feeds:
+  model: pull (polling), not push
+  note: >-
+    The Data Mapping / Hub external-integration API exposes dated change feeds instead of
+    webhooks. Each returns a paginated list of change events filtered by eventType and a
+    `since` timestamp in yyyy-MM-dd'T'HH:mm:ss form — the shape an agent needs for
+    incremental sync.
+  feeds:
+    - GET /api/hub/external-integration/business-processes/integration-events
+    - GET /api/hub/external-integration/it-systems/integration-events
+    - GET /api/hub/external-integration/company-affiliates/integration-events
+    - GET /api/hub/external-integration/third-parties/integration-events
+  example_event_type: DATA_TRANSFER_RISK_CHANGED
+  docs: https://trustarchelp.zendesk.com/hc/en-us/articles/50035813452563-Retrieve-Third-Party-Events
+  probe: {url: 'https://api.trustarc.com/api/hub/external-integration/business-processes', status: 401, checked: '2026-08-27'}
+gaps:
+  - No AsyncAPI or machine-readable event schema is published for any of these surfaces.
+  - No payload signature, shared secret or verification mechanism is documented for callback delivery.
+  - No retry, backoff or dead-letter policy is documented for callback delivery.
+  - The full eventTypes enumeration is referenced ("See the Appendix for accepted values") but the appendix article located does not enumerate them.

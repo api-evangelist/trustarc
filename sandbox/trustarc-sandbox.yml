@@ -1,0 +1,50 @@
+generated: '2026-08-27'
+method: searched
+source: >-
+  https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting,
+  https://trustarchelp.zendesk.com/hc/en-us/articles/38618198125331-Understanding-the-API-Endpoint
+self_service: false
+summary: >-
+  TrustArc runs a real staging environment, but it is not self-service. There is no test
+  mode toggled by a key prefix, no public test credentials, and no published magic test
+  values. Staging access is requested from the account manager and uses separate
+  credentials from production.
+test_vs_live:
+  mechanism: separate environments with separate hosts and separate credentials
+  key_prefix_separation: false
+  note: >-
+    Tokens are environment-scoped. The troubleshooting guide lists "token issued for the
+    wrong CCM environment (production vs. staging)" as a named cause of 401, and instructs
+    integrators to "use separate tokens for staging vs. production to avoid unintended data
+    changes."
+environments:
+  - name: staging
+    hosts:
+      - https://assess-stage.truste.com/
+      - https://login-stage.truste.com
+      - https://yourcompany-sso-stage.truste.com
+    access: >-
+      "Yes. TrustArc provides a staging environment for integration testing. Request
+      staging credentials from your account manager."
+    docs: https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting
+  - name: production
+    hosts:
+      - https://assess.truste.com/
+      - https://api.trustarc.com
+      - https://login.truste.com
+test_values: []
+test_values_note: >-
+  No test cards, test identifiers, magic values, fixtures or trigger tooling are published.
+  TrustArc is not a payments provider, and the consumer-facing surfaces it does expose
+  (consent forms, DSR intake) are validated against live tenant configuration rather than
+  seeded fixtures. Nothing invented here.
+test_clocks:
+  supported: false
+sandbox_console:
+  present: false
+  note: >-
+    No try-it console, API explorer or interactive reference is published. /swagger-ui/
+    returns 403 on api.trustarc.com, login.truste.com, cpm.trustarc.com,
+    irm.trustarc.com, assess.truste.com and integration.trustarc.com, so the Swagger UI
+    that would render the Guardian spec is deliberately closed to the public even though
+    /v3/api-docs is open.

@@ -1,0 +1,138 @@
+generated: '2026-08-27'
+method: searched
+source: >-
+  derived from openapi/_original/trustarc-guardian-openapi.json responses, then enriched
+  from the TrustArc help center API guides (CCM External API FAQs & Troubleshooting,
+  Authorization and Authentication, Understanding the API Endpoint, IRM external
+  controllers)
+format: vendor-json
+note: >-
+  TrustArc does NOT use RFC 9457 problem+json. Two distinct error envelopes are published
+  across the platform, and an agent has to handle both.
+envelopes:
+  - name: oauth-error
+    media_type: application/json
+    shape:
+      error: string
+      error_description: string
+    example: '{"error": "unauthorized", "error_description": "Bad credentials"}'
+    used_by: token endpoint, and any resource returning invalid_token
+    source: https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - name: spring-error
+    media_type: application/json
+    shape:
+      timestamp: string
+      status: integer
+      error: string
+      path: string
+      message: string
+    example: '{"timestamp":"2026-08-27T18:57:41.718+0000","path":"/api/ccm/v3/api-docs","status":404,"error":"Not Found"}'
+    used_by: api.trustarc.com gateway and the Spring services behind it
+    source: observed on live unauthenticated probes of api.trustarc.com, 2026-08-27
+  - name: per-item-result
+    media_type: application/json
+    shape:
+      url: string
+      status: string
+      message: string
+    note: >-
+      The CCM External API returns an ARRAY of per-item results, not a single error. A 2xx
+      does not mean every item succeeded — 207 Multi-Status means at least one item failed
+      and the caller must iterate the array and inspect each status/message.
+    source: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+  - name: batch-upsert-result
+    media_type: application/json
+    shape:
+      createCount: integer
+      updateCount: integer
+      errorList: array of {entryNumber, message}
+    note: >-
+      Guardian batch operations report partial failure inline via errorList[], each entry
+      keyed by entryNumber rather than by a status code.
+    source: openapi/_original/trustarc-guardian-openapi.json#/components/schemas/BatchUpsertResult
+problems:
+  - status: 400
+    title: Bad Request
+    meaning: Malformed request, or all items in a batch failed.
+    remediation: >-
+      For the CCM External API a 400 means NO websites were added — review the errors in
+      the response array. For the token endpoint it means grant_type/client_id/client_secret
+      are malformed.
+    source_docs:
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - status: 401
+    title: Unauthorized
+    meaning: Token missing, expired, invalid, or issued for the wrong environment.
+    envelope: oauth-error
+    remediation: >-
+      Send Authorization: Bearer <token>. Decode the JWT exp claim to confirm the token has
+      not expired. Confirm the token was issued for the correct environment (production vs
+      staging). Strip trailing whitespace/newlines from the token. Treat 401 as the signal
+      to re-authenticate — access tokens are short-lived (expires_in 21599s in the
+      published sample response).
+    observed: >-
+      Returned live and unauthenticated on 2026-08-27 by api.trustarc.com/api/hub/...,
+      api.trustarc.com/api/ccm-reporting/..., api.trustarc.com/api/reporting/data-extract,
+      irm.trustarc.com/server/api/v1/external/forms/all,
+      cpm.trustarc.com/server/api/v1/external/consent-callbacks,
+      login.truste.com/external/api/v2/scim/Users and assess.truste.com/api/v1/project-internal/create.
+    source_docs:
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting
+  - status: 403
+    title: Forbidden
+    meaning: Authenticated, but the principal lacks the required role.
+    remediation: >-
+      CCM External API endpoints require SUPER_ADMIN, ADMIN or DESIGNER. Roles take effect
+      on the NEXT token issuance — obtain a fresh token after a role change.
+    source_docs:
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting
+  - status: 404
+    title: Not Found
+    meaning: Referenced resource does not exist in the targeted tenant scope.
+    remediation: >-
+      For scans, the websiteId does not exist under the given cmUuid — add the website via
+      POST /external/v1/websites first. Websites are scoped per Consent Manager instance,
+      so verify the cmUuid.
+    source_operation: openapi/_original/trustarc-guardian-openapi.json
+    source_docs:
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting
+  - status: 409
+    title: Conflict
+    meaning: A scan is already running for the specified website.
+    remediation: Wait for the current scan to complete, or poll/subscribe for completion before resubmitting.
+    source_docs:
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting
+  - status: 429
+    title: Too Many Requests
+    meaning: Account-tier rate limit exceeded.
+    remediation: Implement exponential backoff. Thresholds are not published; they vary by account tier.
+    source_docs:
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting
+  - status: 503
+    title: Service Unavailable
+    meaning: Declared on 5 Guardian operations.
+    source_operation: openapi/_original/trustarc-guardian-openapi.json
+application_status_codes:
+  - code: SUCCESS
+    context: CCM External API WebsiteResultDTO.status
+    meaning: The URL was added or removed successfully.
+  - code: ALREADY_EXISTS
+    context: CCM External API WebsiteResultDTO.status
+    meaning: The website is already registered in this Cookie Consent Manager. Safe to skip.
+non_error_codes_that_matter:
+  - status: 201
+    note: >-
+      POST /external/v1/scans returns 201 to confirm the scan was QUEUED, not completed.
+      Cookie scans are asynchronous and may take minutes to hours.
+  - status: 207
+    note: >-
+      Partial success on the CCM websites endpoints. Never treat a 2xx as full success —
+      iterate the result array.
+gaps:
+  - >-
+    The Guardian OpenAPI documents only two error responses across 276 operations (a 404
+    on one operation and a 503 on five). Every 400/401/403 behaviour above comes from prose
+    documentation, not from the machine-readable contract, so a generated client will not
+    know about them.
+support_contact: api-support@trustarc.com

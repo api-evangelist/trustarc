@@ -1,0 +1,36 @@
+generated: '2026-08-27'
+method: searched
+source: https://trustarc.com/
+plan_count: 0
+public_pricing: false
+note: >-
+  TrustArc publishes no pricing page and no plan tiers. https://trustarc.com/pricing/
+  returns HTTP 404, and the site's own footer carries no pricing link — the commercial
+  path is a demo request (https://trustarc.com/demo-request/, HTTP 200) or a contact form
+  (https://trustarc.com/contact/, HTTP 200), both routed to sales. The API surface follows
+  the same model: client_id/client_secret are issued by a TrustArc account administrator,
+  and the published rate-limit answer is "thresholds vary by account tier — contact your
+  Account Manager". Enterprise contact-us only.
+plans: []
+evidence:
+  - url: https://trustarc.com/pricing/
+    status: 404
+  - url: https://trustarc.com/demo-request/
+    status: 200
+  - url: https://trustarc.com/contact/
+    status: 200
+  - url: https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting
+    status: 200
+    note: '"Rate limit thresholds vary by account tier. Contact your TrustArc Account Manager."'
+tier_signals:
+  note: >-
+    Product tiers are named in the status page component list and release notes (Cookie
+    Consent Manager, Cookie Consent Manager Advanced, Cookie Consent Manager Pro), and
+    licences are modelled in the Guardian contract itself
+    (AccountClientTrustArcLicense, ClientExtensionLicense,
+    /api/v1/accounts/{accountId}/extension/licenses/clients/clientid/{clientId}). No price
+    is attached to any of them in public material.
+  tiers_named:
+    - Cookie Consent Manager
+    - Cookie Consent Manager Advanced
+    - Cookie Consent Manager Pro

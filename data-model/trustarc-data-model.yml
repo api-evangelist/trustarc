@@ -1,0 +1,162 @@
+generated: '2026-08-27'
+method: derived
+source: openapi/_original/trustarc-guardian-openapi.json
+note: >-
+  Derived from $ref links and id-reference fields in the Guardian (identity) contract —
+  the only TrustArc contract published machine-readably. The privacy-domain entities
+  (Business Process, IT System, Company Affiliate, Third Party, Consent, Data Subject
+  Request) are documented in prose only and are recorded separately below with their
+  relationships as the docs state them, not invented.
+schema_count: 158
+entities:
+  - name: CustomerAccount
+    domain: identity
+    description: The tenant. Everything in Guardian hangs off an account.
+    relationships:
+      - {kind: has_one, target: Address, via: mailingAddress}
+      - {kind: has_one, target: Address, via: physicalAddress}
+      - {kind: has_one, target: CustomerAccountExtension, via: extension}
+      - {kind: has_many, target: MetaTag, via: "/api/v1/accounts/{accountId}/metatags"}
+      - {kind: has_many, target: CustomMetaTag, via: "/api/v1/accounts/custommetatags"}
+      - {kind: has_many, target: CustomerAccountPreface, via: "/api/v1/accounts/{accountId}/prefaces"}
+      - {kind: has_one, target: OrganizationalStructureDTO, via: "/api/v1/accounts/{id}/organizational-structure"}
+      - {kind: has_many, target: AccountReportConfig, via: "/api/v1/accounts/reportconfigs"}
+  - name: UserCredentials
+    domain: identity
+    description: A platform user.
+    relationships:
+      - {kind: belongs_to, target: CustomerAccount, via: accountId}
+      - {kind: belongs_to, target: PermissionProfile, via: permissionProfileId}
+      - {kind: has_many, target: PermissionProfile, via: permissionProfiles}
+      - {kind: has_many, target: UserGroup, via: userGroups}
+      - {kind: has_many, target: ClientApplicationRole, via: applicationRoles}
+      - {kind: has_one, target: UserExtensionDTO, via: extension}
+      - {kind: has_many, target: UserMetaTag, via: "/api/v1/users/{userId}/metatags"}
+  - name: UserProfile
+    domain: identity
+    description: A named grouping of users, with activations and session tracking.
+    relationships:
+      - {kind: has_many, target: UserProfileUser, via: "/api/v1/userprofiles/{userProfId}/users"}
+  - name: UserGroup
+    domain: identity
+    relationships:
+      - {kind: belongs_to, target: ClientApplication, via: clientId}
+  - name: PermissionProfile
+    domain: identity
+    description: The role bundle that decides what a user may call.
+    relationships:
+      - {kind: belongs_to, target: CustomerAccount, via: accountId}
+      - {kind: has_many, target: ClientApplicationRole, via: applicationRoles}
+      - {kind: has_many, target: PermissionProfileUserGroup, via: userGroups}
+  - name: ClientApplication
+    domain: identity
+    description: An OAuth client. This is where client_id/client_secret pairs live.
+    relationships:
+      - {kind: belongs_to, target: CustomerAccount, via: accountId}
+      - {kind: has_many, target: ClientApplicationRole, via: roles}
+      - {kind: has_many, target: GrantedAuthority, via: authorities}
+      - {kind: has_many, target: ClientExtensionLicense, via: "/api/v1/accounts/{accountId}/extension/licenses/clients/clientid/{clientId}"}
+  - name: ExternalAuthConfig
+    domain: identity
+    description: SSO / external IdP configuration (xauth_configs).
+    relationships:
+      - {kind: belongs_to, target: CustomerAccount, via: accountId}
+      - {kind: belongs_to, target: ClientApplication, via: clientId}
+      - {kind: has_many, target: PermissionProfile, via: permissionProfiles}
+      - {kind: has_many, target: ExternalAuthConfigUserGroup, via: userGroups}
+      - {kind: has_many, target: ExAuthMetaTag, via: metaTags}
+  - name: ScimUserResource
+    domain: identity (SCIM 2.0)
+    description: RFC 7643 User resource exposed at /external/api/v2/scim/Users.
+    relationships:
+      - {kind: has_one, target: ScimUserName, via: name}
+      - {kind: has_one, target: Meta, via: meta}
+      - {kind: has_many, target: Email, via: emails}
+      - {kind: has_many, target: PhoneNumber, via: phoneNumbers}
+      - {kind: has_many, target: Address, via: addresses}
+      - {kind: has_many, target: ScimGroup, via: groups}
+      - {kind: has_many, target: Role, via: roles}
+      - {kind: has_many, target: Entitlement, via: entitlements}
+      - {kind: has_many, target: X509Certificate, via: x509Certificates}
+      - {kind: has_many, target: Photo, via: photos}
+      - {kind: has_many, target: InstantMessagingAddress, via: ims}
+  - name: ScimGroupResource
+    domain: identity (SCIM 2.0)
+    relationships:
+      - {kind: has_many, target: ScimMember, via: members}
+      - {kind: has_one, target: Meta, via: meta}
+  - name: ApplicationMenu
+    domain: identity
+    description: Self-referential navigation tree.
+    relationships:
+      - {kind: belongs_to, target: ApplicationMenu, via: parentId}
+      - {kind: belongs_to, target: ClientApplication, via: clientId}
+      - {kind: has_many, target: ClientApplicationRole, via: roles}
+  - name: CustomerEmailTemplate
+    domain: identity
+    relationships:
+      - {kind: belongs_to, target: CustomerAccount, via: accountId}
+privacy_domain_entities:
+  note: >-
+    Documented in the help center only — no machine-readable schema is published. Recorded
+    from the Hub external-integration guides and the IRM/CPM controller guides.
+  entities:
+    - name: BusinessProcess
+      keys: [internalId, externalId, identifier]
+      relationships:
+        - {kind: has_many, target: ITSystemEntity, via: itSystems}
+        - {kind: has_many, target: DataElement, via: dataFlowDataElements}
+        - {kind: has_many, target: DataSubject, via: dataSubjects}
+        - {kind: has_many, target: DataRecipient, via: dataRecipients}
+        - {kind: has_one, target: DataRetention, via: dataRetention}
+        - {kind: has_one, target: Contact, via: contact}
+        - {kind: belongs_to, target: Account, via: accountId}
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/49882097212435-Retrieve-All-Business-Processes
+    - name: ITSystem
+      keys: [internalId, externalId]
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/50030327606803-Retrieve-All-IT-Systems
+    - name: CompanyAffiliate
+      keys: [internalId, externalId]
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/49946717548947-Retrieve-All-Company-Affiliates
+    - name: ThirdParty
+      keys: [internalId, externalId]
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/50035694325523-Retrieve-All-Third-Party
+    - name: Request
+      domain: Individual Rights Manager
+      keys: [id]
+      relationships:
+        - {kind: belongs_to, target: Form, via: formId}
+        - {kind: has_many, target: Label, via: labels}
+        - {kind: has_many, target: Task, via: tasks}
+        - {kind: belongs_to, target: DataSubjectType, via: dataSubjectTypeId}
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/52354102146579-DROP-Process-to-IRM-API-Integration-Guide
+    - name: Form
+      domain: Individual Rights Manager
+      note: >-
+        Request bodies are keyed by per-form FIELD IDs (UUIDs), not labels. Fields carry
+        id, display, type, dataType, required and values.
+    - name: Consent
+      domain: Consent & Preference Manager
+      relationships:
+        - {kind: belongs_to, target: ConsentForm, via: consentFormIds}
+        - {kind: belongs_to, target: Program, via: programIds}
+        - {kind: belongs_to, target: Brand, via: brandIds}
+        - {kind: belongs_to, target: DataSubjectType, via: dataSubjectTypeIds}
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/40520220419475-External-Consent-Controller
+    - name: ConsentManager
+      domain: Cookie Consent Manager
+      keys: [cmUuid]
+      relationships:
+        - {kind: has_many, target: Website, via: websites}
+        - {kind: has_many, target: Scan, via: scans}
+        - {kind: has_many, target: Tracker, via: "/external/tracker/inventory/{cmId}"}
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+id_conventions:
+  - form: UUID v4
+    note: Every documented identifier across Guardian, IRM, CPM, CCM and Hub is a bare UUID with no type prefix.
+    example: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+  - form: dual-key
+    note: >-
+      Hub external-integration resources are addressable by BOTH TrustArc's internalId and
+      the customer's own externalId, with parallel endpoint families for each. This is the
+      integration seam that lets a customer system stay the system of record.

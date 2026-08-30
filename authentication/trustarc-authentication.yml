@@ -1,0 +1,100 @@
+generated: '2026-08-27'
+method: searched
+source: openapi/_original/trustarc-guardian-openapi.json
+docs: https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+discovery:
+  openid_configuration: well-known/trustarc-openid-configuration.json
+  oauth_authorization_server: well-known/trustarc-oauth-authorization-server.json
+  issuer: https://login.truste.com
+summary:
+  types: [oauth2, openIdConnect]
+  api_key_in: []
+  oauth2_flows_declared_in_spec: [implicit]
+  oauth2_grants_advertised_in_discovery:
+    - authorization_code
+    - client_credentials
+    - refresh_token
+    - urn:ietf:params:oauth:grant-type:token-exchange
+  primary_grant_for_api_integration: client_credentials
+  note: >-
+    UPGRADED FROM DERIVED. The Guardian OpenAPI declares only an implicit flow, which
+    understates the real surface: TrustArc's own published discovery document advertises
+    four grant types, and every external API guide documents client_credentials as the
+    integration path. Recording only what the spec says would have been wrong.
+schemes:
+  - name: guardianAuth
+    type: oauth2
+    scheme: bearer
+    bearerFormat: JWT
+    flows:
+      - flow: implicit
+        authorizationUrl: https://login.truste.com/oauth/authorize
+        tokenUrl: https://login.truste.com/oauth/token
+        scopes: 1
+    sources: [openapi/_original/trustarc-guardian-openapi.json]
+  - name: clientCredentials
+    type: oauth2
+    scheme: bearer
+    bearerFormat: JWT
+    flows:
+      - flow: clientCredentials
+        tokenUrl: https://api.trustarc.com/api/auth/oauth/token
+        alternate_tokenUrl: https://login.truste.com/oauth/token
+        scopes: 0
+    sources:
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/41665841044755-Token-Access
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/38618186942099-Accessing-the-Token
+    note: >-
+      The documented path for all external APIs (CCM, CCM Reporting, IRM, CPM, Hub,
+      Assessment Manager, SCIM).
+endpoints:
+  authorization: https://login.truste.com/oauth/authorize
+  token:
+    - https://api.trustarc.com/api/auth/oauth/token
+    - https://login.truste.com/oauth/token
+  userinfo: https://login.truste.com/userinfo
+  jwks: https://login.truste.com/oauth2/jwks
+  introspection: https://login.truste.com/oauth2/introspect
+  revocation: https://login.truste.com/oauth2/revoke
+  end_session: https://login.truste.com/connect/logout
+client_authentication_methods:
+  - client_secret_basic
+  - client_secret_post
+  - client_secret_jwt
+  - private_key_jwt
+  - tls_client_auth
+  - self_signed_tls_client_auth
+token:
+  type: bearer JWT
+  header: 'Authorization: Bearer <access_token>'
+  lifetime_seconds: 21599
+  lifetime_note: from the published sample response; approximately 6 hours
+  claims_in_response: [access_token, token_type, expires_in, scope, accountId, firstName, lastName, jobTitle, userId, email]
+  sender_constrained:
+    mtls_bound_tokens: true
+    dpop: true
+    dpop_algs: [RS256, RS384, RS512, PS256, PS384, PS512, ES256, ES384, ES512]
+  pkce: S256
+credential_issuance:
+  self_service: false
+  note: >-
+    client_id and client_secret are issued by a TrustArc account administrator, who must
+    also enable external API access for the integration user. There is no developer signup.
+  contact: support@trustarc.com / api-support@trustarc.com
+authorization_model:
+  kind: role-based, not scope-based
+  roles_observed: [SUPER_ADMIN, ADMIN, DESIGNER, AAA-Respondent]
+  note: >-
+    Only the "openid" scope is advertised. Access is decided by role, and a role change only
+    applies to the next issued token.
+regional:
+  - region: EU
+    hosts: [https://login.trustarc.eu, https://cpm.trustarc.eu]
+  - region: staging
+    hosts: [https://login-stage.truste.com, https://assess-stage.truste.com]
+sso:
+  supported: true
+  note: >-
+    Per-customer SSO subdomains (yourcompany-sso.truste.com) and an ExternalAuthConfig /
+    xauth_configs administration surface in the Guardian API.

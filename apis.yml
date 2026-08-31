@@ -66,7 +66,7 @@ tags:
   - Data Privacy
   - SCIM
   - Identity
-  - OAuth
+  - Authentication
   - OpenID Connect
   - User Provisioning
   - Privacy Management
@@ -91,7 +91,7 @@ tags:
   - Certifications
   - RegTech
   - Trust Center
-  - Enterprise Saas
+  - Enterprise SaaS
 tags_raw:
   - Privacy
   - Data Privacy
@@ -174,6 +174,12 @@ apis:
   - DSR
   - DSAR
   - Privacy
+  - Webhook
+  tags_raw:
+  - Data Subject Rights
+  - DSR
+  - DSAR
+  - Privacy
   - Webhooks
   properties:
   - type: Documentation
@@ -201,6 +207,11 @@ apis:
   - Consent Management
   - Preference Management
   - Privacy
+  - Webhook
+  tags_raw:
+  - Consent Management
+  - Preference Management
+  - Privacy
   - Webhooks
   properties:
   - type: Documentation
@@ -220,6 +231,11 @@ apis:
     https://trustarchelp.zendesk.com/hc/en-us/articles/49882097212435-Retrieve-All-Business-Processes
   baseURL: https://api.trustarc.com/api/hub/external-integration
   tags:
+  - Data Mapping
+  - Data Inventory
+  - Privacy Governance
+  - Third-Party Risk
+  tags_raw:
   - Data Mapping
   - Data Inventory
   - Privacy Governance
@@ -279,6 +295,8 @@ apis:
     https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
   baseURL: https://login.truste.com
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -769,6 +787,8 @@ apis:
     https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
   baseURL: https://login.truste.com
   tags:
+  - Group
+  tags_raw:
   - Groups
   properties:
   - type: OpenAPI
@@ -813,6 +833,8 @@ apis:
     https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
   baseURL: https://login.truste.com
   tags:
+  - Job
+  tags_raw:
   - Jobs
   properties:
   - type: OpenAPI
@@ -879,6 +901,8 @@ apis:
     https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
   baseURL: https://login.truste.com
   tags:
+  - Permission Profiles
+  tags_raw:
   - PermissionProfiles
   properties:
   - type: OpenAPI
@@ -967,6 +991,8 @@ apis:
     https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
   baseURL: https://login.truste.com
   tags:
+  - SCIM
+  tags_raw:
   - Scim
   properties:
   - type: OpenAPI
@@ -1144,6 +1170,8 @@ apis:
     https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
   baseURL: https://login.truste.com
   tags:
+  - User Profiles
+  tags_raw:
   - UserProfiles
   properties:
   - type: OpenAPI
@@ -1188,6 +1216,8 @@ apis:
     https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
   baseURL: https://login.truste.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI

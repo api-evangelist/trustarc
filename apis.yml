@@ -58,7 +58,7 @@ accessModel:
   source: []
   generated: '2026-07-22'
   method: derived
-position: Provider
+position: Producing
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/trustarc.png
 tags:
@@ -1410,6 +1410,9 @@ apis:
   - type: OpenIDConnect
     url: https://login.truste.com/.well-known/openid-configuration
 common:
+  - type: CapabilityMap
+    url: capabilities/trustarc-capability-edges.yml
+    name: TrustArc Business Capability Map
   - type: AgentSkill
     url: skills/trustarc-scim-user-provisioning.md
   - type: AgenticAccess

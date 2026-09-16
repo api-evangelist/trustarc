@@ -894,30 +894,6 @@ apis:
     url: data-model/trustarc-data-model.yml
   - type: OpenIDConnect
     url: https://login.truste.com/.well-known/openid-configuration
-- aid: trustarc:trustarc-permissionprofiles-api
-  name: TrustArc Permission Profiles API
-  description: The PermissionProfiles API from TrustArc — 5 operation(s) for permissionprofiles.
-  humanURL: >-
-    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
-  baseURL: https://login.truste.com
-  tags:
-  - Permission Profiles
-  tags_raw:
-  - PermissionProfiles
-  properties:
-  - type: OpenAPI
-    url: openapi/trustarc-permissionprofiles-api-openapi.yml
-  - type: Documentation
-    url: >-
-      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
-  - type: Authentication
-    url: authentication/trustarc-authentication.yml
-  - type: OAuthScopes
-    url: scopes/trustarc-scopes.yml
-  - type: DataModel
-    url: data-model/trustarc-data-model.yml
-  - type: OpenIDConnect
-    url: https://login.truste.com/.well-known/openid-configuration
 - aid: trustarc:trustarc-preface-api
   name: TrustArc Preface API
   description: The Preface API from TrustArc — 3 operation(s) for preface.
@@ -1163,30 +1139,6 @@ apis:
     url: data-model/trustarc-data-model.yml
   - type: OpenIDConnect
     url: https://login.truste.com/.well-known/openid-configuration
-- aid: trustarc:trustarc-userprofiles-api
-  name: TrustArc User Profiles API
-  description: The UserProfiles API from TrustArc — 11 operation(s) for userprofiles.
-  humanURL: >-
-    https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
-  baseURL: https://login.truste.com
-  tags:
-  - User Profiles
-  tags_raw:
-  - UserProfiles
-  properties:
-  - type: OpenAPI
-    url: openapi/trustarc-userprofiles-api-openapi.yml
-  - type: Documentation
-    url: >-
-      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
-  - type: Authentication
-    url: authentication/trustarc-authentication.yml
-  - type: OAuthScopes
-    url: scopes/trustarc-scopes.yml
-  - type: DataModel
-    url: data-model/trustarc-data-model.yml
-  - type: OpenIDConnect
-    url: https://login.truste.com/.well-known/openid-configuration
 - aid: trustarc:trustarc-userprofiles-users-api
   name: TrustArc User Profiles Users API
   description: The UserProfiles-Users API from TrustArc — 4 operation(s) for userprofiles-users.
@@ -1398,6 +1350,48 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/trustarc-xauths-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-permission-profiles-api
+  name: TrustArc Permission Profiles API
+  description: The Permission Profiles API from TrustArc — 5 operation(s) for permission profiles.
+  humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+  baseURL: https://{your-ccm-domain}
+  tags:
+  - Permission Profiles
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-permission-profiles-api-openapi.yml
+  - type: Documentation
+    url: >-
+      https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  - type: Authentication
+    url: authentication/trustarc-authentication.yml
+  - type: OAuthScopes
+    url: scopes/trustarc-scopes.yml
+  - type: DataModel
+    url: data-model/trustarc-data-model.yml
+  - type: OpenIDConnect
+    url: https://login.truste.com/.well-known/openid-configuration
+- aid: trustarc:trustarc-user-profiles-api
+  name: TrustArc User Profiles API
+  description: The User Profiles API from TrustArc — 11 operation(s) for user profiles.
+  humanURL: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+  baseURL: https://{your-ccm-domain}
+  tags:
+  - User Profiles
+  properties:
+  - type: OpenAPI
+    url: openapi/trustarc-user-profiles-api-openapi.yml
   - type: Documentation
     url: >-
       https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication

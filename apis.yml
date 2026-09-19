@@ -88,7 +88,7 @@ tags:
   - AI Governance
   - Responsible AI
   - Compliance
-  - Certifications
+  - Certification
   - RegTech
   - Trust Center
   - Enterprise Saas
@@ -564,6 +564,8 @@ apis:
     https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
   baseURL: https://login.truste.com
   tags:
+  - Actuators
+  tags_raw:
   - Actuator
   properties:
   - type: OpenAPI
@@ -945,6 +947,8 @@ apis:
     https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
   baseURL: https://login.truste.com
   tags:
+  - Schedule
+  tags_raw:
   - Schedules
   properties:
   - type: OpenAPI
@@ -1079,6 +1083,8 @@ apis:
     https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
   baseURL: https://login.truste.com
   tags:
+  - Translation
+  tags_raw:
   - Translations
   properties:
   - type: OpenAPI

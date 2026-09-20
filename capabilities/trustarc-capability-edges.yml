@@ -1,0 +1,88 @@
+slug: trustarc
+provider: TrustArc
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 7
+edges:
+- tag: Users
+  spec_file: trustarc-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.9
+  evidence: 'POST /external/api/v2/scim/Users  createUser; schemas: ScimUserResource, PermissionProfile,
+    Role, UserCredentials'
+  reason: SCIM 2.0 user provisioning plus internal user CRUD with roles and permission profiles — plainly
+    identity and access management / user provisioning.
+- tag: UserProfiles
+  spec_file: trustarc-user-profiles-api-openapi.yml
+  reanchored_from: trustarc-userprofiles-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: POST /api/v1/userprofiles/{id}/totp/enable  enableTotp_1; POST /api/v1/userprofiles/{id}/confirmcredentials
+  reason: Operations manage user accounts, credential confirmation, MFA (TOTP) enablement and account
+    enable/disable — identity and access administration, not privacy program content.
+- tag: UserProfiles-Users
+  spec_file: trustarc-userprofiles-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: 'POST /api/v1/userprofiles/{userProfId}/users  create_3; schemas: UserCredentials, PermissionProfile,
+    UserGroup, ClientApplicationRole'
+  reason: Manages users attached to profiles with credentials, permission profiles, groups and application
+    roles — identity and access management.
+- tag: PermissionProfiles
+  spec_file: trustarc-permission-profiles-api-openapi.yml
+  reanchored_from: trustarc-permissionprofiles-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: POST /api/v1/permission-profiles/{id}/users  updateUserPermissions; DELETE .../users/{userId}  removeUserPermission;
+    GET /api/v1/permission-profiles/authorities; schemas PermissionProfile, SimpleUserPermission, ClientApplicationRole,
+    UserGroup, AuthoritiesOnly
+  reason: Operations define permission profiles (roles/authorities) and assign or revoke them for users
+    and user groups — this is authorisation and access administration, i.e. Identity & Access Management.
+- tag: Users-Simple
+  spec_file: trustarc-users-simple-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: 'POST /api/v1/users/simple  createSimple; schemas: SimpleUser, UserCredentials, PermissionProfile,
+    UserGroup'
+  reason: Creates a user with credentials, permission profile and group membership — identity provisioning/access
+    administration.
+- tag: Accounts
+  spec_file: trustarc-accounts-api-openapi.yml
+  capability_id: BC-4230.10
+  capability_id_l1: BC-4230
+  capability_name: Tenant Provisioning & Lifecycle
+  confidence: 0.7
+  evidence: POST /api/v1/accounts/{id}/enable enable_2; POST /api/v1/accounts/{id}/disable disable_2;
+    POST /api/v1/accounts/{id}/activations activation; schemas CustomerAccount, AccountClientTrustArcLicense
+  reason: Creates, activates, enables/disables and decommissions customer accounts (tenants) of the TrustArc
+    platform, including bulk user upload and licence attachment — tenant provisioning and lifecycle. Not
+    privacy/consent processing despite the vendor's domain. Some overlap with entitlement/licence management
+    keeps this at 0.7.
+- tag: UserProfiles-Activations
+  spec_file: trustarc-userprofiles-activations-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: GET /api/v1/userprofiles/{userId}/activations  listByUser; DELETE /api/v1/userprofiles/activations  deleteExpired
+  reason: UserActivation records tied to user profiles — account activation lifecycle, part of identity
+    administration (joiners-movers-leavers). Thin context so moderate confidence.

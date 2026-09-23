@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Schedules API
+  title: Guardian Schedules API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Schedules across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -37,9 +37,8 @@ paths:
                   $ref: '#/components/schemas/Trigger'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List triggers
+      x-summary-source: derived
   /api/v1/schedules/triggerkeys:
     get:
       tags:
@@ -57,9 +56,8 @@ paths:
                 uniqueItems: true
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List trigger keys
+      x-summary-source: derived
   /api/v1/schedules/jobkeys:
     get:
       tags:
@@ -77,12 +75,10 @@ paths:
                 uniqueItems: true
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List job keys
+      x-summary-source: derived
 components:
   schemas:
-    ScheduleBuilderTrigger: {}
     JobKey:
       properties:
         name:
@@ -151,6 +147,7 @@ components:
           type: string
         group:
           type: string
+    ScheduleBuilderTrigger: {}
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -162,6 +159,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

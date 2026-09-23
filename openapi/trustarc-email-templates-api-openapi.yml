@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Email Templates API
+  title: Guardian Email Templates API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Email Templates across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -29,6 +29,8 @@ paths:
                 $ref: '#/components/schemas/CustomerEmailTemplate'
       security:
       - guardianAuth: []
+      summary: Get 10
+      x-summary-source: derived
     put:
       tags:
       - Email Templates
@@ -54,6 +56,8 @@ paths:
                 $ref: '#/components/schemas/CustomerEmailTemplate'
       security:
       - guardianAuth: []
+      summary: Update 9
+      x-summary-source: derived
     delete:
       tags:
       - Email Templates
@@ -69,9 +73,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete 8
+      x-summary-source: derived
   /api/v1/emailtemplates:
     get:
       tags:
@@ -126,6 +129,8 @@ paths:
                 $ref: '#/components/schemas/PageCustomerEmailTemplate'
       security:
       - guardianAuth: []
+      summary: List 10
+      x-summary-source: derived
     post:
       tags:
       - Email Templates
@@ -145,9 +150,8 @@ paths:
                 $ref: '#/components/schemas/CustomerEmailTemplate'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 10
+      x-summary-source: derived
   /api/v1/emailtemplates/{emailTemplateType}/macros:
     get:
       tags:
@@ -179,9 +183,8 @@ paths:
                 items: {}
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get macros
+      x-summary-source: derived
   /api/v1/emailtemplates/defaults:
     get:
       tags:
@@ -230,11 +233,63 @@ paths:
                 $ref: '#/components/schemas/PageCustomerEmailTemplate'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get defaults
+      x-summary-source: derived
 components:
   schemas:
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    CustomerEmailTemplate:
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        type:
+          type: string
+          enum:
+          - FORGOT_PASSWORD
+          - NEW_USER
+          - IMPORT_JOB
+          - EXPORT_JOB
+          - LOGIN_REPORT
+          - FULL_LOGIN_REPORT
+          - EXPIRE_TOKEN
+          - OTP
+          - NEW_USER_REPORT
+        content:
+          type: string
+        accountId:
+          type: string
+        modifiedById:
+          type: string
     PageCustomerEmailTemplate:
       properties:
         totalElements:
@@ -266,59 +321,6 @@ components:
           format: int32
         empty:
           type: boolean
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    CustomerEmailTemplate:
-      properties:
-        id:
-          type: string
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        type:
-          type: string
-          enum:
-          - FORGOT_PASSWORD
-          - NEW_USER
-          - IMPORT_JOB
-          - EXPORT_JOB
-          - LOGIN_REPORT
-          - FULL_LOGIN_REPORT
-          - EXPIRE_TOKEN
-          - OTP
-          - NEW_USER_REPORT
-        content:
-          type: string
-        accountId:
-          type: string
-        modifiedById:
-          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -330,6 +332,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

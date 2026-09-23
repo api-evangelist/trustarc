@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc SSO Login Controller API
+  title: Guardian SSO Login Controller API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged sso-login-controller across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -33,52 +33,10 @@ paths:
                 $ref: '#/components/schemas/UserSSOConfig'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get user SSOC onfig
+      x-summary-source: derived
 components:
   schemas:
-    ExAuthMetaTag:
-      properties:
-        value:
-          type: string
-        metaTagId:
-          type: string
-          format: uuid
-        metaTagName:
-          type: string
-    PermissionProfile:
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        externalId:
-          type: string
-        applicationRoles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/PermissionProfileUserGroup'
-          uniqueItems: true
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        modifiedById:
-          type: string
-        userCount:
-          type: integer
-          format: int64
-        accountId:
-          type: string
     PermissionProfileUserGroup:
       properties:
         name:
@@ -89,6 +47,15 @@ components:
           type: string
           format: uuid
           writeOnly: true
+    ExAuthMetaTag:
+      properties:
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
     ExternalAuthConfig:
       properties:
         id:
@@ -210,14 +177,37 @@ components:
           type: boolean
         saml2Only:
           type: boolean
-    ExternalAuthConfigUserGroup:
+    PermissionProfile:
       properties:
+        id:
+          type: string
+          format: uuid
         name:
           type: string
-        externalAuthConfigId:
+        externalId:
           type: string
-          writeOnly: true
-        clientId:
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfileUserGroup'
+          uniqueItems: true
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        modifiedById:
+          type: string
+        userCount:
+          type: integer
+          format: int64
+        accountId:
           type: string
     ClientApplicationRole:
       properties:
@@ -231,6 +221,15 @@ components:
           type: string
         permissions:
           type: string
+    ExternalAuthConfigUserGroup:
+      properties:
+        name:
+          type: string
+        externalAuthConfigId:
+          type: string
+          writeOnly: true
+        clientId:
+          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -242,6 +241,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc History API
+  title: Guardian History API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged History across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -99,9 +99,8 @@ paths:
                 $ref: '#/components/schemas/PageHistory'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List 22
+      x-summary-source: derived
   /api/v1/history/creatorTypes:
     get:
       tags:
@@ -123,9 +122,8 @@ paths:
                   - JOB
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Creator type
+      x-summary-source: derived
   /api/v1/history/actionTypes:
     get:
       tags:
@@ -146,41 +144,17 @@ paths:
                   - REMOVE
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Action types
+      x-summary-source: derived
 components:
   schemas:
-    PageHistory:
+    SortObject:
       properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/History'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
           type: boolean
     PageableObject:
       properties:
@@ -198,14 +172,6 @@ components:
         sort:
           $ref: '#/components/schemas/SortObject'
         unpaged:
-          type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
           type: boolean
     History:
       properties:
@@ -244,6 +210,37 @@ components:
           - UPDATE
           - PERSIST
           - REMOVE
+    PageHistory:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/History'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -255,6 +252,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

@@ -1,0 +1,129 @@
+generated: '2026-08-27'
+method: searched
+source: live probes of every apis.yml host and OpenAPI servers[] host, 2026-08-27
+note: >-
+  Two real documents were served, both on the TrustArc identity host login.truste.com
+  (the OAuth/OIDC authorization server the TrustArc API docs name as the token issuer).
+  trustarc.com, api.trustarc.com and consent.trustarc.com returned genuine 404s on every
+  path. irm.trustarc.com, cpm.trustarc.com and assess.truste.com are single-page-app
+  catch-alls that answer 200 with the same HTML shell for every /.well-known/* path,
+  including a random control path — those 200s are NOT documents and are recorded as
+  soft-404 misses.
+hit_count: 2
+hosts:
+  - host: https://login.truste.com
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 200
+        content_type: application/json
+        file: trustarc-openid-configuration.json
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: application/json
+        file: trustarc-oauth-authorization-server.json
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+    soft_404_control:
+      path: /.well-known/ae-control-probe-<random>
+      status: 404
+      bytes: 160
+  - host: https://trustarc.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+    soft_404_control:
+      path: /.well-known/ae-control-probe-<random>
+      status: 404
+      bytes: 54054
+  - host: https://api.trustarc.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+    soft_404_control:
+      path: /.well-known/ae-control-probe-<random>
+      status: 404
+      bytes: 555
+  - host: https://consent.trustarc.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+    soft_404_control:
+      path: /.well-known/ae-control-probe-<random>
+      status: 404
+      bytes: 118
+  - host: https://irm.trustarc.com
+    catch_all: true
+    documents: []
+    soft_404_control:
+      path: /.well-known/ae-control-probe-<random>
+      status: 200
+      bytes: 49820
+      note: identical HTML shell returned for every /.well-known/* path — no document served
+  - host: https://cpm.trustarc.com
+    catch_all: true
+    documents: []
+    soft_404_control:
+      path: /.well-known/ae-control-probe-<random>
+      status: 200
+      bytes: 18743
+      note: identical HTML shell returned for every /.well-known/* path — no document served
+  - host: https://assess.truste.com
+    catch_all: true
+    documents: []
+    soft_404_control:
+      path: /.well-known/ae-control-probe-<random>
+      status: 200
+      bytes: 2635
+      note: identical HTML shell returned for every /.well-known/* path — no document served

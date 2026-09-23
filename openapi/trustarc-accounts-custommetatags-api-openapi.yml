@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Accounts Custom Meta Tags API
+  title: Guardian Accounts Custom Meta Tags API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Accounts-CustomMetaTags across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -30,6 +30,8 @@ paths:
                 $ref: '#/components/schemas/CustomMetaTag'
       security:
       - guardianAuth: []
+      summary: Get 16
+      x-summary-source: derived
     put:
       tags:
       - Accounts-CustomMetaTags
@@ -56,6 +58,8 @@ paths:
                 $ref: '#/components/schemas/CustomMetaTag'
       security:
       - guardianAuth: []
+      summary: Update 16
+      x-summary-source: derived
     delete:
       tags:
       - Accounts-CustomMetaTags
@@ -72,9 +76,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete 14
+      x-summary-source: derived
   /api/v1/accounts/custommetatags:
     post:
       tags:
@@ -95,9 +98,8 @@ paths:
                 $ref: '#/components/schemas/CustomMetaTag'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 17
+      x-summary-source: derived
   /api/v1/accounts/custommetatags/{id}/values/upload:
     post:
       tags:
@@ -135,9 +137,8 @@ paths:
                 $ref: '#/components/schemas/BatchJob'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Upload meta tags
+      x-summary-source: derived
   /api/v1/accounts/{accountId}/custommetatags:
     get:
       tags:
@@ -182,9 +183,8 @@ paths:
                 $ref: '#/components/schemas/PageCustomMetaTag'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List 30
+      x-summary-source: derived
   /api/v1/accounts/custommetatags/{id}/values:
     get:
       tags:
@@ -224,9 +224,8 @@ paths:
                 $ref: '#/components/schemas/SliceCustomMetaTagValue'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get values
+      x-summary-source: derived
   /api/v1/accounts/custommetatags/{id}/tags:
     get:
       tags:
@@ -250,9 +249,8 @@ paths:
                   type: string
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Tags
+      x-summary-source: derived
   /api/v1/accounts/custommetatags/{id}/search:
     get:
       tags:
@@ -311,11 +309,43 @@ paths:
                 $ref: '#/components/schemas/SliceCustomMetaTagSearchDTO'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Search 2
+      x-summary-source: derived
 components:
   schemas:
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    CustomMetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          minLength: 1
+        displayName:
+          type: string
+          minLength: 1
+        accountId:
+          type: string
+      required:
+      - displayName
+      - name
     BatchJob:
       properties:
         id:
@@ -396,7 +426,7 @@ components:
           type: string
         targetAccountId:
           type: string
-    SliceCustomMetaTagValue:
+    SliceCustomMetaTagSearchDTO:
       properties:
         pageable:
           $ref: '#/components/schemas/PageableObject'
@@ -406,7 +436,7 @@ components:
         content:
           type: array
           items:
-            $ref: '#/components/schemas/CustomMetaTagValue'
+            $ref: '#/components/schemas/CustomMetaTagSearchDTO'
         number:
           type: integer
           format: int32
@@ -421,58 +451,22 @@ components:
           format: int32
         empty:
           type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    CustomMetaTag:
+    BatchJobParameter:
       properties:
         id:
           type: string
-          format: uuid
         name:
           type: string
-          minLength: 1
-        displayName:
+        value:
           type: string
-          minLength: 1
-        accountId:
-          type: string
-      required:
-      - displayName
-      - name
-    CustomMetaTagValue:
+    PageCustomMetaTag:
       properties:
-        id:
-          type: string
-          format: uuid
-        content:
-          type: object
-          additionalProperties:
-            type: object
-    SliceCustomMetaTagSearchDTO:
-      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         size:
@@ -481,7 +475,7 @@ components:
         content:
           type: array
           items:
-            $ref: '#/components/schemas/CustomMetaTagSearchDTO'
+            $ref: '#/components/schemas/CustomMetaTag'
         number:
           type: integer
           format: int32
@@ -514,14 +508,8 @@ components:
                 type: string
               key:
                 type: string
-    PageCustomMetaTag:
+    SliceCustomMetaTagValue:
       properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
         pageable:
           $ref: '#/components/schemas/PageableObject'
         size:
@@ -530,7 +518,7 @@ components:
         content:
           type: array
           items:
-            $ref: '#/components/schemas/CustomMetaTag'
+            $ref: '#/components/schemas/CustomMetaTagValue'
         number:
           type: integer
           format: int32
@@ -545,20 +533,29 @@ components:
           format: int32
         empty:
           type: boolean
-    BatchJobParameter:
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        value:
-          type: string
     BatchJobError:
       properties:
         entry:
           type: string
         message:
           type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    CustomMetaTagValue:
+      properties:
+        id:
+          type: string
+          format: uuid
+        content:
+          type: object
+          additionalProperties:
+            type: object
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -570,6 +567,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

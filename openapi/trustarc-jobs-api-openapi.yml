@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Jobs API
+  title: Guardian Jobs API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Jobs across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -124,6 +124,8 @@ paths:
                 $ref: '#/components/schemas/PageBatchJob'
       security:
       - guardianAuth: []
+      summary: List 8
+      x-summary-source: derived
     post:
       tags:
       - Jobs
@@ -286,9 +288,8 @@ paths:
                 $ref: '#/components/schemas/BatchJob'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 8
+      x-summary-source: derived
   /api/v1/jobs/{id}:
     get:
       tags:
@@ -309,6 +310,8 @@ paths:
                 $ref: '#/components/schemas/BatchJob'
       security:
       - guardianAuth: []
+      summary: Get 25
+      x-summary-source: derived
     delete:
       tags:
       - Jobs
@@ -324,9 +327,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete job
+      x-summary-source: derived
   /api/v1/jobs/info:
     get:
       tags:
@@ -341,11 +343,27 @@ paths:
                 $ref: '#/components/schemas/BatchJobInfoWrapper'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Info
+      x-summary-source: derived
 components:
   schemas:
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
     BatchJob:
       properties:
         id:
@@ -426,6 +444,27 @@ components:
           type: string
         targetAccountId:
           type: string
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+    BatchJobError:
+      properties:
+        entry:
+          type: string
+        message:
+          type: string
+    BatchJobInfoWrapper:
+      properties:
+        paramMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BatchJobRequestParam'
+    BatchJobRequestParam: {}
     SortObject:
       properties:
         empty:
@@ -434,30 +473,6 @@ components:
           type: boolean
         unsorted:
           type: boolean
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    BatchJobRequestParam: {}
-    BatchJobInfoWrapper:
-      properties:
-        paramMap:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/BatchJobRequestParam'
     PageBatchJob:
       properties:
         totalElements:
@@ -489,20 +504,6 @@ components:
           format: int32
         empty:
           type: boolean
-    BatchJobError:
-      properties:
-        entry:
-          type: string
-        message:
-          type: string
-    BatchJobParameter:
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        value:
-          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -514,6 +515,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

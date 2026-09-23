@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Accounts Sub Account API
+  title: Guardian Accounts Sub Account API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Accounts-SubAccount across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -139,9 +139,8 @@ paths:
                 $ref: '#/components/schemas/PageCustomerAccount'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List 27
+      x-summary-source: derived
   /api/v1/accounts/{id}/subaccounts/count:
     get:
       tags:
@@ -223,65 +222,14 @@ paths:
                 format: int64
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Count 1
+      x-summary-source: derived
 components:
   schemas:
-    CustomerAccountExtension:
+    GrantedAuthority:
       properties:
-        id:
+        authority:
           type: string
-        uploadHome:
-          type: string
-        defaultUserRoles:
-          type: string
-        defaultUserGroups:
-          type: string
-        applicationLicenses:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientExtensionLicense'
-          uniqueItems: true
-        trustArcLicenses:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountClientTrustArcLicense'
-          uniqueItems: true
-        extLoginOnly:
-          type: boolean
-        accountId:
-          type: string
-        adminPersonId:
-          type: string
-    MetaTag:
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        required:
-          type: boolean
-        displayName:
-          type: string
-    ClientExtensionLicense:
-      properties:
-        id:
-          type: string
-          format: uuid
-        identifier:
-          type: string
-        name:
-          type: string
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     PageableObject:
       properties:
         paged:
@@ -298,24 +246,6 @@ components:
         sort:
           $ref: '#/components/schemas/SortObject'
         unpaged:
-          type: boolean
-    Address:
-      properties:
-        formatted:
-          type: string
-        streetAddress:
-          type: string
-        locality:
-          type: string
-        region:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-        type:
-          type: string
-        primary:
           type: boolean
     PageCustomerAccount:
       properties:
@@ -358,6 +288,131 @@ components:
             format: int64
       required:
       - clientId
+    AccountClientTrustArcLicense:
+      properties:
+        licenseId:
+          type: string
+        emptyJustification:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+        modifiedById:
+          type: string
+    ClientApplication:
+      discriminator:
+        propertyName: type
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+          maxLength: 2147483647
+          minLength: 1
+        clientSecret:
+          oneOf:
+          - $ref: '#/components/schemas/ClientApplication'
+          - $ref: '#/components/schemas/CustomerClientApplication'
+          - $ref: '#/components/schemas/InternalClientApplication'
+          writeOnly: true
+        clientName:
+          type: string
+        resourceIds:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        scopes:
+          type: string
+        grantTypes:
+          type: string
+        authorities:
+          type: array
+          items:
+            $ref: '#/components/schemas/GrantedAuthority'
+        redirectUris:
+          type: string
+        autoApproveScopes:
+          type: string
+        allowedAudiences:
+          type: string
+        legacyIdentifier:
+          type: string
+        enabled:
+          type: boolean
+        requiresLicense:
+          type: boolean
+        accessTokenValiditySeconds:
+          type: integer
+          format: int32
+        refreshTokenValiditySeconds:
+          type: integer
+          format: int32
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        type:
+          type: string
+          enum:
+          - Internal
+          - Customer
+        accountId:
+          type: string
+        usingUserGroups:
+          type: boolean
+        delegateUserId:
+          type: string
+        usingUserRoles:
+          type: boolean
+        usingUserRolesOrGroups:
+          type: boolean
+        usingAccountRegistration:
+          type: boolean
+        usingLicense:
+          type: boolean
+        modifiedById:
+          type: string
+      required:
+      - clientId
+    CustomerAccountExtension:
+      properties:
+        id:
+          type: string
+        uploadHome:
+          type: string
+        defaultUserRoles:
+          type: string
+        defaultUserGroups:
+          type: string
+        applicationLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientExtensionLicense'
+          uniqueItems: true
+        trustArcLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountClientTrustArcLicense'
+          uniqueItems: true
+        extLoginOnly:
+          type: boolean
+        accountId:
+          type: string
+        adminPersonId:
+          type: string
     InternalClientApplication:
       allOf:
       - $ref: '#/components/schemas/ClientApplication'
@@ -376,21 +431,45 @@ components:
             type: boolean
       required:
       - clientId
-    AccountClientTrustArcLicense:
+    ClientApplicationRole:
       properties:
-        licenseId:
+        id:
           type: string
-        emptyJustification:
+        identifier:
           type: string
-        createdDate:
+        name:
           type: string
-          format: date-time
-        modifiedDate:
+        description:
           type: string
-          format: date-time
-        clientId:
+        permissions:
           type: string
-        modifiedById:
+    ClientExtensionLicense:
+      properties:
+        id:
+          type: string
+          format: uuid
+        identifier:
+          type: string
+        name:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    MetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        required:
+          type: boolean
+        displayName:
           type: string
     CustomerAccount:
       properties:
@@ -509,105 +588,24 @@ components:
           type: string
       required:
       - legalName
-    ClientApplicationRole:
+    Address:
       properties:
-        id:
+        formatted:
           type: string
-        identifier:
+        streetAddress:
           type: string
-        name:
+        locality:
           type: string
-        description:
+        region:
           type: string
-        permissions:
+        postalCode:
           type: string
-    GrantedAuthority:
-      properties:
-        authority:
+        country:
           type: string
-    ClientApplication:
-      discriminator:
-        propertyName: type
-      properties:
-        id:
-          type: string
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        clientId:
-          type: string
-          maxLength: 2147483647
-          minLength: 1
-        clientSecret:
-          oneOf:
-          - $ref: '#/components/schemas/ClientApplication'
-          - $ref: '#/components/schemas/CustomerClientApplication'
-          - $ref: '#/components/schemas/InternalClientApplication'
-          writeOnly: true
-        clientName:
-          type: string
-        resourceIds:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        scopes:
-          type: string
-        grantTypes:
-          type: string
-        authorities:
-          type: array
-          items:
-            $ref: '#/components/schemas/GrantedAuthority'
-        redirectUris:
-          type: string
-        autoApproveScopes:
-          type: string
-        allowedAudiences:
-          type: string
-        legacyIdentifier:
-          type: string
-        enabled:
-          type: boolean
-        requiresLicense:
-          type: boolean
-        accessTokenValiditySeconds:
-          type: integer
-          format: int32
-        refreshTokenValiditySeconds:
-          type: integer
-          format: int32
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
         type:
           type: string
-          enum:
-          - Internal
-          - Customer
-        accountId:
-          type: string
-        usingUserGroups:
+        primary:
           type: boolean
-        delegateUserId:
-          type: string
-        usingUserRoles:
-          type: boolean
-        usingUserRolesOrGroups:
-          type: boolean
-        usingAccountRegistration:
-          type: boolean
-        usingLicense:
-          type: boolean
-        modifiedById:
-          type: string
-      required:
-      - clientId
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -619,6 +617,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

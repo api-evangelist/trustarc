@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Translations API
+  title: Guardian Translations API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Translations across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -29,9 +29,8 @@ paths:
                 $ref: '#/components/schemas/Translation'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Upsert 2
+      x-summary-source: derived
   /api/v1/translations/screen/{screen}/locale/{locale}:
     get:
       tags:
@@ -61,6 +60,8 @@ paths:
                 $ref: '#/components/schemas/Translation'
       security:
       - guardianAuth: []
+      summary: Fetch by screen and locale
+      x-summary-source: derived
     post:
       tags:
       - Translations
@@ -100,9 +101,8 @@ paths:
           description: OK
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Upload csv translation
+      x-summary-source: derived
 components:
   schemas:
     Translation:
@@ -133,6 +133,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

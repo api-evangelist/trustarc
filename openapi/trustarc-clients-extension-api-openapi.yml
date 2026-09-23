@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Clients Extension API
+  title: Guardian Clients Extension API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Clients-Extension across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -29,6 +29,8 @@ paths:
                 $ref: '#/components/schemas/ClientExtension'
       security:
       - guardianAuth: []
+      summary: Get 19
+      x-summary-source: derived
     post:
       tags:
       - Clients-Extension
@@ -54,6 +56,8 @@ paths:
                 $ref: '#/components/schemas/ClientExtension'
       security:
       - guardianAuth: []
+      summary: Upsert 6
+      x-summary-source: derived
     delete:
       tags:
       - Clients-Extension
@@ -69,20 +73,10 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete 17
+      x-summary-source: derived
 components:
   schemas:
-    ClientExtensionAttribute:
-      properties:
-        id:
-          type: string
-          format: uuid
-        identifier:
-          type: string
-        displayName:
-          type: string
     ClientExtensionLicense:
       properties:
         id:
@@ -91,6 +85,15 @@ components:
         identifier:
           type: string
         name:
+          type: string
+    ClientExtensionAttribute:
+      properties:
+        id:
+          type: string
+          format: uuid
+        identifier:
+          type: string
+        displayName:
           type: string
     ClientExtension:
       properties:
@@ -123,6 +126,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

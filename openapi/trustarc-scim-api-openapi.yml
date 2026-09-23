@@ -1,18 +1,18 @@
 openapi: 3.2.0
 info:
-  title: Trustarc SCIM API
+  title: Guardian SCIM API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Scim across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
 tags:
-- name: Scim
+- name: SCIM
 paths:
   /external/api/v2/scim/ServiceProviderConfig:
     get:
       tags:
-      - Scim
+      - SCIM
       operationId: getServiceProviderConfig
       responses:
         '200':
@@ -23,13 +23,12 @@ paths:
                 $ref: '#/components/schemas/ServiceProviderConfigResource'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get service provider config
+      x-summary-source: derived
   /external/api/v2/scim/Schemas:
     get:
       tags:
-      - Scim
+      - SCIM
       operationId: getSchemas
       responses:
         '200':
@@ -40,13 +39,12 @@ paths:
                 $ref: '#/components/schemas/ListResponseSchemaResource'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get schemas
+      x-summary-source: derived
   /external/api/v2/scim/Schemas/{resource}:
     get:
       tags:
-      - Scim
+      - SCIM
       operationId: getSchema
       parameters:
       - name: resource
@@ -63,13 +61,12 @@ paths:
                 $ref: '#/components/schemas/SchemaResource'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get schema
+      x-summary-source: derived
   /external/api/v2/scim/ResourceTypes:
     get:
       tags:
-      - Scim
+      - SCIM
       operationId: getResourceTypes
       responses:
         '200':
@@ -80,13 +77,12 @@ paths:
                 $ref: '#/components/schemas/ListResponseResourceTypeResource'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get resource types
+      x-summary-source: derived
   /external/api/v2/scim/ResourceTypes/{resource}:
     get:
       tags:
-      - Scim
+      - SCIM
       operationId: getResourceType
       parameters:
       - name: resource
@@ -103,85 +99,112 @@ paths:
                 $ref: '#/components/schemas/ResourceTypeResource'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get resource type
+      x-summary-source: derived
 components:
   schemas:
-    Meta:
+    SchemaResource:
       properties:
-        resourceType:
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        id:
           type: string
-        created:
+        externalId:
           type: string
-          format: date-time
-        lastModified:
-          type: string
-          format: date-time
-        location:
-          type: string
-          format: uri
-        version:
-          type: string
-        createdMillis:
-          $ref: '#/components/schemas/Meta'
-        lastModifiedMillis:
-          $ref: '#/components/schemas/Meta'
-    ChangePasswordConfig:
-      properties:
-        supported:
-          type: boolean
-      required:
-      - supported
-    ETagConfig:
-      properties:
-        supported:
-          type: boolean
-      required:
-      - supported
-    AuthenticationScheme:
-      properties:
         name:
           type: string
         description:
           type: string
-        specUri:
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeDefinition'
+        meta:
+          $ref: '#/components/schemas/Meta'
+      required:
+      - attributes
+      - id
+    ResourceTypeResource:
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        id:
+          type: string
+        externalId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        endpoint:
           type: string
           format: uri
+        schema:
+          type: string
+          format: uri
+        schemaExtensions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SchemaExtension'
+        meta:
+          $ref: '#/components/schemas/Meta'
+      required:
+      - endpoint
+      - name
+      - schema
+    PatchConfig:
+      properties:
+        supported:
+          type: boolean
+      required:
+      - supported
+    ServiceProviderConfigResource:
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        id:
+          type: string
+        externalId:
+          type: string
         documentationUri:
           type: string
-          format: uri
-        type:
-          type: string
-        primary:
-          type: boolean
+        patch:
+          $ref: '#/components/schemas/PatchConfig'
+        bulk:
+          $ref: '#/components/schemas/BulkConfig'
+        filter:
+          $ref: '#/components/schemas/FilterConfig'
+        changePassword:
+          $ref: '#/components/schemas/ChangePasswordConfig'
+        sort:
+          $ref: '#/components/schemas/SortConfig'
+        etag:
+          $ref: '#/components/schemas/ETagConfig'
+        pagination:
+          $ref: '#/components/schemas/PaginationConfig'
+        authenticationSchemes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthenticationScheme'
+        meta:
+          $ref: '#/components/schemas/Meta'
       required:
-      - description
-      - name
-    BulkConfig:
-      properties:
-        supported:
-          type: boolean
-        maxOperations:
-          type: integer
-          format: int32
-        maxPayloadSize:
-          type: integer
-          format: int32
-      required:
-      - maxOperations
-      - maxPayloadSize
-      - supported
-    FilterConfig:
-      properties:
-        supported:
-          type: boolean
-        maxResults:
-          type: integer
-          format: int32
-      required:
-      - maxResults
-      - supported
+      - authenticationSchemes
+      - bulk
+      - changePassword
+      - etag
+      - filter
+      - patch
+      - sort
     AttributeDefinition:
       properties:
         name:
@@ -244,6 +267,62 @@ components:
       - required
       - returned
       - type
+    BulkConfig:
+      properties:
+        supported:
+          type: boolean
+        maxOperations:
+          type: integer
+          format: int32
+        maxPayloadSize:
+          type: integer
+          format: int32
+      required:
+      - maxOperations
+      - maxPayloadSize
+      - supported
+    ChangePasswordConfig:
+      properties:
+        supported:
+          type: boolean
+      required:
+      - supported
+    PaginationConfig:
+      properties:
+        cursor:
+          type: boolean
+        index:
+          type: boolean
+        defaultPaginationMethod:
+          type: string
+        defaultPageSize:
+          type: integer
+          format: int32
+        maxPageSize:
+          type: integer
+          format: int32
+        cursorTimeout:
+          type: integer
+          format: int32
+    AuthenticationScheme:
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        specUri:
+          type: string
+          format: uri
+        documentationUri:
+          type: string
+          format: uri
+        type:
+          type: string
+        primary:
+          type: boolean
+      required:
+      - description
+      - name
     ListResponseSchemaResource:
       properties:
         schemas:
@@ -266,7 +345,52 @@ components:
             $ref: '#/components/schemas/SchemaResource'
       required:
       - Resources
+    SchemaExtension:
+      properties:
+        schema:
+          type: string
+          format: uri
+        required:
+          type: boolean
+      required:
+      - required
+      - schema
+    FilterConfig:
+      properties:
+        supported:
+          type: boolean
+        maxResults:
+          type: integer
+          format: int32
+      required:
+      - maxResults
+      - supported
     SortConfig:
+      properties:
+        supported:
+          type: boolean
+      required:
+      - supported
+    Meta:
+      properties:
+        resourceType:
+          type: string
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        location:
+          type: string
+          format: uri
+        version:
+          type: string
+        createdMillis:
+          $ref: '#/components/schemas/Meta'
+        lastModifiedMillis:
+          $ref: '#/components/schemas/Meta'
+    ETagConfig:
       properties:
         supported:
           type: boolean
@@ -294,135 +418,6 @@ components:
             $ref: '#/components/schemas/ResourceTypeResource'
       required:
       - Resources
-    ServiceProviderConfigResource:
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        id:
-          type: string
-        externalId:
-          type: string
-        documentationUri:
-          type: string
-        patch:
-          $ref: '#/components/schemas/PatchConfig'
-        bulk:
-          $ref: '#/components/schemas/BulkConfig'
-        filter:
-          $ref: '#/components/schemas/FilterConfig'
-        changePassword:
-          $ref: '#/components/schemas/ChangePasswordConfig'
-        sort:
-          $ref: '#/components/schemas/SortConfig'
-        etag:
-          $ref: '#/components/schemas/ETagConfig'
-        pagination:
-          $ref: '#/components/schemas/PaginationConfig'
-        authenticationSchemes:
-          type: array
-          items:
-            $ref: '#/components/schemas/AuthenticationScheme'
-        meta:
-          $ref: '#/components/schemas/Meta'
-      required:
-      - authenticationSchemes
-      - bulk
-      - changePassword
-      - etag
-      - filter
-      - patch
-      - sort
-    SchemaResource:
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        id:
-          type: string
-        externalId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        attributes:
-          type: array
-          items:
-            $ref: '#/components/schemas/AttributeDefinition'
-        meta:
-          $ref: '#/components/schemas/Meta'
-      required:
-      - attributes
-      - id
-    PaginationConfig:
-      properties:
-        cursor:
-          type: boolean
-        index:
-          type: boolean
-        defaultPaginationMethod:
-          type: string
-        defaultPageSize:
-          type: integer
-          format: int32
-        maxPageSize:
-          type: integer
-          format: int32
-        cursorTimeout:
-          type: integer
-          format: int32
-    ResourceTypeResource:
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        id:
-          type: string
-        externalId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        endpoint:
-          type: string
-          format: uri
-        schema:
-          type: string
-          format: uri
-        schemaExtensions:
-          type: array
-          items:
-            $ref: '#/components/schemas/SchemaExtension'
-        meta:
-          $ref: '#/components/schemas/Meta'
-      required:
-      - endpoint
-      - name
-      - schema
-    SchemaExtension:
-      properties:
-        schema:
-          type: string
-          format: uri
-        required:
-          type: boolean
-      required:
-      - required
-      - schema
-    PatchConfig:
-      properties:
-        supported:
-          type: boolean
-      required:
-      - supported
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -434,6 +429,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

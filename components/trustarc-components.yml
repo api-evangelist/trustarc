@@ -1,0 +1,69 @@
+generated: '2026-08-27'
+method: searched
+source: TrustArc help center integration guides and the trustarc GitHub org
+note: >-
+  TrustArc's consumer-facing surface is delivered as embedded client-side components rather
+  than as server-side SDKs. These are distinct from packages/ — the loader libraries are
+  catalogued there.
+families:
+  - name: Cookie Consent Manager banner
+    kind: hosted script / embedded UI
+    loader: https://consent.trustarc.com/notice
+    delivery: script tag generated per Consent Manager instance in the CCM portal
+    surfaces:
+      - Banner
+      - Overlay
+      - 2 Step Opt-In Overlay
+      - Preference Center / Manage Choices
+    customization: >-
+      Body text, colours, verbiage, button labels and CSS override per surface, configured
+      in the portal rather than in code.
+    docs:
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/34718568083603-Adding-a-Banner
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/34718558197267-Adding-an-Overlay
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/34718649272339-Adding-2-Step-Opt-In-Overlay
+    note: >-
+      The script URL is unpinned — see packages/trustarc-packages.yml. A consumer cannot
+      pin a version of the banner.
+  - name: React Cookie Consent Manager components
+    kind: React component library
+    package: "@trustarc/react-cookie-consent-manager"
+    version: 1.0.1
+    docs: https://www.npmjs.com/package/@trustarc/react-cookie-consent-manager
+  - name: Mobile consent UI
+    kind: native SDK-rendered consent experience
+    platforms: [iOS, Android, React Native, Flutter]
+    surfaces:
+      - consent manager screen
+      - IAB TCF two-screen consent experience (iOS and Android, shipped 2026-08-12)
+    docs: https://trustarchelp.zendesk.com/hc/en-us/articles/50542272652947-Mobile-Consent-SDK-Implementation-Guide
+  - name: IRM intake form
+    kind: hosted form / embeddable
+    surfaces:
+      - published intake form URL
+      - downloadable IRM seal buttons for embedding on customer sites
+      - GPC recognition script (available from the Publish page of any intake form)
+    docs:
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/4405592578963-Publishing-Intake-Forms
+      - https://trustarchelp.zendesk.com/hc/en-us/articles/19173487330579-Enabling-GPC-Recognition
+  - name: CPM consent form renderer
+    kind: hosted form
+    hosts:
+      - https://cpm-form.trustarc.com
+      - https://form-renderer.trustarc.com
+  - name: Trust Center
+    kind: hosted, brandable public trust page
+    note: >-
+      TrustArc runs its own Trust Center on this product at https://trust.trustarc.com/en-US/,
+      which is the clearest reference implementation available.
+    docs: https://trustarchelp.zendesk.com/hc/en-us/sections/32302984123411-Creating-Your-Own-Trust-Center
+  - name: TRUSTe seal
+    kind: embeddable certification badge
+    docs: https://trustarc.com/products/assurance-certifications/
+tag_manager_templates:
+  - name: TrustArc Google Consent Mode Template V2
+    url: https://github.com/trustarc/trustarc-gcm-template-v2
+  - name: TrustArc GCM Variable Template
+    url: https://github.com/trustarc/trustarc_gcm_variable_template
+  - name: TrustArc CMP GCM Template
+    url: https://github.com/trustarc/trustarc-cmp-gcm-template

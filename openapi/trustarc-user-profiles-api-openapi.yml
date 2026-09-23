@@ -1,18 +1,18 @@
 openapi: 3.2.0
 info:
-  title: Trustarc User Profiles API
+  title: Guardian User Profiles API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged UserProfiles across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
 tags:
-- name: UserProfiles
+- name: User Profiles
 paths:
   /api/v1/userprofiles/{id}:
     get:
       tags:
-      - UserProfiles
+      - User Profiles
       operationId: get_5
       parameters:
       - name: id
@@ -56,9 +56,11 @@ paths:
                 $ref: '#/components/schemas/UserProfile'
       security:
       - guardianAuth: []
+      summary: Get 5
+      x-summary-source: derived
     put:
       tags:
-      - UserProfiles
+      - User Profiles
       operationId: update_4
       parameters:
       - name: id
@@ -81,9 +83,11 @@ paths:
                 $ref: '#/components/schemas/UserProfile'
       security:
       - guardianAuth: []
+      summary: Update 4
+      x-summary-source: derived
     delete:
       tags:
-      - UserProfiles
+      - User Profiles
       operationId: delete_3
       parameters:
       - name: id
@@ -96,13 +100,12 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete 3
+      x-summary-source: derived
   /api/v1/userprofiles/{id}/totp/reset:
     post:
       tags:
-      - UserProfiles
+      - User Profiles
       operationId: resetTotpSecret
       parameters:
       - name: id
@@ -119,13 +122,12 @@ paths:
                 $ref: '#/components/schemas/UserProfile'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Reset totp secret
+      x-summary-source: derived
   /api/v1/userprofiles/{id}/totp/enable:
     post:
       tags:
-      - UserProfiles
+      - User Profiles
       operationId: enableTotp_1
       parameters:
       - name: id
@@ -142,13 +144,12 @@ paths:
                 $ref: '#/components/schemas/UserProfile'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Enable totp 1
+      x-summary-source: derived
   /api/v1/userprofiles/{id}/totp/disable:
     post:
       tags:
-      - UserProfiles
+      - User Profiles
       operationId: disableTotp_1
       parameters:
       - name: id
@@ -165,13 +166,12 @@ paths:
                 $ref: '#/components/schemas/UserProfile'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Disable totp 1
+      x-summary-source: derived
   /api/v1/userprofiles/{id}/totp/disable/own:
     post:
       tags:
-      - UserProfiles
+      - User Profiles
       operationId: disableTotp_2
       parameters:
       - name: id
@@ -194,13 +194,12 @@ paths:
                 $ref: '#/components/schemas/UserProfile'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Disable totp 2
+      x-summary-source: derived
   /api/v1/userprofiles/{id}/enable:
     post:
       tags:
-      - UserProfiles
+      - User Profiles
       operationId: enable_1
       parameters:
       - name: id
@@ -217,13 +216,12 @@ paths:
                 $ref: '#/components/schemas/UserProfile'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Enable 1
+      x-summary-source: derived
   /api/v1/userprofiles/{id}/disable:
     post:
       tags:
-      - UserProfiles
+      - User Profiles
       operationId: disable_1
       parameters:
       - name: id
@@ -240,13 +238,12 @@ paths:
                 $ref: '#/components/schemas/UserProfile'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Disable 1
+      x-summary-source: derived
   /api/v1/userprofiles/{id}/confirmcredentials:
     post:
       tags:
-      - UserProfiles
+      - User Profiles
       operationId: confirmCredentials_1
       parameters:
       - name: id
@@ -263,13 +260,12 @@ paths:
                 $ref: '#/components/schemas/UserProfile'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Confirm credentials 1
+      x-summary-source: derived
   /api/v1/userprofiles/confirmcredentials:
     post:
       tags:
-      - UserProfiles
+      - User Profiles
       operationId: confirmCredentials_2
       parameters:
       - name: ids
@@ -290,13 +286,12 @@ paths:
                   $ref: '#/components/schemas/UserProfile'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Confirm credentials 2
+      x-summary-source: derived
   /api/v1/userprofiles:
     get:
       tags:
-      - UserProfiles
+      - User Profiles
       operationId: list_15
       parameters:
       - name: name
@@ -386,13 +381,12 @@ paths:
                 $ref: '#/components/schemas/PageUserProfile'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List 15
+      x-summary-source: derived
   /api/v1/userprofiles/username/{username}:
     get:
       tags:
-      - UserProfiles
+      - User Profiles
       operationId: getByUsername
       parameters:
       - name: username
@@ -436,50 +430,10 @@ paths:
                 $ref: '#/components/schemas/UserProfile'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get by username
+      x-summary-source: derived
 components:
   schemas:
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    PageUserProfile:
-      properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserProfile'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
     PageableObject:
       properties:
         paged:
@@ -497,10 +451,6 @@ components:
           $ref: '#/components/schemas/SortObject'
         unpaged:
           type: boolean
-    TotpBodyDto:
-      properties:
-        authenticatorCode:
-          type: string
     UserProfile:
       properties:
         id:
@@ -549,6 +499,49 @@ components:
       required:
       - password
       - username
+    TotpBodyDto:
+      properties:
+        authenticatorCode:
+          type: string
+    PageUserProfile:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfile'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -560,6 +553,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

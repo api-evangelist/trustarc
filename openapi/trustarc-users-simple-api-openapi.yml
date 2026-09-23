@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Users Simple API
+  title: Guardian Users Simple API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Users-Simple across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -36,11 +36,92 @@ paths:
                 $ref: '#/components/schemas/UserCredentials'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create simple
+      x-summary-source: derived
 components:
   schemas:
+    UserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        applicationClientId:
+          type: string
+    PermissionProfileUserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
+    SimpleUser:
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        nymityId:
+          type: string
+        nymityOrgId:
+          type: string
+        accountId:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+    UserMetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
+    PermissionProfile:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        externalId:
+          type: string
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfileUserGroup'
+          uniqueItems: true
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        modifiedById:
+          type: string
+        userCount:
+          type: integer
+          format: int64
+        accountId:
+          type: string
     UserCredentials:
       properties:
         id:
@@ -116,88 +197,6 @@ components:
           uniqueItems: true
         modifiedById:
           type: string
-    PermissionProfile:
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        externalId:
-          type: string
-        applicationRoles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/PermissionProfileUserGroup'
-          uniqueItems: true
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        modifiedById:
-          type: string
-        userCount:
-          type: integer
-          format: int64
-        accountId:
-          type: string
-    PermissionProfileUserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        permissionProfileId:
-          type: string
-          format: uuid
-          writeOnly: true
-    UserMetaTag:
-      properties:
-        id:
-          type: string
-          format: uuid
-        value:
-          type: string
-        metaTagId:
-          type: string
-          format: uuid
-        metaTagName:
-          type: string
-    SimpleUser:
-      properties:
-        id:
-          type: string
-        username:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        nymityId:
-          type: string
-        nymityOrgId:
-          type: string
-        accountId:
-          type: string
-        roles:
-          type: array
-          items:
-            type: string
-    UserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        applicationClientId:
-          type: string
     ClientApplicationRole:
       properties:
         id:
@@ -231,6 +230,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

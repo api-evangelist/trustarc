@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Accounts Pick Tags API
+  title: Guardian Accounts Pick Tags API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Accounts-PickTags across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -46,6 +46,8 @@ paths:
                 $ref: '#/components/schemas/PickTag'
       security:
       - guardianAuth: []
+      summary: Get 6
+      x-summary-source: derived
     put:
       tags:
       - Accounts-PickTags
@@ -78,6 +80,8 @@ paths:
                 $ref: '#/components/schemas/PickTag'
       security:
       - guardianAuth: []
+      summary: Update 5
+      x-summary-source: derived
     delete:
       tags:
       - Accounts-PickTags
@@ -94,6 +98,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
+      summary: Delete 4
+      x-summary-source: derived
     patch:
       tags:
       - Accounts-PickTags
@@ -120,9 +126,8 @@ paths:
                 $ref: '#/components/schemas/PickTag'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Patch 1
+      x-summary-source: derived
   /api/v1/picktags:
     get:
       tags:
@@ -183,6 +188,8 @@ paths:
                 $ref: '#/components/schemas/PagePickTag'
       security:
       - guardianAuth: []
+      summary: List 5
+      x-summary-source: derived
     post:
       tags:
       - Accounts-PickTags
@@ -202,9 +209,8 @@ paths:
                 $ref: '#/components/schemas/PickTag'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 5
+      x-summary-source: derived
   /api/v1/picktags/upload:
     post:
       tags:
@@ -245,9 +251,8 @@ paths:
                 $ref: '#/components/schemas/BatchJob'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Upload 1
+      x-summary-source: derived
   /api/v1/picktags/{id}/values:
     get:
       tags:
@@ -271,12 +276,27 @@ paths:
                   type: string
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Values
+      x-summary-source: derived
 components:
   schemas:
-    JsonPatch: {}
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
     BatchJob:
       properties:
         id:
@@ -357,6 +377,21 @@ components:
           type: string
         targetAccountId:
           type: string
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+    BatchJobError:
+      properties:
+        entry:
+          type: string
+        message:
+          type: string
+    JsonPatch: {}
     SortObject:
       properties:
         empty:
@@ -365,44 +400,6 @@ components:
           type: boolean
         unsorted:
           type: boolean
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    PickTag:
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        displayName:
-          type: string
-        values:
-          type: array
-          items:
-            type: string
-        accountId:
-          type: string
-    BatchJobError:
-      properties:
-        entry:
-          type: string
-        message:
-          type: string
     PagePickTag:
       properties:
         totalElements:
@@ -434,13 +431,20 @@ components:
           format: int32
         empty:
           type: boolean
-    BatchJobParameter:
+    PickTag:
       properties:
         id:
           type: string
+          format: uuid
         name:
           type: string
-        value:
+        displayName:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+        accountId:
           type: string
   securitySchemes:
     guardianAuth:
@@ -453,6 +457,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

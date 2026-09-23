@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Accounts Extension API
+  title: Guardian Accounts Extension API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Accounts-Extension across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -29,6 +29,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccountExtension'
       security:
       - guardianAuth: []
+      summary: Get 14
+      x-summary-source: derived
     put:
       tags:
       - Accounts-Extension
@@ -54,9 +56,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccountExtension'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Upsert
+      x-summary-source: derived
   /api/v1/accounts/{accountId}/extension/licenses/clients/clientid/{clientId}:
     get:
       tags:
@@ -82,6 +83,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccountExtensionClientExtensionLicense'
       security:
       - guardianAuth: []
+      summary: Get account license
+      x-summary-source: derived
     put:
       tags:
       - Accounts-Extension
@@ -112,9 +115,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccountExtensionClientExtensionLicense'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Update account license
+      x-summary-source: derived
   /api/v1/accounts/{accountId}/extension/runFilePuller:
     post:
       tags:
@@ -135,9 +137,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccountExtension'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Run file puller
+      x-summary-source: derived
   /api/v1/accounts/{accountId}/extension/sso-info:
     get:
       tags:
@@ -158,9 +159,8 @@ paths:
                 $ref: '#/components/schemas/SSOInfoDTO'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get SSO info
+      x-summary-source: derived
   /api/v1/accounts/withuploads:
     get:
       tags:
@@ -177,9 +177,8 @@ paths:
                   $ref: '#/components/schemas/CustomerAccountExtension'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get 26
+      x-summary-source: derived
   /api/v1/accounts/extensions:
     get:
       tags:
@@ -229,28 +228,10 @@ paths:
                 $ref: '#/components/schemas/PageCustomerAccountExtension'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List 33
+      x-summary-source: derived
 components:
   schemas:
-    ClientExtensionLicense:
-      properties:
-        id:
-          type: string
-          format: uuid
-        identifier:
-          type: string
-        name:
-          type: string
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     PageableObject:
       properties:
         paged:
@@ -315,14 +296,6 @@ components:
           type: string
         modifiedById:
           type: string
-    SSOInfoDTO:
-      properties:
-        status:
-          type: string
-          enum:
-          - SSO_ONLY
-          - HYBRID
-          - NONE
     CustomerAccountExtensionClientExtensionLicense:
       properties:
         attributes:
@@ -331,6 +304,14 @@ components:
             type: string
         license:
           $ref: '#/components/schemas/ClientExtensionLicense'
+    SSOInfoDTO:
+      properties:
+        status:
+          type: string
+          enum:
+          - SSO_ONLY
+          - HYBRID
+          - NONE
     CustomerAccountExtension:
       properties:
         id:
@@ -357,6 +338,23 @@ components:
           type: string
         adminPersonId:
           type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    ClientExtensionLicense:
+      properties:
+        id:
+          type: string
+          format: uuid
+        identifier:
+          type: string
+        name:
+          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -368,6 +366,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Entity Configs API
+  title: Guardian Entity Configs API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Entity Configs across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -29,6 +29,8 @@ paths:
                 $ref: '#/components/schemas/EntityConfig'
       security:
       - guardianAuth: []
+      summary: Get 9
+      x-summary-source: derived
     put:
       tags:
       - Entity Configs
@@ -54,6 +56,8 @@ paths:
                 $ref: '#/components/schemas/EntityConfig'
       security:
       - guardianAuth: []
+      summary: Update 8
+      x-summary-source: derived
     delete:
       tags:
       - Entity Configs
@@ -69,9 +73,8 @@ paths:
           description: OK
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete 7
+      x-summary-source: derived
   /api/v1/entityconfigs:
     get:
       tags:
@@ -123,6 +126,8 @@ paths:
                 $ref: '#/components/schemas/PageEntityConfig'
       security:
       - guardianAuth: []
+      summary: List 9
+      x-summary-source: derived
     post:
       tags:
       - Entity Configs
@@ -142,9 +147,8 @@ paths:
                 $ref: '#/components/schemas/EntityConfig'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 9
+      x-summary-source: derived
   /api/v1/entityconfigs/upsert:
     post:
       tags:
@@ -165,9 +169,8 @@ paths:
                 $ref: '#/components/schemas/EntityConfig'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Upsert 4
+      x-summary-source: derived
   /api/v1/entityconfigs/keyinfo:
     get:
       tags:
@@ -193,19 +196,10 @@ paths:
                   $ref: '#/components/schemas/EntityConfigKeyFormat'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Key info
+      x-summary-source: derived
 components:
   schemas:
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     PageableObject:
       properties:
         paged:
@@ -222,6 +216,37 @@ components:
         sort:
           $ref: '#/components/schemas/SortObject'
         unpaged:
+          type: boolean
+    PageEntityConfig:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityConfig'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
           type: boolean
     EntityConfig:
       properties:
@@ -249,6 +274,20 @@ components:
           - NUMBER
         modifiedById:
           type: string
+    FormatKeyInfo:
+      properties:
+        key:
+          type: string
+        info:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
     ValidChecker:
       properties:
         type:
@@ -289,43 +328,6 @@ components:
           - STRING
           - BOOLEAN
           - NUMBER
-    FormatKeyInfo:
-      properties:
-        key:
-          type: string
-        info:
-          type: string
-    PageEntityConfig:
-      properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityConfig'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -337,6 +339,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Accounts User Groups API
+  title: Guardian Accounts User Groups API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Accounts-UserGroups across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -34,9 +34,8 @@ paths:
                 $ref: '#/components/schemas/ReportStore'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Download user groups
+      x-summary-source: derived
 components:
   schemas:
     ReportStore:
@@ -81,6 +80,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

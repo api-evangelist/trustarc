@@ -1,18 +1,18 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Permission Profiles API
+  title: Guardian Permission Profiles API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged PermissionProfiles across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
 tags:
-- name: PermissionProfiles
+- name: Permission Profiles
 paths:
   /api/v1/permission-profiles/{id}:
     get:
       tags:
-      - PermissionProfiles
+      - Permission Profiles
       operationId: get_7
       parameters:
       - name: id
@@ -30,9 +30,11 @@ paths:
                 $ref: '#/components/schemas/PermissionProfile'
       security:
       - guardianAuth: []
+      summary: Get 7
+      x-summary-source: derived
     put:
       tags:
-      - PermissionProfiles
+      - Permission Profiles
       operationId: update_6
       parameters:
       - name: id
@@ -56,9 +58,11 @@ paths:
                 $ref: '#/components/schemas/PermissionProfile'
       security:
       - guardianAuth: []
+      summary: Update 6
+      x-summary-source: derived
     delete:
       tags:
-      - PermissionProfiles
+      - Permission Profiles
       operationId: delete_5
       parameters:
       - name: id
@@ -72,13 +76,12 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete 5
+      x-summary-source: derived
   /api/v1/permission-profiles:
     get:
       tags:
-      - PermissionProfiles
+      - Permission Profiles
       operationId: list_6
       parameters:
       - name: accountId
@@ -120,9 +123,11 @@ paths:
                 $ref: '#/components/schemas/PagePermissionProfile'
       security:
       - guardianAuth: []
+      summary: List 6
+      x-summary-source: derived
     post:
       tags:
-      - PermissionProfiles
+      - Permission Profiles
       operationId: create_6
       requestBody:
         content:
@@ -139,13 +144,12 @@ paths:
                 $ref: '#/components/schemas/PermissionProfile'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 6
+      x-summary-source: derived
   /api/v1/permission-profiles/{id}/users:
     get:
       tags:
-      - PermissionProfiles
+      - Permission Profiles
       operationId: findUsers
       parameters:
       - name: id
@@ -183,9 +187,11 @@ paths:
                   $ref: '#/components/schemas/SimpleUserPermission'
       security:
       - guardianAuth: []
+      summary: Find users
+      x-summary-source: derived
     post:
       tags:
-      - PermissionProfiles
+      - Permission Profiles
       operationId: updateUserPermissions
       parameters:
       - name: id
@@ -207,9 +213,11 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
+      summary: Update user permissions
+      x-summary-source: derived
     delete:
       tags:
-      - PermissionProfiles
+      - Permission Profiles
       operationId: removeUserPermissions
       parameters:
       - name: id
@@ -231,13 +239,12 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Remove user permissions
+      x-summary-source: derived
   /api/v1/permission-profiles/authorities:
     get:
       tags:
-      - PermissionProfiles
+      - Permission Profiles
       operationId: authorities
       parameters:
       - name: accountId
@@ -264,13 +271,12 @@ paths:
                 $ref: '#/components/schemas/AuthoritiesOnly'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Authorities
+      x-summary-source: derived
   /api/v1/permission-profiles/{id}/users/{userId}:
     delete:
       tags:
-      - PermissionProfiles
+      - Permission Profiles
       operationId: removeUserPermission
       parameters:
       - name: id
@@ -289,67 +295,28 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Remove user permission
+      x-summary-source: derived
 components:
   schemas:
-    SimpleUserPermission:
+    UserGroup:
       properties:
-        id:
-          type: string
-        username:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        permissionProfileIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          uniqueItems: true
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    PermissionProfile:
-      properties:
-        id:
-          type: string
-          format: uuid
         name:
           type: string
-        externalId:
+        clientId:
           type: string
-        applicationRoles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/PermissionProfileUserGroup'
-          uniqueItems: true
-        createdDate:
+        applicationClientId:
           type: string
-          format: date-time
-        modifiedDate:
+    PermissionProfileUserGroup:
+      properties:
+        name:
           type: string
-          format: date-time
-        modifiedById:
+        clientId:
           type: string
-        userCount:
-          type: integer
-          format: int64
-        accountId:
+        permissionProfileId:
           type: string
+          format: uuid
+          writeOnly: true
     PageableObject:
       properties:
         paged:
@@ -398,16 +365,54 @@ components:
           format: int32
         empty:
           type: boolean
-    PermissionProfileUserGroup:
+    PermissionProfile:
       properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        permissionProfileId:
+        id:
           type: string
           format: uuid
-          writeOnly: true
+        name:
+          type: string
+        externalId:
+          type: string
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfileUserGroup'
+          uniqueItems: true
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        modifiedById:
+          type: string
+        userCount:
+          type: integer
+          format: int64
+        accountId:
+          type: string
+    SimpleUserPermission:
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        permissionProfileIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          uniqueItems: true
     ClientApplicationRole:
       properties:
         id:
@@ -419,14 +424,6 @@ components:
         description:
           type: string
         permissions:
-          type: string
-    UserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        applicationClientId:
           type: string
     AuthoritiesOnly:
       properties:
@@ -440,6 +437,14 @@ components:
           items:
             $ref: '#/components/schemas/UserGroup'
           uniqueItems: true
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -451,6 +456,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

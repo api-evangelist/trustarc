@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Xauths API
+  title: Guardian Xauths API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Xauths across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -29,6 +29,8 @@ paths:
                 $ref: '#/components/schemas/ExternalAuthConfig'
       security:
       - guardianAuth: []
+      summary: Get 3
+      x-summary-source: derived
     put:
       tags:
       - Xauths
@@ -54,6 +56,8 @@ paths:
                 $ref: '#/components/schemas/ExternalAuthConfig'
       security:
       - guardianAuth: []
+      summary: Update 1
+      x-summary-source: derived
     delete:
       tags:
       - Xauths
@@ -69,9 +73,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete 1
+      x-summary-source: derived
   /api/v1/xauth_configs:
     get:
       tags:
@@ -149,6 +152,8 @@ paths:
                 $ref: '#/components/schemas/PageExternalAuthConfig'
       security:
       - guardianAuth: []
+      summary: List 1
+      x-summary-source: derived
     post:
       tags:
       - Xauths
@@ -168,9 +173,8 @@ paths:
                 $ref: '#/components/schemas/ExternalAuthConfig'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 1
+      x-summary-source: derived
   /api/v1/xauth_configs/{id}/metatags:
     get:
       tags:
@@ -209,9 +213,8 @@ paths:
                 $ref: '#/components/schemas/PageEntryStringString'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List meta tags
+      x-summary-source: derived
   /api/v1/xauth_configs/metadata:
     get:
       tags:
@@ -228,11 +231,37 @@ paths:
                   type: string
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get metadata
+      x-summary-source: derived
 components:
   schemas:
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    PermissionProfileUserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
     ExAuthMetaTag:
       properties:
         value:
@@ -241,46 +270,6 @@ components:
           type: string
           format: uuid
         metaTagName:
-          type: string
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    PermissionProfile:
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        externalId:
-          type: string
-        applicationRoles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/PermissionProfileUserGroup'
-          uniqueItems: true
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        modifiedById:
-          type: string
-        userCount:
-          type: integer
-          format: int64
-        accountId:
           type: string
     PageEntryStringString:
       properties:
@@ -318,64 +307,6 @@ components:
           format: int32
         empty:
           type: boolean
-    PageExternalAuthConfig:
-      properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExternalAuthConfig'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    PermissionProfileUserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        permissionProfileId:
-          type: string
-          format: uuid
-          writeOnly: true
     ExternalAuthConfig:
       properties:
         id:
@@ -485,14 +416,37 @@ components:
       required:
       - clientId
       - uriSubdomain
-    ExternalAuthConfigUserGroup:
+    PermissionProfile:
       properties:
+        id:
+          type: string
+          format: uuid
         name:
           type: string
-        externalAuthConfigId:
+        externalId:
           type: string
-          writeOnly: true
-        clientId:
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfileUserGroup'
+          uniqueItems: true
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        modifiedById:
+          type: string
+        userCount:
+          type: integer
+          format: int64
+        accountId:
           type: string
     ClientApplicationRole:
       properties:
@@ -506,6 +460,54 @@ components:
           type: string
         permissions:
           type: string
+    ExternalAuthConfigUserGroup:
+      properties:
+        name:
+          type: string
+        externalAuthConfigId:
+          type: string
+          writeOnly: true
+        clientId:
+          type: string
+    PageExternalAuthConfig:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalAuthConfig'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -517,6 +519,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

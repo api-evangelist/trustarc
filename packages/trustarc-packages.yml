@@ -1,0 +1,122 @@
+generated: '2026-08-27'
+method: searched
+source: >-
+  npm registry metadata (registry.npmjs.org), github.com/trustarc, and the TrustArc
+  help center SDK guides. PyPI (trustarc, truste), Maven Central (q=trustarc),
+  CocoaPods trunk (TrustArc) and pub.dev (trustarc) were all queried and returned no
+  first-party TrustArc package.
+packages:
+  - language: javascript
+    registry: npm
+    name: "@trustarc/trustarc-segment-wrapper"
+    url: https://www.npmjs.com/package/@trustarc/trustarc-segment-wrapper
+    install: npm install @trustarc/trustarc-segment-wrapper
+    official: true
+    version: 1.1.2
+    published: '2026-01-16'
+    first_published: '2024-09-30'
+    license: Apache-2.0
+    source_code: https://github.com/trustarc/trustarc-segment-wrapper
+    docs: https://trustarchelp.zendesk.com/hc/en-us/articles/53065354450323-Cookie-Consent-Manager-Segment-Integration
+    note: >-
+      Wraps @segment/analytics-next so Segment respects TrustArc Cookie Consent Manager
+      consent state. Published under the @trustarc npm scope; source repo is in the
+      trustarc GitHub org.
+  - language: javascript
+    registry: npm
+    name: "@trustarc/react-cookie-consent-manager"
+    url: https://www.npmjs.com/package/@trustarc/react-cookie-consent-manager
+    install: npm install @trustarc/react-cookie-consent-manager
+    official: true
+    version: 1.0.1
+    published: '2026-07-23'
+    first_published: '2025-03-20'
+    license: Apache-2.0
+    source_code: null
+    note: >-
+      React components for embedding the TrustArc Cookie Consent Manager. Published under
+      the @trustarc npm scope; the package's repository field is "private", so no public
+      source repo is available.
+  - language: javascript
+    registry: npm
+    name: "@trustarc/trustarc-react-native-consent-sdk"
+    url: https://www.npmjs.com/package/@trustarc/trustarc-react-native-consent-sdk
+    install: npm install @trustarc/trustarc-react-native-consent-sdk@2025.07.1
+    official: true
+    version: '2025.07.1'
+    published: null
+    note: >-
+      Version read from the TrustArc help center article "SDK Integration Issue", which
+      instructs customers to pin "@trustarc/trustarc-react-native-consent-sdk":
+      "2025.07.1" rather than "latest". registry.npmjs.org returns 404 for this package
+      anonymously on 2026-08-27, so the package is not publicly published — published
+      date could not be established. Checked, nothing to record.
+    docs: https://trustarchelp.zendesk.com/hc/en-us/articles/32905073943059-React-Native
+  - language: swift
+    registry: null
+    name: TrustArc Mobile Consent SDK for iOS
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/32900734257939-iOS-SDK-API-Reference
+    official: true
+    version: null
+    published: null
+    note: >-
+      Documented in the help center with a full API reference, but distributed to
+      customers rather than through a public registry. CocoaPods trunk returns 404 for
+      "TrustArc" and no Swift Package Index / public SPM URL is published. Checked,
+      nothing to record.
+  - language: kotlin
+    registry: null
+    name: TrustArc Mobile Consent SDK for Android
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/32824929153939-TrustArc-Mobile-Consent-SDK-for-Android
+    official: true
+    version: null
+    published: null
+    note: >-
+      Documented in the help center with a class-level API reference (TrustArc,
+      SdkMode, VendorConsent, GoogleConsentsListener). Maven Central search for
+      "trustarc" returns 0 artifacts, so no public coordinate exists. Checked, nothing
+      to record.
+  - language: dart
+    registry: null
+    name: TrustArc Consent SDK for Flutter
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/32915991230739-TrustArc-Consent-SDK-for-Flutter
+    official: true
+    version: null
+    published: null
+    note: >-
+      Documented in the help center. pub.dev has no "trustarc" package and no TrustArc
+      publisher. Checked, nothing to record.
+  - language: javascript
+    registry: cdn
+    name: TrustArc Cookie Consent Manager notice script
+    url: https://consent.trustarc.com/notice
+    official: true
+    version: null
+    published: null
+    note: >-
+      The consumer-facing consent banner is delivered as an unpinned script tag from
+      consent.trustarc.com, generated per Consent Manager instance in the CCM portal.
+      The URL carries no version segment and floats to whatever the CDN serves, so a
+      consumer cannot tell which build they are running either.
+templates:
+  - name: trustarc-gcm-template-v2
+    url: https://github.com/trustarc/trustarc-gcm-template-v2
+    official: true
+    kind: Google Tag Manager template
+    note: TrustArc Google Consent Mode Template V2, published in the trustarc GitHub org.
+  - name: trustarc_gcm_variable_template
+    url: https://github.com/trustarc/trustarc_gcm_variable_template
+    official: true
+    kind: Google Tag Manager variable template
+  - name: trustarc-cmp-gcm-template
+    url: https://github.com/trustarc/trustarc-cmp-gcm-template
+    official: true
+    kind: Google Tag Manager template
+registries_checked:
+  - {registry: npm, query: trustarc, result: 3 first-party @trustarc packages found}
+  - {registry: pypi, query: trustarc, result: 404}
+  - {registry: pypi, query: truste, result: 404}
+  - {registry: maven-central, query: trustarc, result: 0 artifacts}
+  - {registry: cocoapods, query: TrustArc, result: 404 no pod found}
+  - {registry: pub.dev, query: trustarc, result: no TrustArc package}
+  - {registry: nuget, query: trustarc, result: 0 packages (totalHits 0)}

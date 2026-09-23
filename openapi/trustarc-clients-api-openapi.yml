@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Clients API
+  title: Guardian Clients API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Clients across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -32,6 +32,8 @@ paths:
                 - $ref: '#/components/schemas/InternalClientApplication'
       security:
       - guardianAuth: []
+      summary: Get 11
+      x-summary-source: derived
     put:
       tags:
       - Clients
@@ -63,6 +65,8 @@ paths:
                 - $ref: '#/components/schemas/InternalClientApplication'
       security:
       - guardianAuth: []
+      summary: Update 10
+      x-summary-source: derived
     delete:
       tags:
       - Clients
@@ -78,9 +82,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete 9
+      x-summary-source: derived
   /api/v1/clients:
     get:
       tags:
@@ -181,6 +184,8 @@ paths:
                 $ref: '#/components/schemas/PageClientApplication'
       security:
       - guardianAuth: []
+      summary: List 11
+      x-summary-source: derived
     post:
       tags:
       - Clients
@@ -206,9 +211,8 @@ paths:
                 - $ref: '#/components/schemas/InternalClientApplication'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 11
+      x-summary-source: derived
   /api/v1/clients/{id}/roles:
     get:
       tags:
@@ -232,6 +236,8 @@ paths:
                 uniqueItems: true
       security:
       - guardianAuth: []
+      summary: Get roles
+      x-summary-source: derived
     post:
       tags:
       - Clients
@@ -262,9 +268,8 @@ paths:
                 uniqueItems: true
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create roles
+      x-summary-source: derived
   /api/v1/clients/{id}/key/reset:
     post:
       tags:
@@ -285,9 +290,8 @@ paths:
                 $ref: '#/components/schemas/ClientApplicationKey'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Reset key
+      x-summary-source: derived
   /api/v1/clients/metrics/promote:
     post:
       tags:
@@ -298,9 +302,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Promote
+      x-summary-source: derived
   /api/v1/clients/metrics:
     get:
       tags:
@@ -374,9 +377,8 @@ paths:
                   $ref: '#/components/schemas/ClientApplicationMetric'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List 24
+      x-summary-source: derived
   /api/v1/clients/metrics/raw:
     get:
       tags:
@@ -400,9 +402,8 @@ paths:
                   $ref: '#/components/schemas/CustomerMeterDTO'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List raw
+      x-summary-source: derived
   /api/v1/clients/metrics/histogram:
     get:
       tags:
@@ -483,9 +484,8 @@ paths:
                   $ref: '#/components/schemas/ClientMetricHistogram'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Histogram
+      x-summary-source: derived
   /api/v1/clients/legacyid/{id}:
     get:
       tags:
@@ -509,9 +509,8 @@ paths:
                 - $ref: '#/components/schemas/InternalClientApplication'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get by legacy id
+      x-summary-source: derived
   /api/v1/clients/grant-types:
     get:
       tags:
@@ -528,9 +527,8 @@ paths:
                   type: string
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get supported grant types
+      x-summary-source: derived
   /api/v1/clients/clientid/{clientId}:
     get:
       tags:
@@ -554,9 +552,8 @@ paths:
                 - $ref: '#/components/schemas/InternalClientApplication'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get by client id
+      x-summary-source: derived
   /api/v1/clients/metrics/raw/clear:
     delete:
       tags:
@@ -567,9 +564,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Clear raw
+      x-summary-source: derived
   /api/v1/clients/metrics/raw/clear/{clientId}:
     delete:
       tags:
@@ -586,57 +582,14 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Reset
+      x-summary-source: derived
 components:
   schemas:
-    MetricApi:
+    GrantedAuthority:
       properties:
-        id:
+        authority:
           type: string
-          format: uuid
-        method:
-          type: string
-        status:
-          type: integer
-          format: int32
-        path:
-          type: string
-    HistogramData:
-      properties:
-        sumFreq:
-          type: integer
-          format: int64
-        dateTime:
-          type: string
-          format: date-time
-    ApiMetricHistogram:
-      properties:
-        metricApi:
-          $ref: '#/components/schemas/MetricApi'
-        histogram:
-          type: array
-          items:
-            $ref: '#/components/schemas/HistogramData'
-    APIMeterDTO:
-      properties:
-        api:
-          type: string
-        status:
-          type: integer
-          format: int32
-        count:
-          type: integer
-          format: int64
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     PageableObject:
       properties:
         paged:
@@ -654,6 +607,67 @@ components:
           $ref: '#/components/schemas/SortObject'
         unpaged:
           type: boolean
+    MetricApi:
+      properties:
+        id:
+          type: string
+          format: uuid
+        method:
+          type: string
+        status:
+          type: integer
+          format: int32
+        path:
+          type: string
+    ClientApplicationMetric:
+      properties:
+        id:
+          type: string
+          format: uuid
+        date:
+          type: string
+          format: date-time
+        count:
+          type: integer
+          format: int64
+        applicationId:
+          type: string
+        apiId:
+          type: string
+          format: uuid
+    CustomerClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          requestLimit:
+            type: integer
+            format: int64
+      required:
+      - clientId
+    APIMeterDTO:
+      properties:
+        api:
+          type: string
+        status:
+          type: integer
+          format: int32
+        count:
+          type: integer
+          format: int64
+    ClientMetricHistogram:
+      properties:
+        clientId:
+          type: string
+        buckets:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiMetricHistogram'
+        dateTimes:
+          type: array
+          items:
+            type: string
+            format: date-time
     PageClientApplication:
       properties:
         totalElements:
@@ -688,96 +702,14 @@ components:
           format: int32
         empty:
           type: boolean
-    CustomerClientApplication:
-      allOf:
-      - $ref: '#/components/schemas/ClientApplication'
-      - type: object
-        properties:
-          requestLimit:
-            type: integer
-            format: int64
-      required:
-      - clientId
-    ClientApplicationMetric:
+    HistogramData:
       properties:
-        id:
-          type: string
-          format: uuid
-        date:
+        sumFreq:
+          type: integer
+          format: int64
+        dateTime:
           type: string
           format: date-time
-        count:
-          type: integer
-          format: int64
-        applicationId:
-          type: string
-        apiId:
-          type: string
-          format: uuid
-    InternalClientApplication:
-      allOf:
-      - $ref: '#/components/schemas/ClientApplication'
-      - type: object
-        properties:
-          siteUri:
-            type: string
-          logoUri:
-            type: string
-          helpUri:
-            type: string
-          redirectPriority:
-            type: integer
-            format: int32
-          showOnTopheader:
-            type: boolean
-      required:
-      - clientId
-    ClientApplicationKey:
-      properties:
-        clientId:
-          type: string
-        clientSecret:
-          type: string
-    ClientMetricHistogram:
-      properties:
-        clientId:
-          type: string
-        buckets:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiMetricHistogram'
-        dateTimes:
-          type: array
-          items:
-            type: string
-            format: date-time
-    CustomerMeterDTO:
-      properties:
-        clientId:
-          type: string
-        count:
-          type: integer
-          format: int64
-        apiList:
-          type: array
-          items:
-            $ref: '#/components/schemas/APIMeterDTO'
-    ClientApplicationRole:
-      properties:
-        id:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        permissions:
-          type: string
-    GrantedAuthority:
-      properties:
-        authority:
-          type: string
     ClientApplication:
       discriminator:
         propertyName: type
@@ -861,6 +793,69 @@ components:
           type: string
       required:
       - clientId
+    InternalClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          siteUri:
+            type: string
+          logoUri:
+            type: string
+          helpUri:
+            type: string
+          redirectPriority:
+            type: integer
+            format: int32
+          showOnTopheader:
+            type: boolean
+      required:
+      - clientId
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
+    CustomerMeterDTO:
+      properties:
+        clientId:
+          type: string
+        count:
+          type: integer
+          format: int64
+        apiList:
+          type: array
+          items:
+            $ref: '#/components/schemas/APIMeterDTO'
+    ApiMetricHistogram:
+      properties:
+        metricApi:
+          $ref: '#/components/schemas/MetricApi'
+        histogram:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistogramData'
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    ClientApplicationKey:
+      properties:
+        clientId:
+          type: string
+        clientSecret:
+          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -872,6 +867,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

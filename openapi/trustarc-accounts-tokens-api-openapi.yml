@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Accounts Tokens API
+  title: Guardian Accounts Tokens API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Accounts-Tokens across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -31,6 +31,8 @@ paths:
                   $ref: '#/components/schemas/AccountLongExpToken'
       security:
       - guardianAuth: []
+      summary: List 13
+      x-summary-source: derived
     post:
       tags:
       - Accounts-Tokens
@@ -66,9 +68,8 @@ paths:
                 $ref: '#/components/schemas/AccountLongExpToken'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 13
+      x-summary-source: derived
   /api/v1/accounts/tokens:
     get:
       tags:
@@ -112,9 +113,8 @@ paths:
                 $ref: '#/components/schemas/SliceAccountLongExpToken'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List 31
+      x-summary-source: derived
   /api/v1/accounts/tokens/{tokenId}:
     delete:
       tags:
@@ -132,29 +132,35 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete 21
+      x-summary-source: derived
 components:
   schemas:
-    AccountLongExpToken:
+    SortObject:
       properties:
-        id:
-          type: string
-          format: uuid
-        expiresOn:
-          type: string
-          format: date-time
-        createdDate:
-          type: string
-          format: date-time
-        token:
-          type: string
-          readOnly: true
-        accountId:
-          type: string
-        userId:
-          type: string
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
     SliceAccountLongExpToken:
       properties:
         pageable:
@@ -180,31 +186,24 @@ components:
           format: int32
         empty:
           type: boolean
-    PageableObject:
+    AccountLongExpToken:
       properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
+        id:
+          type: string
+          format: uuid
+        expiresOn:
+          type: string
+          format: date-time
+        createdDate:
+          type: string
+          format: date-time
+        token:
+          type: string
+          readOnly: true
+        accountId:
+          type: string
+        userId:
+          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -216,6 +215,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

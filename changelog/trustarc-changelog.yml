@@ -1,0 +1,89 @@
+generated: '2026-08-27'
+method: searched
+source: https://trustarchelp.zendesk.com/hc/en-us/categories/36057441460627-Privacy-Studio
+scheme: calendar-versioned platform releases (YYYY.MM.N), published as dated release notes per product suite
+cadence: biweekly per suite (Privacy Studio and Governance Suite alternate weeks)
+current_version: '2026.08.2'
+api_changelog:
+  scope: CCM External API only
+  url: https://trustarchelp.zendesk.com/hc/en-us/articles/53518189041043-API-Versioning-Changelog
+  entries:
+    - version: v1.0
+      date: '2025-04-23'
+      breaking: false
+      changes: >-
+        Initial release. POST /websites, DELETE /websites, POST /scans endpoints.
+  deprecations: none currently declared
+  note: >-
+    This is the only per-API changelog TrustArc publishes. The other external APIs (IRM,
+    CPM, Hub external-integration, SCIM, Assessment Manager, CCM Reporting) have no
+    dedicated API changelog; their changes surface inside the product release notes below.
+release_notes:
+  - suite: Privacy Studio
+    url: https://trustarchelp.zendesk.com/hc/en-us/categories/36057441460627-Privacy-Studio
+  - suite: Governance Suite
+    url: https://trustarchelp.zendesk.com/hc/en-us/categories/36038613832467-Governance-Suite
+  - suite: Trust Center
+    url: https://trustarchelp.zendesk.com/hc/en-us/sections/33322570606355-Trust-Center-Release-Notes
+  - suite: Privacy Knowledge content
+    url: https://trustarchelp.zendesk.com/hc/en-us/sections/33848162375315-Privacy-Knowledge-Content-Release-Notes
+entries:
+  - version: '2026.08.2'
+    date: '2026-08-26'
+    suite: Privacy Studio
+    breaking: false
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/54667282780691-Privacy-Studio-Release-August-26-2026
+    highlights:
+      - Cookie Consent Manager Pro — Scan Websites Quick Action, license-gated AI banner features, brand selection for the CCM–IRM integration
+      - Consent & Preference Manager — SMS identity verification, independent email notification settings
+      - Individual Rights Manager — Update Intake Form Quick Action, due date extension without email
+      - Trust Center — Chrome page translation support, new navigation menu layout option
+  - version: '2026.08.2'
+    date: '2026-08-19'
+    suite: Governance Suite
+    breaking: false
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/54417148153363-Governance-Suite-Release-August-19-2026
+    highlights:
+      - PrivacyCentral — hyperlinked evidence links on the review page, streamlined Certifications scan page
+      - Nymity Research — configurable Arc comparison exports
+      - Data Mapping & Risk Manager — automatic hyperlinks in rich text, access restrictions for read-only users
+      - Assessment Manager — redesigned survey-taking experience on the Arc design system
+  - version: '2026.08.1'
+    date: '2026-08-12'
+    suite: Privacy Studio
+    breaking: false
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/54182428484755-Privacy-Studio-Release-August-12-2026
+    highlights:
+      - Cookie Consent Manager Advanced — legacy consent manager infrastructure decommissioned; per-location Privacy Policy URL field removed
+      - Mobile App Consent — two-screen IAB TCF consent experience on iOS and Android
+      - Individual Rights Manager — new Arc Quick Actions, automation rule, suppression notifications, form migration
+  - version: '2026.08.1'
+    date: '2026-08-05'
+    suite: Governance Suite
+    breaking: false
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/53973129898515-Governance-Suite-Release-August-5-2026
+    highlights:
+      - PrivacyCentral — automatic law reprocessing on license update
+      - Data Mapping & Risk Manager — Create Using Arc Intelligence workflow for Business Process records
+      - Assessment Manager — two new external system integrations
+  - version: '2026.07.3'
+    date: '2026-07-29'
+    suite: Privacy Studio
+    breaking: false
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/53759244215059-Privacy-Studio-Release-July-29-2026
+    highlights:
+      - Unified Consent — pre-login consent preferences saved to the stored profile on authentication
+      - CCM Pro — keyboard focus indicators on every interactive banner/overlay element
+  - version: '2026.07.2'
+    date: '2026-07-22'
+    suite: Governance Suite
+    breaking: false
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/53562335428755-Governance-Suite-Release-July-22-2026
+  - version: '2026.07.1'
+    date: '2026-07-15'
+    suite: Privacy Studio
+    breaking: false
+    url: https://trustarchelp.zendesk.com/hc/en-us/articles/53346084298899-Privacy-Studio-Release-July-15-2026
+    highlights:
+      - New API endpoint POST /api/v1/external/consents/real-time/enqueue
+window: recent only — TrustArc publishes dated release notes back to 2022; this artifact captures the current window

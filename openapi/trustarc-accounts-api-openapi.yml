@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Accounts API
+  title: Guardian Accounts API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Accounts across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -67,6 +67,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccount'
       security:
       - guardianAuth: []
+      summary: Get 12
+      x-summary-source: derived
     put:
       tags:
       - Accounts
@@ -98,6 +100,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccount'
       security:
       - guardianAuth: []
+      summary: Update 11
+      x-summary-source: derived
     delete:
       tags:
       - Accounts
@@ -113,9 +117,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete 10
+      x-summary-source: derived
   /api/v1/accounts:
     get:
       tags:
@@ -272,6 +275,8 @@ paths:
                 $ref: '#/components/schemas/PageCustomerAccount'
       security:
       - guardianAuth: []
+      summary: List 12
+      x-summary-source: derived
     post:
       tags:
       - Accounts
@@ -298,9 +303,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccount'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 12
+      x-summary-source: derived
   /api/v1/accounts/{id}/users/upload:
     get:
       tags:
@@ -317,6 +321,8 @@ paths:
           description: OK
       security:
       - guardianAuth: []
+      summary: Upload status
+      x-summary-source: derived
     post:
       tags:
       - Accounts
@@ -345,9 +351,8 @@ paths:
                 $ref: '#/components/schemas/BatchJob'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Upload users
+      x-summary-source: derived
   /api/v1/accounts/{id}/tasks:
     post:
       tags:
@@ -380,9 +385,8 @@ paths:
           description: OK
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Tasks
+      x-summary-source: derived
   /api/v1/accounts/{id}/enable:
     post:
       tags:
@@ -403,9 +407,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccount'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Enable 2
+      x-summary-source: derived
   /api/v1/accounts/{id}/disable:
     post:
       tags:
@@ -426,9 +429,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccount'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Disable 2
+      x-summary-source: derived
   /api/v1/accounts/{id}/activations:
     post:
       tags:
@@ -449,9 +451,8 @@ paths:
                 $ref: '#/components/schemas/Response'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Activation
+      x-summary-source: derived
   /api/v1/accounts/{id}/users:
     get:
       tags:
@@ -638,9 +639,8 @@ paths:
                 $ref: '#/components/schemas/PageUserCredentials'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List users
+      x-summary-source: derived
   /api/v1/accounts/{id}/users/download:
     get:
       tags:
@@ -675,9 +675,8 @@ paths:
                 $ref: '#/components/schemas/ReportStore'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Download users
+      x-summary-source: derived
   /api/v1/accounts/{id}/useractions/download:
     get:
       tags:
@@ -712,9 +711,8 @@ paths:
                 $ref: '#/components/schemas/ReportStore'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Download user activity
+      x-summary-source: derived
   /api/v1/accounts/{id}/uploadstatus:
     get:
       tags:
@@ -735,9 +733,8 @@ paths:
                 $ref: '#/components/schemas/UploadStatus'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get upload status
+      x-summary-source: derived
   /api/v1/accounts/nymityid/{nymityId}:
     get:
       tags:
@@ -796,9 +793,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccount'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get account by nymity id
+      x-summary-source: derived
   /api/v1/accounts/netsuiteid/{netSuiteId}:
     get:
       tags:
@@ -857,9 +853,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccount'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get account by net suite id
+      x-summary-source: derived
   /api/v1/accounts/legalname/{legalName}:
     get:
       tags:
@@ -918,22 +913,37 @@ paths:
                 $ref: '#/components/schemas/CustomerAccount'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Get by legal name
+      x-summary-source: derived
 components:
   schemas:
-    MetaTag:
+    PageableObject:
       properties:
-        id:
-          type: string
-          format: uuid
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    PermissionProfileUserGroup:
+      properties:
         name:
           type: string
-        required:
-          type: boolean
-        displayName:
+        clientId:
           type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
     PageUserCredentials:
       properties:
         totalElements:
@@ -965,6 +975,16 @@ components:
           format: int32
         empty:
           type: boolean
+    CustomerClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          requestLimit:
+            type: integer
+            format: int64
+      required:
+      - clientId
     PageCustomerAccount:
       properties:
         totalElements:
@@ -996,22 +1016,86 @@ components:
           format: int32
         empty:
           type: boolean
-    UserMetaTag:
+    UserCredentials:
       properties:
         id:
           type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        firstName:
+          type: string
+        lastName:
+          type: string
+        usageConfirmed:
+          type: boolean
+        userIdentifier:
+          type: string
+        orgIdentifier:
+          type: string
+        nymityId:
+          type: string
+        status:
+          type: string
+          enum:
+          - Active
+          - Inactive
+        extension:
+          $ref: '#/components/schemas/UserExtensionDTO'
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        metaTags:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/UserMetaTag'
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserGroup'
+          uniqueItems: true
+        permissionProfiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfile'
+          uniqueItems: true
+        location:
+          type: string
+        fullName:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+        accountId:
+          type: string
+        username:
+          type: string
+        credentialsNonExpired:
+          type: boolean
+        permissionProfileId:
+          type: string
           format: uuid
-        value:
+        phone:
           type: string
-        metaTagId:
+        jobTitle:
           type: string
-          format: uuid
-        metaTagName:
+        expertiseList:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        modifiedById:
           type: string
-    UploadStatus:
+    Response:
       properties:
-        message:
-          type: string
+        size:
+          type: integer
+          format: int32
     ReportStore:
       properties:
         id:
@@ -1042,6 +1126,67 @@ components:
         createdById:
           type: string
         ownerAccountId:
+          type: string
+    BatchJobError:
+      properties:
+        entry:
+          type: string
+        message:
+          type: string
+    CustomerAccountExtension:
+      properties:
+        id:
+          type: string
+        uploadHome:
+          type: string
+        defaultUserRoles:
+          type: string
+        defaultUserGroups:
+          type: string
+        applicationLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientExtensionLicense'
+          uniqueItems: true
+        trustArcLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountClientTrustArcLicense'
+          uniqueItems: true
+        extLoginOnly:
+          type: boolean
+        accountId:
+          type: string
+        adminPersonId:
+          type: string
+    InternalClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          siteUri:
+            type: string
+          logoUri:
+            type: string
+          helpUri:
+            type: string
+          redirectPriority:
+            type: integer
+            format: int32
+          showOnTopheader:
+            type: boolean
+      required:
+      - clientId
+    MetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        required:
+          type: boolean
+        displayName:
           type: string
     CustomerAccount:
       properties:
@@ -1160,26 +1305,10 @@ components:
           type: string
       required:
       - legalName
-    BatchJobError:
-      properties:
-        entry:
-          type: string
-        message:
-          type: string
     GrantedAuthority:
       properties:
         authority:
           type: string
-    UserExtensionDTO:
-      properties:
-        userMgrId:
-          type: string
-        timeZone:
-          type: string
-        locale:
-          type: string
-        totpEnabled:
-          type: boolean
     BatchJob:
       properties:
         id:
@@ -1260,50 +1389,52 @@ components:
           type: string
         targetAccountId:
           type: string
-    ClientExtensionLicense:
+    UserMetaTag:
       properties:
         id:
           type: string
           format: uuid
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
+    UploadStatus:
+      properties:
+        message:
+          type: string
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
         identifier:
           type: string
         name:
           type: string
-    SortObject:
+        description:
+          type: string
+        permissions:
+          type: string
+    UserExtensionDTO:
       properties:
-        empty:
+        userMgrId:
+          type: string
+        timeZone:
+          type: string
+        locale:
+          type: string
+        totpEnabled:
           type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    PermissionProfileUserGroup:
+    UserGroup:
       properties:
         name:
           type: string
         clientId:
           type: string
-        permissionProfileId:
+        applicationClientId:
           type: string
-          format: uuid
-          writeOnly: true
     AccountClientTrustArcLicense:
       properties:
         licenseId:
@@ -1319,6 +1450,14 @@ components:
         clientId:
           type: string
         modifiedById:
+          type: string
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
           type: string
     ClientApplication:
       discriminator:
@@ -1403,81 +1542,6 @@ components:
           type: string
       required:
       - clientId
-    UserCredentials:
-      properties:
-        id:
-          type: string
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        firstName:
-          type: string
-        lastName:
-          type: string
-        usageConfirmed:
-          type: boolean
-        userIdentifier:
-          type: string
-        orgIdentifier:
-          type: string
-        nymityId:
-          type: string
-        status:
-          type: string
-          enum:
-          - Active
-          - Inactive
-        extension:
-          $ref: '#/components/schemas/UserExtensionDTO'
-        applicationRoles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        metaTags:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/UserMetaTag'
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserGroup'
-          uniqueItems: true
-        permissionProfiles:
-          type: array
-          items:
-            $ref: '#/components/schemas/PermissionProfile'
-          uniqueItems: true
-        location:
-          type: string
-        fullName:
-          type: string
-        password:
-          type: string
-          writeOnly: true
-        accountId:
-          type: string
-        username:
-          type: string
-        credentialsNonExpired:
-          type: boolean
-        permissionProfileId:
-          type: string
-          format: uuid
-        phone:
-          type: string
-        jobTitle:
-          type: string
-        expertiseList:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        modifiedById:
-          type: string
     PermissionProfile:
       properties:
         id:
@@ -1510,6 +1574,23 @@ components:
           format: int64
         accountId:
           type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    ClientExtensionLicense:
+      properties:
+        id:
+          type: string
+          format: uuid
+        identifier:
+          type: string
+        name:
+          type: string
     Address:
       properties:
         formatted:
@@ -1528,93 +1609,6 @@ components:
           type: string
         primary:
           type: boolean
-    Response:
-      properties:
-        size:
-          type: integer
-          format: int32
-    ClientApplicationRole:
-      properties:
-        id:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        permissions:
-          type: string
-    CustomerClientApplication:
-      allOf:
-      - $ref: '#/components/schemas/ClientApplication'
-      - type: object
-        properties:
-          requestLimit:
-            type: integer
-            format: int64
-      required:
-      - clientId
-    InternalClientApplication:
-      allOf:
-      - $ref: '#/components/schemas/ClientApplication'
-      - type: object
-        properties:
-          siteUri:
-            type: string
-          logoUri:
-            type: string
-          helpUri:
-            type: string
-          redirectPriority:
-            type: integer
-            format: int32
-          showOnTopheader:
-            type: boolean
-      required:
-      - clientId
-    UserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        applicationClientId:
-          type: string
-    BatchJobParameter:
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        value:
-          type: string
-    CustomerAccountExtension:
-      properties:
-        id:
-          type: string
-        uploadHome:
-          type: string
-        defaultUserRoles:
-          type: string
-        defaultUserGroups:
-          type: string
-        applicationLicenses:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientExtensionLicense'
-          uniqueItems: true
-        trustArcLicenses:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountClientTrustArcLicense'
-          uniqueItems: true
-        extLoginOnly:
-          type: boolean
-        accountId:
-          type: string
-        adminPersonId:
-          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -1626,6 +1620,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

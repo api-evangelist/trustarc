@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Users History API
+  title: Guardian Users History API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Users-History across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -47,9 +47,8 @@ paths:
                 $ref: '#/components/schemas/PageUserAction'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List 17
+      x-summary-source: derived
   /api/v1/user_actions/{username}:
     get:
       tags:
@@ -93,9 +92,8 @@ paths:
                 $ref: '#/components/schemas/PageUserAction'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List by username 1
+      x-summary-source: derived
   /api/v1/user_actions/download:
     get:
       tags:
@@ -138,32 +136,10 @@ paths:
                 $ref: '#/components/schemas/ReportStore'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Download
+      x-summary-source: derived
 components:
   schemas:
-    UserAction:
-      properties:
-        id:
-          type: string
-        username:
-          type: string
-        dateCreated:
-          type: string
-          format: date-time
-        action:
-          type: string
-        additionalInformation:
-          type: string
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     PageableObject:
       properties:
         paged:
@@ -180,37 +156,6 @@ components:
         sort:
           $ref: '#/components/schemas/SortObject'
         unpaged:
-          type: boolean
-    PageUserAction:
-      properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserAction'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
           type: boolean
     ReportStore:
       properties:
@@ -243,6 +188,58 @@ components:
           type: string
         ownerAccountId:
           type: string
+    UserAction:
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        dateCreated:
+          type: string
+          format: date-time
+        action:
+          type: string
+        additionalInformation:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageUserAction:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserAction'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -254,6 +251,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

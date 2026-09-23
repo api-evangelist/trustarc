@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Accounts Meta Tags API
+  title: Guardian Accounts Meta Tags API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Accounts-MetaTags across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -41,6 +41,8 @@ paths:
                 $ref: '#/components/schemas/MetaTag'
       security:
       - guardianAuth: []
+      summary: Update 14
+      x-summary-source: derived
     delete:
       tags:
       - Accounts-MetaTags
@@ -62,9 +64,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete 12
+      x-summary-source: derived
   /api/v1/accounts/{accountId}/metatags/create:
     post:
       tags:
@@ -91,9 +92,8 @@ paths:
                 $ref: '#/components/schemas/MetaTag'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 15
+      x-summary-source: derived
   /api/v1/accounts/{accountId}/metatags:
     get:
       tags:
@@ -154,28 +154,10 @@ paths:
                 $ref: '#/components/schemas/PageMetaTag'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List 29
+      x-summary-source: derived
 components:
   schemas:
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
     SortObject:
       properties:
         empty:
@@ -184,17 +166,6 @@ components:
           type: boolean
         unsorted:
           type: boolean
-    MetaTag:
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        required:
-          type: boolean
-        displayName:
-          type: string
     PageMetaTag:
       properties:
         totalElements:
@@ -226,6 +197,34 @@ components:
           format: int32
         empty:
           type: boolean
+    MetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        required:
+          type: boolean
+        displayName:
+          type: string
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -237,6 +236,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

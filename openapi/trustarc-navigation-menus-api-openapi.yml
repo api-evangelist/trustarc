@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Navigation Menus API
+  title: Guardian Navigation Menus API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Navigation-Menus across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -30,6 +30,8 @@ paths:
                 $ref: '#/components/schemas/ApplicationMenu'
       security:
       - guardianAuth: []
+      summary: Get 8
+      x-summary-source: derived
     put:
       tags:
       - Navigation-Menus
@@ -56,6 +58,8 @@ paths:
                 $ref: '#/components/schemas/ApplicationMenu'
       security:
       - guardianAuth: []
+      summary: Update 7
+      x-summary-source: derived
     delete:
       tags:
       - Navigation-Menus
@@ -72,9 +76,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete 6
+      x-summary-source: derived
   /api/v1/navigation-menus:
     get:
       tags:
@@ -103,6 +106,8 @@ paths:
                   $ref: '#/components/schemas/ApplicationMenu'
       security:
       - guardianAuth: []
+      summary: List 7
+      x-summary-source: derived
     post:
       tags:
       - Navigation-Menus
@@ -122,9 +127,8 @@ paths:
                 $ref: '#/components/schemas/ApplicationMenu'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 7
+      x-summary-source: derived
   /api/v1/navigation-menus/order:
     post:
       tags:
@@ -150,9 +154,8 @@ paths:
                   $ref: '#/components/schemas/ApplicationMenu'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Order
+      x-summary-source: derived
   /api/v1/navigation-menus/full:
     get:
       tags:
@@ -169,9 +172,8 @@ paths:
                   $ref: '#/components/schemas/ApplicationMenu'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Full list
+      x-summary-source: derived
 components:
   schemas:
     ApplicationMenu:
@@ -223,6 +225,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

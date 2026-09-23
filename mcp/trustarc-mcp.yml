@@ -1,0 +1,121 @@
+generated: '2026-08-27'
+method: derived
+status: candidate
+source: >-
+  derived from openapi/_original/trustarc-guardian-openapi.json and the documented
+  TrustArc external API surface. No TrustArc MCP server exists.
+search_evidence:
+  - {check: 'npm search "trustarc"', result: 'no @trustarc MCP package; 3 first-party packages found, none MCP'}
+  - {check: 'github.com/trustarc repos', result: '7 public repos — GTM templates, a Segment wrapper, sample apps; no MCP server'}
+  - {check: 'https://trustarc.com/llms.txt', result: 404}
+  - {check: '/.well-known/ai-plugin.json on every TrustArc host', result: '404 or SPA catch-all — see well-known/trustarc-well-known.yml'}
+  - {check: 'help center search for MCP / Model Context Protocol', result: 'no article; the AI surface TrustArc ships is Arc/NymityAI inside its own product, not an agent-callable server'}
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+note: >-
+  TrustArc ships no MCP server, hosted or local. The tools below are a CANDIDATE mapping
+  derived from real, documented operations so the agent surface TrustArc could expose is
+  legible — they are not callable today. Every source_operation below exists verbatim in
+  the cited contract or help center guide.
+tools:
+  - name: list_scim_users
+    description: List platform users via the SCIM 2.0 Users endpoint.
+    source_operation: openapi/_original/trustarc-guardian-openapi.json#getUsers
+    rest: GET /external/api/v2/scim/Users
+  - name: get_scim_user
+    description: Retrieve one platform user by id.
+    source_operation: openapi/_original/trustarc-guardian-openapi.json#getUser
+    rest: GET /external/api/v2/scim/Users/{id}
+  - name: create_scim_user
+    description: Provision a platform user.
+    source_operation: openapi/_original/trustarc-guardian-openapi.json#createUser
+    rest: POST /external/api/v2/scim/Users
+    write: true
+  - name: patch_scim_user
+    description: Partially update a user with a SCIM PatchOp document.
+    source_operation: openapi/_original/trustarc-guardian-openapi.json#patchUser
+    rest: PATCH /external/api/v2/scim/Users/{id}
+    write: true
+  - name: list_scim_groups
+    description: List user groups via the SCIM 2.0 Groups endpoint.
+    rest: GET /external/api/v2/scim/Groups
+    source_operation: openapi/_original/trustarc-guardian-openapi.json
+  - name: get_scim_service_provider_config
+    description: Read the SCIM ServiceProviderConfig discovery document.
+    rest: GET /external/api/v2/scim/ServiceProviderConfig
+    source_operation: openapi/_original/trustarc-guardian-openapi.json
+  - name: list_business_processes
+    description: Retrieve a paginated list of Business Processes from the Data Mapping Hub.
+    rest: GET /api/hub/external-integration/business-processes
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/49882097212435-Retrieve-All-Business-Processes
+  - name: upsert_business_process
+    description: Insert or update a Business Process record keyed on externalId.
+    rest: PUT /api/hub/external-integration/business-processes/upsert
+    write: true
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/49883656375699-Insert-Update-a-Business-Process-Record
+  - name: list_business_process_events
+    description: Poll Business Process change events since a timestamp.
+    rest: GET /api/hub/external-integration/business-processes/integration-events
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/49882322744083-Retrieve-Business-Process-Events
+  - name: list_third_parties
+    rest: GET /api/hub/external-integration/third-parties
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/50035694325523-Retrieve-All-Third-Party
+  - name: list_it_systems
+    rest: GET /api/hub/external-integration/it-systems
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/50030327606803-Retrieve-All-IT-Systems
+  - name: list_intake_forms
+    description: List published IRM intake forms and their field ids.
+    rest: GET /api/v1/external/forms/all
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/52354102146579-DROP-Process-to-IRM-API-Integration-Guide
+  - name: create_data_subject_request
+    description: Create a data subject request against an intake form.
+    rest: POST /api/v1/external/requests
+    write: true
+    consequence: creates a legally-tracked privacy request with SLA-bearing due dates
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/52354102146579-DROP-Process-to-IRM-API-Integration-Guide
+  - name: close_data_subject_request
+    description: Close a data subject request after fulfilment.
+    rest: POST /api/v1/external/requests/{id}/close
+    write: true
+    consequence: effectively one-way from the API — see conventions reversibility block
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/52354102146579-DROP-Process-to-IRM-API-Integration-Guide
+  - name: search_data_subject_requests
+    rest: POST /api/v1/external/requests/search
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/52354102146579-DROP-Process-to-IRM-API-Integration-Guide
+  - name: add_websites_to_consent_manager
+    description: Add one or more website URLs to a Cookie Consent Manager instance.
+    rest: POST /external/v1/websites
+    write: true
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+  - name: start_cookie_scan
+    description: Queue a cookie/tracker scan for a website.
+    rest: POST /external/v1/scans
+    write: true
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+  - name: get_tracker_inventory
+    rest: GET /external/tracker/inventory/{cmId}
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+  - name: get_consent_locations
+    rest: GET /api/ccm-reporting/analytics/consent-locations
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/44671763277843-Get-Consent-Locations
+  - name: post_gdpr_report
+    rest: POST /api/ccm-reporting/report/gdpr
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/35648729701011
+  - name: create_assessment
+    description: Create an Assessment Manager project (PIA/DPIA/TIA).
+    rest: POST /api/v1/project-internal/create
+    write: true
+    source_docs: https://trustarchelp.zendesk.com/hc/en-us/articles/38618328259091-Creating-an-Assessment-via-API
+auth_model:
+  scheme: OAuth 2.0 client_credentials bearer token
+  token_endpoints:
+    - https://api.trustarc.com/api/auth/oauth/token
+    - https://login.truste.com/oauth/token
+  note: >-
+    Credentials are not self-service. Any MCP server built on this surface would need
+    per-tenant client credentials issued by a TrustArc account administrator.

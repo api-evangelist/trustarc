@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc User Profiles Activations API
+  title: Guardian User Profiles Activations API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged UserProfiles-Activations across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -71,6 +71,8 @@ paths:
                 $ref: '#/components/schemas/PageUserActivation'
       security:
       - guardianAuth: []
+      summary: List by user
+      x-summary-source: derived
     delete:
       tags:
       - UserProfiles-Activations
@@ -86,9 +88,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete by user
+      x-summary-source: derived
   /api/v1/userprofiles/activations:
     get:
       tags:
@@ -146,6 +147,8 @@ paths:
                 $ref: '#/components/schemas/PageUserActivation'
       security:
       - guardianAuth: []
+      summary: List 16
+      x-summary-source: derived
     delete:
       tags:
       - UserProfiles-Activations
@@ -155,56 +158,10 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete expired
+      x-summary-source: derived
 components:
   schemas:
-    UserActivation:
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-          - NewUser
-          - PasswordReset
-        code:
-          type: string
-        expirationDate:
-          type: string
-          format: date-time
-        expired:
-          type: boolean
-        user:
-          $ref: '#/components/schemas/UserProfile'
-        userProfileId:
-          type: string
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
     PageUserActivation:
       properties:
         totalElements:
@@ -235,6 +192,23 @@ components:
           type: integer
           format: int32
         empty:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
           type: boolean
     UserProfile:
       properties:
@@ -284,6 +258,34 @@ components:
       required:
       - password
       - username
+    UserActivation:
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - NewUser
+          - PasswordReset
+        code:
+          type: string
+        expirationDate:
+          type: string
+          format: date-time
+        expired:
+          type: boolean
+        user:
+          $ref: '#/components/schemas/UserProfile'
+        userProfileId:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -295,6 +297,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

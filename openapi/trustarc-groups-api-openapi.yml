@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Groups API
+  title: Guardian Groups API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Groups across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -58,6 +58,8 @@ paths:
                 $ref: '#/components/schemas/ScimGroupResource'
       security:
       - guardianAuth: []
+      summary: Get 2
+      x-summary-source: derived
     put:
       tags:
       - Groups
@@ -83,6 +85,8 @@ paths:
                 $ref: '#/components/schemas/ScimGroupResource'
       security:
       - guardianAuth: []
+      summary: Update
+      x-summary-source: derived
     delete:
       tags:
       - Groups
@@ -98,6 +102,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
+      summary: Delete
+      x-summary-source: derived
     patch:
       tags:
       - Groups
@@ -127,9 +133,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Patch
+      x-summary-source: derived
   /external/api/v2/scim/Groups:
     get:
       tags:
@@ -194,6 +199,8 @@ paths:
                 $ref: '#/components/schemas/ListResponseScimGroupResource'
       security:
       - guardianAuth: []
+      summary: List
+      x-summary-source: derived
     post:
       tags:
       - Groups
@@ -213,30 +220,37 @@ paths:
                 $ref: '#/components/schemas/ScimGroupResource'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create
+      x-summary-source: derived
 components:
   schemas:
-    Meta:
+    AddOperation:
+      allOf:
+      - $ref: '#/components/schemas/PatchOperation'
+      - type: object
+        properties:
+          value:
+            $ref: '#/components/schemas/JsonNode'
+    ScimMember:
       properties:
-        resourceType:
+        value:
           type: string
-        created:
+        display:
           type: string
-          format: date-time
-        lastModified:
+        type:
           type: string
-          format: date-time
-        location:
+        $ref:
           type: string
           format: uri
-        version:
-          type: string
-        createdMillis:
-          $ref: '#/components/schemas/Meta'
-        lastModifiedMillis:
-          $ref: '#/components/schemas/Meta'
+    RemoveOperation:
+      allOf:
+      - $ref: '#/components/schemas/PatchOperation'
+      - type: object
+        properties:
+          value:
+            $ref: '#/components/schemas/JsonNode'
+      required:
+      - path
     PatchRequest:
       properties:
         schemas:
@@ -259,15 +273,6 @@ components:
           $ref: '#/components/schemas/Meta'
       required:
       - Operations
-    RemoveOperation:
-      allOf:
-      - $ref: '#/components/schemas/PatchOperation'
-      - type: object
-        properties:
-          value:
-            $ref: '#/components/schemas/JsonNode'
-      required:
-      - path
     ListResponseScimGroupResource:
       properties:
         schemas:
@@ -309,13 +314,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ScimMember'
-    AddOperation:
-      allOf:
-      - $ref: '#/components/schemas/PatchOperation'
-      - type: object
-        properties:
-          value:
-            $ref: '#/components/schemas/JsonNode'
     ReplaceOperation:
       allOf:
       - $ref: '#/components/schemas/PatchOperation'
@@ -323,6 +321,25 @@ components:
         properties:
           value:
             $ref: '#/components/schemas/JsonNode'
+    Meta:
+      properties:
+        resourceType:
+          type: string
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        location:
+          type: string
+          format: uri
+        version:
+          type: string
+        createdMillis:
+          $ref: '#/components/schemas/Meta'
+        lastModifiedMillis:
+          $ref: '#/components/schemas/Meta'
     PatchOperation:
       discriminator:
         propertyName: op
@@ -400,17 +417,6 @@ components:
           type: boolean
         embeddedValue:
           type: boolean
-    ScimMember:
-      properties:
-        value:
-          type: string
-        display:
-          type: string
-        type:
-          type: string
-        $ref:
-          type: string
-          format: uri
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -422,6 +428,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc User Profiles Users API
+  title: Guardian User Profiles Users API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged UserProfiles-Users across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -40,9 +40,8 @@ paths:
                 $ref: '#/components/schemas/UserProfileUser'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Update 3
+      x-summary-source: derived
   /api/v1/userprofiles/{userProfId}/users:
     get:
       tags:
@@ -93,6 +92,8 @@ paths:
                 $ref: '#/components/schemas/PageUserProfileUser'
       security:
       - guardianAuth: []
+      summary: List by id
+      x-summary-source: derived
     post:
       tags:
       - UserProfiles-Users
@@ -118,9 +119,8 @@ paths:
                 $ref: '#/components/schemas/UserProfileUser'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 3
+      x-summary-source: derived
   /api/v1/userprofiles/default/{userId}:
     post:
       tags:
@@ -141,9 +141,8 @@ paths:
                 $ref: '#/components/schemas/UserProfileUser'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Set default
+      x-summary-source: derived
   /api/v1/userprofiles/username/{username}/users:
     get:
       tags:
@@ -194,11 +193,102 @@ paths:
                 $ref: '#/components/schemas/PageUserProfileUser'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List by username
+      x-summary-source: derived
 components:
   schemas:
+    UserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        applicationClientId:
+          type: string
+    PermissionProfileUserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
+    UserProfileUser:
+      properties:
+        remarks:
+          type: string
+        default:
+          type: boolean
+        userCredentialsId:
+          type: string
+        userProfileId:
+          type: string
+        remark:
+          type: string
+          writeOnly: true
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    UserMetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
+    PermissionProfile:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        externalId:
+          type: string
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfileUserGroup'
+          uniqueItems: true
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        modifiedById:
+          type: string
+        userCount:
+          type: integer
+          format: int64
+        accountId:
+          type: string
     UserCredentials:
       properties:
         id:
@@ -305,106 +395,6 @@ components:
           format: int32
         empty:
           type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    PermissionProfile:
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        externalId:
-          type: string
-        applicationRoles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/PermissionProfileUserGroup'
-          uniqueItems: true
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        modifiedById:
-          type: string
-        userCount:
-          type: integer
-          format: int64
-        accountId:
-          type: string
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    PermissionProfileUserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        permissionProfileId:
-          type: string
-          format: uuid
-          writeOnly: true
-    UserMetaTag:
-      properties:
-        id:
-          type: string
-          format: uuid
-        value:
-          type: string
-        metaTagId:
-          type: string
-          format: uuid
-        metaTagName:
-          type: string
-    UserProfileUser:
-      properties:
-        remarks:
-          type: string
-        default:
-          type: boolean
-        userCredentialsId:
-          type: string
-        userProfileId:
-          type: string
-        remark:
-          type: string
-          writeOnly: true
-    UserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        applicationClientId:
-          type: string
     ClientApplicationRole:
       properties:
         id:
@@ -427,6 +417,14 @@ components:
           type: string
         totpEnabled:
           type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -438,6 +436,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

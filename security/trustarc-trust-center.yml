@@ -1,17 +1,66 @@
-generated: '2026-07-11'
+generated: '2026-08-27'
 method: searched
 probe: true
-source: https://trustarc.com/products/consent-consumer-rights/trust-center/
-url: https://trustarc.com/products/consent-consumer-rights/trust-center/
+source: https://trust.trustarc.com/en-US/
+url: https://trust.trustarc.com/en-US/
+note: >-
+  UPGRADED. The prior artifact pointed at TrustArc's Trust Center PRODUCT marketing page
+  (trustarc.com/products/consent-consumer-rights/trust-center/), not at TrustArc's own trust
+  center. TrustArc runs its own trust center on its own product at trust.trustarc.com —
+  verified 200 on 2026-08-27 with a Security, Privacy, Availability and Legal section.
 certifications:
-- SOC 2
-- ISO 27001
-- GDPR
+  - SOC 2 Type II
+  - ISO 27001
+  - GDPR
+security_controls_published:
+  - TLS 1.2 encryption in transit
+  - AES-256 encryption at rest for Customer Content
+  - intrusion detection, logging and response plans
+  - annual AICPA SOC 2 Type II assessment by a qualified external third-party auditor
+  - business continuity and disaster recovery
+documents:
+  - name: Public SOC 2 Report Table of Contents
+    section: Security
+  - name: Technical and Organizational Measures (TOMS)
+    section: Security
+  - name: Data Processing Addendum
+    url: https://trust.trustarc.com/policies#data-processing-addendum
+  - name: Sub-Processors and Affiliates
+    url: https://trust.trustarc.com/policies#sub-processors-and-affiliates
+  - name: Subscription and Services Agreement
+    section: Legal
+  - name: Site Terms
+    url: https://trust.trustarc.com/en-US/policies/site-terms
+  - name: Service Level Agreement
+    url: https://trust.trustarc.com/en-US/policies/service-level-agreement
+  - name: Acceptable Use Policy
+    url: https://trust.trustarc.com/en-US/policies/acceptable-use-policy
+  - name: TrustArc Privacy Notice
+    url: https://trust.trustarc.com/en-US/policies/trustarc-privacy-notice
+  - name: TrustArc Terms of Use for Artificial Intelligence
+    url: https://trust.trustarc.com/policies#trustarc-terms-of-use-for-artificial-intelligence-features
+  - name: Government Request Policy for Customer Data
+    section: Legal
+  - name: Accessibility Policy
+    section: Legal
+sections:
+  - {name: Security, url: 'https://trust.trustarc.com/en-US/security', status: 200}
+  - {name: Privacy, url: 'https://trust.trustarc.com/en-US/privacy', status: 200}
+  - {name: Availability, url: 'https://trust.trustarc.com/en-US/availability', status: 200}
+  - {name: Legal, url: 'https://trust.trustarc.com/en-US/legal', status: 200}
 evidence:
-- source: https://trustarc.com/products/consent-consumer-rights/trust-center/
-  keywords:
-  - soc 2
-  - soc2
-  - iso/iec 27001
-  - trust center
-  - gdpr
+  - source: https://trust.trustarc.com/en-US/security
+    http_status: 200
+    keywords: [soc 2 type ii, aicpa, iso 27001, tls, aes 256, technical and organizational measures, business continuity, disaster recovery]
+  - source: https://trust.trustarc.com/en-US/legal
+    http_status: 200
+    keywords: [subscription and services agreement, data processing addendum, service level agreement, sub-processors]
+vulnerability_disclosure:
+  published: false
+  note: >-
+    No responsible-disclosure page, bug bounty, security.txt or security@ contact was found.
+    /.well-known/security.txt returns 404 on trustarc.com, api.trustarc.com and
+    login.truste.com; trustarc.com/security/, /responsible-disclosure/ and
+    /vulnerability-disclosure/ all return 404. The Trust Center has no report-a-vulnerability
+    path. Recorded as an honest absence — see security/trustarc-vulnerability-disclosure
+    (not written, because there is nothing to write).

@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Sessions API
+  title: Guardian Sessions API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Sessions across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -48,9 +48,8 @@ paths:
                 $ref: '#/components/schemas/PageUserProfileSessionCountDto'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List active users
+      x-summary-source: derived
   /api/v1/sessions/userprofiles/count:
     get:
       tags:
@@ -66,9 +65,8 @@ paths:
                 format: int64
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Count active users
+      x-summary-source: derived
   /api/v1/sessions/usernames/count:
     get:
       tags:
@@ -94,9 +92,8 @@ paths:
                   format: int32
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Count active users sessions
+      x-summary-source: derived
   /api/v1/sessions/usernames:
     delete:
       tags:
@@ -115,9 +112,8 @@ paths:
           description: OK
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete all active user
+      x-summary-source: derived
   /api/v1/sessions/usernames/{username}:
     delete:
       tags:
@@ -134,26 +130,10 @@ paths:
           description: OK
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete active user
+      x-summary-source: derived
 components:
   schemas:
-    UserProfileSessionCountDto:
-      properties:
-        userProfile:
-          $ref: '#/components/schemas/UserProfile'
-        sessionCount:
-          type: integer
-          format: int32
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     PageableObject:
       properties:
         paged:
@@ -170,37 +150,6 @@ components:
         sort:
           $ref: '#/components/schemas/SortObject'
         unpaged:
-          type: boolean
-    PageUserProfileSessionCountDto:
-      properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserProfileSessionCountDto'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
           type: boolean
     UserProfile:
       properties:
@@ -250,6 +199,52 @@ components:
       required:
       - password
       - username
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageUserProfileSessionCountDto:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileSessionCountDto'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    UserProfileSessionCountDto:
+      properties:
+        userProfile:
+          $ref: '#/components/schemas/UserProfile'
+        sessionCount:
+          type: integer
+          format: int32
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -261,6 +256,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

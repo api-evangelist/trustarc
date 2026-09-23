@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Accounts Organizational Structure API
+  title: Guardian Accounts Organizational Structure API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Accounts-OrganizationalStructure across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -35,9 +35,8 @@ paths:
                 $ref: '#/components/schemas/OrganizationalStructureDTO'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Update 12
+      x-summary-source: derived
   /api/v1/accounts/{accountId}/organizational-structure:
     get:
       tags:
@@ -65,9 +64,8 @@ paths:
                 $ref: '#/components/schemas/OrganizationalStructureDTO'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Read
+      x-summary-source: derived
   /api/v1/accounts/{accountId}/organizational-structure/root:
     get:
       tags:
@@ -95,9 +93,8 @@ paths:
                 $ref: '#/components/schemas/OrganizationalGroupDTO'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Find root
+      x-summary-source: derived
   /api/v1/accounts/{accountId}/organizational-structure/hierarchy/group/{externalGroupId}:
     get:
       tags:
@@ -130,9 +127,8 @@ paths:
                 $ref: '#/components/schemas/OrganizationalStructureDTO'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Find parent hierarchy
+      x-summary-source: derived
   /api/v1/accounts/{accountId}/organizational-structure/group/{externalGroupId}:
     get:
       tags:
@@ -165,9 +161,8 @@ paths:
                 $ref: '#/components/schemas/OrganizationalGroupDTO'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Retrieve single organizational group
+      x-summary-source: derived
   /api/v1/accounts/{accountId}/organizational-structure/group/{externalGroupId}/children:
     get:
       tags:
@@ -214,19 +209,10 @@ paths:
                 $ref: '#/components/schemas/PageOrganizationalGroupDTO'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List children
+      x-summary-source: derived
 components:
   schemas:
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     PageableObject:
       properties:
         paged:
@@ -244,34 +230,6 @@ components:
           $ref: '#/components/schemas/SortObject'
         unpaged:
           type: boolean
-    OrganizationalStructureDTO:
-      properties:
-        accountId:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-        root:
-          $ref: '#/components/schemas/OrganizationalGroupDTO'
-    OrganizationalGroupDTO:
-      properties:
-        name:
-          type: string
-        externalGroupId:
-          type: string
-        groupType:
-          type: string
-        active:
-          type: boolean
-        parentExternalGroupId:
-          type: string
-        childCount:
-          type: integer
-          format: int64
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationalGroupDTO'
     PageOrganizationalGroupDTO:
       properties:
         totalElements:
@@ -303,6 +261,42 @@ components:
           format: int32
         empty:
           type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    OrganizationalStructureDTO:
+      properties:
+        accountId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        root:
+          $ref: '#/components/schemas/OrganizationalGroupDTO'
+    OrganizationalGroupDTO:
+      properties:
+        name:
+          type: string
+        externalGroupId:
+          type: string
+        groupType:
+          type: string
+        active:
+          type: boolean
+        parentExternalGroupId:
+          type: string
+        childCount:
+          type: integer
+          format: int64
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationalGroupDTO'
   securitySchemes:
     guardianAuth:
       type: oauth2
@@ -314,6 +308,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

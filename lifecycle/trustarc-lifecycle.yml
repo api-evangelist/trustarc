@@ -1,0 +1,102 @@
+generated: '2026-08-27'
+method: searched
+source: >-
+  https://trustarchelp.zendesk.com/hc/en-us/articles/53518189041043-API-Versioning-Changelog,
+  https://status.trustarc.com/, https://trust.trustarc.com/en-US/policies/service-level-agreement,
+  and openapi/_original/trustarc-guardian-openapi.json
+versioning:
+  scheme: uri-path
+  current:
+    ccm-external-api: v1
+    irm-external-api: v1
+    cpm-external-api: v1
+    hub-external-integration: unversioned path (/api/hub/external-integration)
+    scim: v2
+    guardian: v1
+    assessment-manager: v1
+  policy: >-
+    The CCM External API uses URI versioning (/external/v1). Breaking changes are
+    introduced as new major versions. Minor additions (new optional fields, new endpoints)
+    are made within the current version without a version bump.
+  docs: https://trustarchelp.zendesk.com/hc/en-us/articles/53518189041043-API-Versioning-Changelog
+deprecation:
+  policy_url: https://trustarchelp.zendesk.com/hc/en-us/articles/53518189041043-API-Versioning-Changelog
+  policy: >-
+    When a new major version is released, the previous version is supported for a minimum
+    of 12 months to allow consumers time to migrate.
+  support_window: 12 months
+  sunset_header: false
+  sunset_header_note: >-
+    No RFC 8594 Sunset or Deprecation response header is documented, and none appears in
+    the Guardian OpenAPI. Deprecation is announced in prose in the changelog article only.
+  currently_deprecated: >-
+    "No endpoints are currently deprecated" — CCM External API deprecation notices,
+    2026-08-27.
+deprecated_operations:
+  - operation: openapi/_original/trustarc-guardian-openapi.json#initializeSdkWithListener
+    note: >-
+      The Android Mobile Consent SDK documents a DEPRECATED constructor-style init with a
+      listener parameter; the SDK guide directs integrators to TrustArc(context, sdkMode)
+      followed by addGoogleConsentListener(...). This is an SDK deprecation, not an
+      OpenAPI-declared one — no operation in the Guardian OpenAPI carries deprecated: true.
+    docs: https://trustarchelp.zendesk.com/hc/en-us/articles/32835745333907-Android
+status_page:
+  url: https://status.trustarc.com/
+  platform: Atlassian Statuspage
+  api: https://status.trustarc.com/api/v2/summary.json
+  verified: '2026-08-27'
+  http_status: 200
+  page_id: xdcfkwl0jw70
+  components:
+    - Ads Compliance Manager
+    - Assessment Manager
+    - Consent & Preference Manager
+    - Cookie Consent Manager
+    - Cookie Consent Manager Advanced
+    - Cookie Consent Manager Pro
+    - Data Mapping & Risk Manager
+    - Individual Rights Manager
+    - Mobile App Consent
+    - Nymity Research
+    - PrivacyCentral
+    - Risk Profile
+    - Trust Center
+    - TRUSTe Seal
+    - Website Monitoring Manager
+  subscribable: true
+  also_surfaced_at: https://trust.trustarc.com/en-US/availability
+sla:
+  url: https://trust.trustarc.com/en-US/policies/service-level-agreement
+  published: true
+  uptime_target: null
+  note: >-
+    A Service Level Agreement is published as a policy document in the TrustArc Trust
+    Center legal section. The uptime target is inside the document rather than stated on
+    the page, so no numeric target is recorded here rather than guessing one.
+release_cadence:
+  scheme: dated, product-suite releases
+  frequency: biweekly
+  note: >-
+    Privacy Studio and Governance Suite each ship dated release notes roughly every two
+    weeks; Trust Center and Nymity Research have their own release-note sections.
+  docs: changelog/trustarc-changelog.yml
+environments:
+  - name: production
+    hosts:
+      - https://api.trustarc.com
+      - https://login.truste.com
+      - https://irm.trustarc.com
+      - https://cpm.trustarc.com
+      - https://assess.truste.com
+  - name: staging
+    hosts:
+      - https://assess-stage.truste.com
+      - https://login-stage.truste.com
+    note: >-
+      Staging credentials are issued by the account manager, not self-service. See
+      sandbox/trustarc-sandbox.yml.
+  - name: eu-residency
+    hosts:
+      - https://cpm.trustarc.eu
+      - https://login.trustarc.eu
+    note: EU data-residency deployment of Consent & Preference Manager and the identity host.

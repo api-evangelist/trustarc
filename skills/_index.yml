@@ -1,0 +1,23 @@
+generated: '2026-08-27'
+method: generated
+source: >-
+  openapi/_original/trustarc-guardian-openapi.json (operationIds verified verbatim) and the
+  TrustArc help center API guides at trustarchelp.zendesk.com
+note: >-
+  Three skills covering the three marquee TrustArc integration flows. The SCIM skill is
+  grounded in the published OpenAPI; the CCM and IRM skills are grounded in the published
+  help center API references, since those APIs ship no machine-readable contract. No
+  operation, endpoint or parameter below was invented.
+skills:
+  - file: trustarc-scim-user-provisioning.md
+    name: Provision TrustArc users with SCIM 2.0
+    api: openapi/_original/trustarc-guardian-openapi.json
+    operations: [getServiceProviderConfig, getSchemas, getResourceTypes, getUsers, createUser, getUser, updateUser, patchUser, deleteUser, list, create, get_2, update, patch, delete]
+  - file: trustarc-cookie-consent-website-scan.md
+    name: Add websites and scan them for trackers
+    api: docs
+    operations: ['POST /external/v1/websites', 'DELETE /external/v1/websites', 'POST /external/v1/scans', 'GET /external/tracker/inventory/{cmId}']
+  - file: trustarc-dsr-request-lifecycle.md
+    name: Run a data subject request end to end in IRM
+    api: docs
+    operations: ['GET /api/v1/external/forms/all', 'POST /api/v1/external/requests', 'POST /api/v1/external/requests/search', 'POST /api/v1/external/requests/{id}/close', 'POST /api/v1/external/callback']

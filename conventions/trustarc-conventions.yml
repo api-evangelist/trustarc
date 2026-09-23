@@ -1,0 +1,205 @@
+generated: '2026-08-27'
+method: searched
+source: >-
+  TrustArc help center API guides (trustarchelp.zendesk.com) plus
+  openapi/_original/trustarc-guardian-openapi.json
+authentication:
+  style: OAuth 2.0 bearer token
+  header: 'Authorization: Bearer <access_token>'
+  grant: client_credentials (documented for every external API)
+  token_endpoints:
+    - https://api.trustarc.com/api/auth/oauth/token
+    - https://login.truste.com/oauth/token
+  credential_transport: >-
+    client_id and client_secret may be sent as form/query parameters or as HTTP Basic
+    credentials (client_id = username, client_secret = password).
+  token_lifetime: 21599 seconds in the published sample response (~6 hours)
+  token_format: JWT (bearerFormat JWT in the OpenAPI; the docs tell integrators to decode the exp claim)
+  credential_issuance: not self-service — client credentials are issued by a TrustArc account administrator
+  docs: https://trustarchelp.zendesk.com/hc/en-us/articles/49881862843155-Authorization-and-Authentication
+  see_also: authentication/trustarc-authentication.yml
+authorization:
+  model: role-based
+  roles_observed: [SUPER_ADMIN, ADMIN, DESIGNER, AAA-Respondent]
+  note: >-
+    Roles gate whole endpoints, not fields. A role change only takes effect on the next
+    token issuance. OAuth scopes are effectively unused for authorization — the discovery
+    document advertises only the "openid" scope.
+  docs: https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    No Idempotency-Key header (or equivalent) is documented anywhere in the TrustArc API
+    surface, and none appears in the Guardian OpenAPI. What TrustArc provides instead is a
+    set of PUT ...\/upsert operations keyed on a caller-supplied externalId — replaying an
+    upsert with the same externalId converges on the same record rather than creating a
+    duplicate. That is idempotent-by-key for those four Hub resources only; it does not
+    extend to POST creates (CCM scans, IRM requests, CPM consents), which have no
+    de-duplication contract.
+  upsert_operations:
+    - PUT /api/hub/external-integration/business-processes/upsert
+    - PUT /api/hub/external-integration/it-systems/upsert
+    - PUT /api/hub/external-integration/company-affiliates/upsert
+    - PUT /api/hub/external-integration/third-parties/upsert
+pagination:
+  style: page-number (Spring Data)
+  request_params:
+    page: 'The results page to retrieve (0…N)'
+    size: 'Number of records per page'
+    sort: 'property,asc|desc — multiple sort criteria supported'
+  response_fields:
+    - content
+    - totalElements
+    - totalPages
+    - number
+    - size
+    - first
+    - last
+    - numberOfElements
+    - empty
+    - sort
+    - pageable
+  default_page_size: not documented
+  max_page_size: not documented
+  applies_to: Guardian, Hub external-integration, CPM callback APIs, IRM request search
+  evidence: >-
+    page appears on 41 Guardian operations, size on 40 and sort on 29; the same envelope
+    is shown verbatim in the Hub and CPM help center guides.
+field_selection:
+  supported: true
+  param: fields
+  note: A `fields` query parameter appears on 25 Guardian operations for sparse responses.
+  related_params: [includeExtension, includeMetaTags, includeUserGroups, attributes]
+filtering:
+  common_params: [accountId, name, status, username, clientId, applications, location, ids, userIds]
+  change_feed_params:
+    since: "yyyy-MM-dd'T'HH:mm:ss — start of the change-event window"
+    eventType: enum filter on the integration-events feeds
+  date_range_params: [modifiedStart, modifiedEnd]
+metadata:
+  supported: true
+  note: >-
+    Guardian exposes first-class meta-tagging — MetaTag, CustomMetaTag, UserMetaTag and
+    ExAuthMetaTag resources with dedicated endpoints under /api/v1/accounts/{accountId}/metatags
+    and /api/v1/users/{userId}/metatags.
+request_tracing:
+  request_id_header: null
+  note: >-
+    No request-id / correlation-id response header is documented. When reporting a problem,
+    TrustArc support asks for the full request, the complete response body, the timestamp
+    from the error message and the account identifier — which is the workaround for the
+    absence of a trace id.
+  docs: https://trustarchelp.zendesk.com/hc/en-us/articles/53518128482707-FAQs-Troubleshooting
+versioning:
+  style: uri-path
+  see_also: lifecycle/trustarc-lifecycle.yml
+content_negotiation:
+  request: 'Content-Type: application/json'
+  response: 'Accept: application/json'
+  csv_variants:
+    - POST /api/ccm-reporting/analytics/csv
+    - POST /api/ccm-reporting/report/gdpr/csv
+error_envelope:
+  format: vendor-json (NOT RFC 9457)
+  see_also: errors/trustarc-problem-types.yml
+  partial_success: >-
+    207 Multi-Status on the CCM websites endpoints and errorList[] on Guardian batch
+    upserts mean a 2xx is not proof that every item succeeded.
+rate_limit_signaling:
+  headers_documented: []
+  status_on_exhaustion: 429
+  guidance: exponential backoff
+  see_also: rate-limits/trustarc-rate-limits.yml
+asynchrony:
+  pattern: queue-then-poll, plus registered callbacks
+  note: >-
+    POST /external/v1/scans returns 201 meaning QUEUED, not complete; cookie scans run for
+    minutes to hours. POST /api/reporting/data-extract returns a requestId that is polled
+    with GET /api/reporting/data-extract/{requestId}. Consent, data-subject and IRM request
+    events can instead be pushed to a registered callback URL.
+  see_also: asyncapi/trustarc-webhooks.yml
+client_quirks:
+  - >-
+    DELETE /external/v1/websites requires a REQUEST BODY on a DELETE. Some HTTP clients and
+    proxies refuse to send one; TrustArc documents this explicitly as a known integration
+    hazard.
+  - >-
+    IRM request bodies are keyed by per-form FIELD IDs, not display labels, and field IDs
+    vary per form. Callers must discover the form via GET /api/v1/external/forms/all and
+    read its field ids rather than hard-coding them.
+reversibility:
+  grade: documented
+  applies: true
+  note: >-
+    TrustArc's write surface is substantial (creates, upserts, deletes across consent,
+    requests, users, business processes) and several first-class reversal paths are
+    published. What is NOT published anywhere is a TIME WINDOW for any of them, so this
+    grades `documented` rather than `verified`. No window below is asserted, because the
+    documentation states none.
+  operations:
+    - action: Remove a website from a Consent Manager
+      reversal: DELETE /external/v1/websites
+      reverses: POST /external/v1/websites
+      window: null
+      window_source: null
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/53517557106963-API-Reference
+      note: >-
+        Symmetric add/remove on the same resource. Re-adding a removed URL is possible;
+        whether historical scan data for that URL survives removal is not documented.
+    - action: Close a data subject request
+      reversal: reopen via configuration, not via a documented API operation
+      reverses: POST /api/v1/external/requests/{id}/close
+      window: null
+      window_source: null
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/52354102146579-DROP-Process-to-IRM-API-Integration-Guide
+      note: >-
+        IRM has an account setting "Auto re-open closed requests on DS reply", so a closed
+        request CAN return to an open state — but that is triggered by a data-subject reply
+        under a tenant configuration, not by an API call the integrator controls. Treat
+        close as effectively one-way from the API.
+    - action: Reset a stuck reporting data-extract request
+      reversal: PUT /api/reporting/data-extract/{requestId}/reset
+      reverses: POST /api/reporting/data-extract
+      window: null
+      window_source: null
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/41668177541011-Reset-The-Request
+      note: A genuine undo/retry path for an in-flight asynchronous export.
+    - action: Remove a label from a request
+      reversal: DELETE /api/v1/external/requests/{requestId}/labels/name/{labelName}
+      reverses: PUT /api/v1/external/requests/{requestId}/labels/name/{labelName}
+      window: null
+      window_source: null
+      docs: https://trustarchelp.zendesk.com/hc/en-us/articles/39281274761363-Individual-Rights-Manager-Release-April-17-2024
+    - action: Detach an IT System from a Business Process
+      reversal: DELETE /api/hub/external-integration/business-processes/{id}/it-system-entity/{itSystemEntityId}
+      reverses: POST /api/hub/external-integration/business-processes/{id}/it-system-entity/{itSystemId}
+      window: null
+      window_source: null
+    - action: Correct a Hub record written by mistake
+      reversal: PUT .../upsert with the same externalId and corrected values
+      reverses: PUT .../upsert
+      window: null
+      window_source: null
+      note: >-
+        Upsert-by-externalId means a bad write can be overwritten rather than duplicated.
+        This is repair, not restore — the previous values are not returned by the API.
+  irreversible:
+    - operation: DELETE /api/hub/external-integration/{resource}/external-id/{external-id}
+      note: >-
+        No restore, undelete or trash endpoint is published for Hub Business Processes, IT
+        Systems, Company Affiliates or Third Parties. Treat the delete operations as
+        permanent from the API's point of view.
+    - operation: Bulk Delete Requests Permanently (IRM)
+      note: >-
+        The IRM UI names this action "Delete Permanently" and no API restore path is
+        documented.
+    - operation: DELETE /external/api/v2/scim/Users/{id}
+      note: No SCIM restore/undelete operation exists in the Guardian contract.
+  dry_run_mode:
+    supported: false
+    note: >-
+      No dry-run, preview or validate-only flag is documented on any TrustArc write
+      operation. An agent cannot rehearse a Hub upsert or an IRM request creation. The
+      staging environment (see sandbox/) is the only rehearsal surface, and it requires
+      separate credentials from the account manager.

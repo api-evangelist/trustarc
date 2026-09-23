@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: Trustarc Accounts Prefaces API
+  title: Guardian Accounts Prefaces API
+  description: Guardian Authentication
   version: v1
-  description: 'Operations tagged Accounts-Prefaces across 2 of this provider''s published API definitions: trustarc-guardian-openapi.json, trustarc-guardian-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://login.truste.com
   description: Generated server url
@@ -34,6 +34,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccountPreface'
       security:
       - guardianAuth: []
+      summary: Get 13
+      x-summary-source: derived
     put:
       tags:
       - Accounts-Prefaces
@@ -64,6 +66,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccountPreface'
       security:
       - guardianAuth: []
+      summary: Update 13
+      x-summary-source: derived
     delete:
       tags:
       - Accounts-Prefaces
@@ -84,9 +88,8 @@ paths:
           description: No Content
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Delete 11
+      x-summary-source: derived
   /api/v1/accounts/{accountId}/prefaces:
     get:
       tags:
@@ -125,6 +128,8 @@ paths:
                 $ref: '#/components/schemas/PageCustomerAccountPreface'
       security:
       - guardianAuth: []
+      summary: List by account
+      x-summary-source: derived
     post:
       tags:
       - Accounts-Prefaces
@@ -150,9 +155,8 @@ paths:
                 $ref: '#/components/schemas/CustomerAccountPreface'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: Create 14
+      x-summary-source: derived
   /api/v1/accounts/prefaces:
     get:
       tags:
@@ -192,19 +196,10 @@ paths:
                 $ref: '#/components/schemas/PageEntryStringListCustomerAccountPreface'
       security:
       - guardianAuth: []
-    servers:
-    - url: https://login.truste.com
-      description: Generated server url
+      summary: List 32
+      x-summary-source: derived
 components:
   schemas:
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     PageableObject:
       properties:
         paged:
@@ -231,6 +226,14 @@ components:
         prefaceId:
           type: string
           format: uuid
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
     PageEntryStringListCustomerAccountPreface:
       properties:
         totalElements:
@@ -311,6 +314,3 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
-x-refined-from:
-- trustarc-guardian-openapi.json
-- trustarc-guardian-openapi.yml

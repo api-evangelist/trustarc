@@ -144,15 +144,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ClientUserGroup:
-      properties:
-        id:
-          type: string
-          format: uuid
-        hostUri:
-          type: string
-        groupPrefix:
-          type: string
     UserGroupUsesDto:
       properties:
         isUsed:
@@ -165,6 +156,15 @@ components:
             - USER_PERMISSION
             - EX_AUTH_CONFIG_DEFAULT
           uniqueItems: true
+    ClientUserGroup:
+      properties:
+        id:
+          type: string
+          format: uuid
+        hostUri:
+          type: string
+        groupPrefix:
+          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2

@@ -140,23 +140,50 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PageableObject:
+    PageUserAction:
       properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
+        totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserAction'
+        number:
+          type: integer
+          format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        unpaged:
+        first:
           type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    UserAction:
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        dateCreated:
+          type: string
+          format: date-time
+        action:
+          type: string
+        additionalInformation:
+          type: string
     ReportStore:
       properties:
         id:
@@ -188,19 +215,6 @@ components:
           type: string
         ownerAccountId:
           type: string
-    UserAction:
-      properties:
-        id:
-          type: string
-        username:
-          type: string
-        dateCreated:
-          type: string
-          format: date-time
-        action:
-          type: string
-        additionalInformation:
-          type: string
     SortObject:
       properties:
         empty:
@@ -209,36 +223,22 @@ components:
           type: boolean
         unsorted:
           type: boolean
-    PageUserAction:
+    PageableObject:
       properties:
-        totalElements:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
           type: integer
           format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserAction'
-        number:
-          type: integer
-          format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
+        unpaged:
           type: boolean
   securitySchemes:
     guardianAuth:

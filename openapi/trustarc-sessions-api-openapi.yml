@@ -134,22 +134,51 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PageableObject:
+    UserProfileSessionCountDto:
       properties:
-        paged:
-          type: boolean
-        pageNumber:
+        userProfile:
+          $ref: '#/components/schemas/UserProfile'
+        sessionCount:
           type: integer
           format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
+    PageUserProfileSessionCountDto:
+      properties:
+        totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileSessionCountDto'
+        number:
+          type: integer
+          format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        unpaged:
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
           type: boolean
     UserProfile:
       properties:
@@ -199,52 +228,23 @@ components:
       required:
       - password
       - username
-    SortObject:
+    PageableObject:
       properties:
-        empty:
+        paged:
           type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    PageUserProfileSessionCountDto:
-      properties:
-        totalElements:
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
           type: integer
           format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserProfileSessionCountDto'
-        number:
-          type: integer
-          format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
+        unpaged:
           type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
-    UserProfileSessionCountDto:
-      properties:
-        userProfile:
-          $ref: '#/components/schemas/UserProfile'
-        sessionCount:
-          type: integer
-          format: int32
   securitySchemes:
     guardianAuth:
       type: oauth2

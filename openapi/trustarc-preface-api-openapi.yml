@@ -96,6 +96,21 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    Preface:
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - CHANGE_PASSWORD_WARN
+          - ANNOUNCE_PAGE
+          - NONE
+        viewName:
+          type: string
+        mandatory:
+          type: boolean
     PagePreface:
       properties:
         totalElements:
@@ -126,21 +141,6 @@ components:
           type: integer
           format: int32
         empty:
-          type: boolean
-    Preface:
-      properties:
-        id:
-          type: string
-          format: uuid
-        type:
-          type: string
-          enum:
-          - CHANGE_PASSWORD_WARN
-          - ANNOUNCE_PAGE
-          - NONE
-        viewName:
-          type: string
-        mandatory:
           type: boolean
     PageableObject:
       properties:

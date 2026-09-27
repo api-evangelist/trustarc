@@ -200,23 +200,46 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PageableObject:
+    EntityConfigKeyFormat:
       properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
+        key:
+          type: string
+        display:
+          type: string
+        info:
+          type: string
+        format:
+          type: string
+        formatMatcher:
+          type: string
+        defaultValue:
+          type: string
+        defaultExpressionValue:
+          type: string
+        validChecker:
+          $ref: '#/components/schemas/ValidChecker'
+        applicableTos:
+          type: array
+          items:
+            type: string
+        formatKeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatKeyInfo'
+        keyType:
+          type: string
+          enum:
+          - STRING
+          - BOOLEAN
+          - NUMBER
+    ValidChecker:
+      properties:
+        type:
+          type: string
+          enum:
+          - DATE_RANGE
+        range:
+          type: string
     PageEntityConfig:
       properties:
         totalElements:
@@ -274,12 +297,6 @@ components:
           - NUMBER
         modifiedById:
           type: string
-    FormatKeyInfo:
-      properties:
-        key:
-          type: string
-        info:
-          type: string
     SortObject:
       properties:
         empty:
@@ -288,46 +305,29 @@ components:
           type: boolean
         unsorted:
           type: boolean
-    ValidChecker:
-      properties:
-        type:
-          type: string
-          enum:
-          - DATE_RANGE
-        range:
-          type: string
-    EntityConfigKeyFormat:
+    FormatKeyInfo:
       properties:
         key:
           type: string
-        display:
-          type: string
         info:
           type: string
-        format:
-          type: string
-        formatMatcher:
-          type: string
-        defaultValue:
-          type: string
-        defaultExpressionValue:
-          type: string
-        validChecker:
-          $ref: '#/components/schemas/ValidChecker'
-        applicableTos:
-          type: array
-          items:
-            type: string
-        formatKeys:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatKeyInfo'
-        keyType:
-          type: string
-          enum:
-          - STRING
-          - BOOLEAN
-          - NUMBER
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2

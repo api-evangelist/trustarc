@@ -235,42 +235,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    PermissionProfileUserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        permissionProfileId:
-          type: string
-          format: uuid
-          writeOnly: true
-    ExAuthMetaTag:
-      properties:
-        value:
-          type: string
-        metaTagId:
-          type: string
-          format: uuid
-        metaTagName:
-          type: string
     PageEntryStringString:
       properties:
         totalElements:
@@ -448,27 +412,6 @@ components:
           format: int64
         accountId:
           type: string
-    ClientApplicationRole:
-      properties:
-        id:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        permissions:
-          type: string
-    ExternalAuthConfigUserGroup:
-      properties:
-        name:
-          type: string
-        externalAuthConfigId:
-          type: string
-          writeOnly: true
-        clientId:
-          type: string
     PageExternalAuthConfig:
       properties:
         totalElements:
@@ -500,6 +443,25 @@ components:
           format: int32
         empty:
           type: boolean
+    ExternalAuthConfigUserGroup:
+      properties:
+        name:
+          type: string
+        externalAuthConfigId:
+          type: string
+          writeOnly: true
+        clientId:
+          type: string
+    PermissionProfileUserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
     SortObject:
       properties:
         empty:
@@ -507,6 +469,44 @@ components:
         sorted:
           type: boolean
         unsorted:
+          type: boolean
+    ExAuthMetaTag:
+      properties:
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
           type: boolean
   securitySchemes:
     guardianAuth:

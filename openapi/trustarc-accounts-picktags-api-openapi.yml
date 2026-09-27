@@ -280,23 +280,12 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PageableObject:
+    BatchJobError:
       properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
+        entry:
+          type: string
+        message:
+          type: string
     BatchJob:
       properties:
         id:
@@ -377,29 +366,6 @@ components:
           type: string
         targetAccountId:
           type: string
-    BatchJobParameter:
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        value:
-          type: string
-    BatchJobError:
-      properties:
-        entry:
-          type: string
-        message:
-          type: string
-    JsonPatch: {}
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     PagePickTag:
       properties:
         totalElements:
@@ -431,6 +397,23 @@ components:
           format: int32
         empty:
           type: boolean
+    JsonPatch: {}
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
     PickTag:
       properties:
         id:
@@ -446,6 +429,23 @@ components:
             type: string
         accountId:
           type: string
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2

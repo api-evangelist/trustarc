@@ -85,7 +85,6 @@ components:
           type: string
         group:
           type: string
-    TriggerBuilderTrigger: {}
     Trigger:
       properties:
         nextFireTime:
@@ -148,6 +147,7 @@ components:
         group:
           type: string
     ScheduleBuilderTrigger: {}
+    TriggerBuilderTrigger: {}
   securitySchemes:
     guardianAuth:
       type: oauth2

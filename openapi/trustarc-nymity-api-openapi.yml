@@ -55,14 +55,20 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    BatchJobParameter:
+    NymitySyncInfo:
       properties:
-        id:
+        accountId:
           type: string
-        name:
+        nymityId:
           type: string
-        value:
-          type: string
+        totalUsers:
+          type: integer
+          format: int64
+        syncUsers:
+          type: integer
+          format: int64
+        accountSynced:
+          type: boolean
     BatchJob:
       properties:
         id:
@@ -143,26 +149,20 @@ components:
           type: string
         targetAccountId:
           type: string
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
     BatchJobError:
       properties:
         entry:
           type: string
         message:
           type: string
-    NymitySyncInfo:
-      properties:
-        accountId:
-          type: string
-        nymityId:
-          type: string
-        totalUsers:
-          type: integer
-          format: int64
-        syncUsers:
-          type: integer
-          format: int64
-        accountSynced:
-          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2

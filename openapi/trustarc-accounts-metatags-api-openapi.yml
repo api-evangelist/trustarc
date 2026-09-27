@@ -158,14 +158,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     PageMetaTag:
       properties:
         totalElements:
@@ -224,6 +216,14 @@ components:
         sort:
           $ref: '#/components/schemas/SortObject'
         unpaged:
+          type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
           type: boolean
   securitySchemes:
     guardianAuth:

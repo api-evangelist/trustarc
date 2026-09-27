@@ -162,6 +162,26 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    UserActivation:
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - NewUser
+          - PasswordReset
+        code:
+          type: string
+        expirationDate:
+          type: string
+          format: date-time
+        expired:
+          type: boolean
+        user:
+          $ref: '#/components/schemas/UserProfile'
+        userProfileId:
+          type: string
     PageUserActivation:
       properties:
         totalElements:
@@ -193,22 +213,13 @@ components:
           format: int32
         empty:
           type: boolean
-    PageableObject:
+    SortObject:
       properties:
-        paged:
+        empty:
           type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
+        sorted:
+          type: boolean
+        unsorted:
           type: boolean
     UserProfile:
       properties:
@@ -258,33 +269,22 @@ components:
       required:
       - password
       - username
-    UserActivation:
+    PageableObject:
       properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-          - NewUser
-          - PasswordReset
-        code:
-          type: string
-        expirationDate:
-          type: string
-          format: date-time
-        expired:
+        paged:
           type: boolean
-        user:
-          $ref: '#/components/schemas/UserProfile'
-        userProfileId:
-          type: string
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
           type: boolean
   securitySchemes:
     guardianAuth:

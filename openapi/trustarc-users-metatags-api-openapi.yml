@@ -225,23 +225,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
     PageEntryStringString:
       properties:
         totalElements:
@@ -277,6 +260,14 @@ components:
           type: integer
           format: int32
         empty:
+          type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
           type: boolean
     SliceUserMetaTagSearchDTO:
       properties:
@@ -321,13 +312,22 @@ components:
                 type: string
               key:
                 type: string
-    SortObject:
+    PageableObject:
       properties:
-        empty:
+        paged:
           type: boolean
-        sorted:
-          type: boolean
-        unsorted:
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
           type: boolean
   securitySchemes:
     guardianAuth:

@@ -57,14 +57,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     PageableObject:
       properties:
         paged:
@@ -82,24 +74,6 @@ components:
           $ref: '#/components/schemas/SortObject'
         unpaged:
           type: boolean
-    UserSwitchDTO:
-      properties:
-        userId:
-          type: string
-        username:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        accountName:
-          type: string
-        roleName:
-          type: string
-        default:
-          type: boolean
-        fullName:
-          type: string
     PageUserSwitchDTO:
       properties:
         totalElements:
@@ -130,6 +104,32 @@ components:
           type: integer
           format: int32
         empty:
+          type: boolean
+    UserSwitchDTO:
+      properties:
+        userId:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        accountName:
+          type: string
+        roleName:
+          type: string
+        default:
+          type: boolean
+        fullName:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
           type: boolean
   securitySchemes:
     guardianAuth:

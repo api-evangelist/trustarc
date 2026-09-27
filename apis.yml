@@ -63,7 +63,6 @@ access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/trustarc.png
 tags:
   - Privacy
-  - Data Privacy
   - SCIM
   - Identity
   - Authentication
@@ -234,12 +233,13 @@ apis:
   - Data Mapping
   - Data Inventory
   - Privacy Governance
-  - Third-Party Risk
+  - Third-Party Risk Management
   tags_raw:
   - Data Mapping
   - Data Inventory
   - Privacy Governance
   - Third Party Risk
+  - Third-Party Risk
   properties:
   - type: Documentation
     url: >-

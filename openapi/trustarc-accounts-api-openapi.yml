@@ -917,64 +917,97 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PageableObject:
+    MetaTag:
       properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    PermissionProfileUserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        permissionProfileId:
+        id:
           type: string
           format: uuid
-          writeOnly: true
-    PageUserCredentials:
+        name:
+          type: string
+        required:
+          type: boolean
+        displayName:
+          type: string
+    BatchJob:
       properties:
-        totalElements:
+        id:
+          type: string
+        jobInstanceId:
           type: integer
           format: int64
-        totalPages:
+        jobExecutionId:
           type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
+          format: int64
+        createTime:
+          type: string
+          format: date-time
+        lastRunTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        currentStatus:
+          type: string
+        resourceName:
+          type: string
+        batchJobType:
+          type: string
+          enum:
+          - DELETE_USER
+          - IMPORT_ORG
+          - IMPORT_USER
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - REFRESH_USER_SEARCH
+          - RUN_TASK
+          - TASK_UNMANAGE_PASSWORD
+          - TASK_RESET_PASSWORD
+          - TASK_UPDATE_PERMISSION
+          - TASK_REFRESH_USER_CACHE
+          - TASK_REFRESH_USER_META_CACHE
+          - TASK_SFTP_PULLER
+          - TASK_LOGIN_ATTEMPT_CLEANUP
+          - TASK_REPORT_STORE_CLEANUP
+          - TASK_STORAGE_CLEANUP
+          - TASK_ACTIVATION_CLEANUP
+          - TASK_API_METER_PROMOTE
+          - TASK_EMAIL_LOGIN_REPORT
+          - TASK_NYMITY_SYNC_ACCOUNT
+          - TASK_EMAIL_FULL_LOGIN_REPORT
+          - TASK_IMPORT_PICK_TAGS
+          - TASK_DYNAMIC_REPORT
+          - TASK_IMPORT_CUSTOM_META_TAG
+          - TASK_TOKEN_EXP_EMAIL
+          - TASK_EMAIL_NEW_USER_REPORT
+        percentDone:
           type: integer
-          format: int32
-        content:
+          format: int64
+        currentMessage:
+          type: string
+        writeCount:
+          type: integer
+          format: int64
+        readCount:
+          type: integer
+          format: int64
+        totalCount:
+          type: integer
+          format: int64
+        errors:
           type: array
           items:
-            $ref: '#/components/schemas/UserCredentials'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
+            $ref: '#/components/schemas/BatchJobError'
+          uniqueItems: true
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BatchJobParameter'
+        startedByUserId:
+          type: string
+        targetAccountId:
+          type: string
     CustomerClientApplication:
       allOf:
       - $ref: '#/components/schemas/ClientApplication'
@@ -985,6 +1018,53 @@ components:
             format: int64
       required:
       - clientId
+    UserMetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+    ClientExtensionLicense:
+      properties:
+        id:
+          type: string
+          format: uuid
+        identifier:
+          type: string
+        name:
+          type: string
+    Address:
+      properties:
+        formatted:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        region:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
     PageCustomerAccount:
       properties:
         totalElements:
@@ -1016,6 +1096,88 @@ components:
           format: int32
         empty:
           type: boolean
+    UserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        applicationClientId:
+          type: string
+    PermissionProfile:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        externalId:
+          type: string
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfileUserGroup'
+          uniqueItems: true
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        modifiedById:
+          type: string
+        userCount:
+          type: integer
+          format: int64
+        accountId:
+          type: string
+    CustomerAccountExtension:
+      properties:
+        id:
+          type: string
+        uploadHome:
+          type: string
+        defaultUserRoles:
+          type: string
+        defaultUserGroups:
+          type: string
+        applicationLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientExtensionLicense'
+          uniqueItems: true
+        trustArcLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountClientTrustArcLicense'
+          uniqueItems: true
+        extLoginOnly:
+          type: boolean
+        accountId:
+          type: string
+        adminPersonId:
+          type: string
+    AccountClientTrustArcLicense:
+      properties:
+        licenseId:
+          type: string
+        emptyJustification:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+        modifiedById:
+          type: string
     UserCredentials:
       properties:
         id:
@@ -1091,103 +1253,31 @@ components:
           uniqueItems: true
         modifiedById:
           type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
     Response:
       properties:
         size:
           type: integer
           format: int32
-    ReportStore:
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-          - EXPORT_USER
-          - EXPORT_USER_ACTION
-          - EXPORT_USER_AUDIT_EVENTS
-          - EXPORT_LOGIN_REPORT
-          - EXPORT_FULL_LOGIN_REPORT
-          - EXPORT_USER_GROUP
-          - EXPORT_NEW_USER_REPORT
-        fileName:
-          type: string
-        file:
-          type: string
-          format: byte
-          writeOnly: true
-        fileType:
-          type: string
-          enum:
-          - CSV
-        createdDate:
-          type: string
-          format: date-time
-        createdById:
-          type: string
-        ownerAccountId:
-          type: string
-    BatchJobError:
-      properties:
-        entry:
-          type: string
-        message:
-          type: string
-    CustomerAccountExtension:
-      properties:
-        id:
-          type: string
-        uploadHome:
-          type: string
-        defaultUserRoles:
-          type: string
-        defaultUserGroups:
-          type: string
-        applicationLicenses:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientExtensionLicense'
-          uniqueItems: true
-        trustArcLicenses:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountClientTrustArcLicense'
-          uniqueItems: true
-        extLoginOnly:
-          type: boolean
-        accountId:
-          type: string
-        adminPersonId:
-          type: string
-    InternalClientApplication:
-      allOf:
-      - $ref: '#/components/schemas/ClientApplication'
-      - type: object
-        properties:
-          siteUri:
-            type: string
-          logoUri:
-            type: string
-          helpUri:
-            type: string
-          redirectPriority:
-            type: integer
-            format: int32
-          showOnTopheader:
-            type: boolean
-      required:
-      - clientId
-    MetaTag:
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        required:
-          type: boolean
-        displayName:
-          type: string
     CustomerAccount:
       properties:
         id:
@@ -1305,118 +1395,6 @@ components:
           type: string
       required:
       - legalName
-    GrantedAuthority:
-      properties:
-        authority:
-          type: string
-    BatchJob:
-      properties:
-        id:
-          type: string
-        jobInstanceId:
-          type: integer
-          format: int64
-        jobExecutionId:
-          type: integer
-          format: int64
-        createTime:
-          type: string
-          format: date-time
-        lastRunTime:
-          type: string
-          format: date-time
-        endTime:
-          type: string
-          format: date-time
-        currentStatus:
-          type: string
-        resourceName:
-          type: string
-        batchJobType:
-          type: string
-          enum:
-          - DELETE_USER
-          - IMPORT_ORG
-          - IMPORT_USER
-          - EXPORT_USER
-          - EXPORT_USER_ACTION
-          - EXPORT_USER_AUDIT_EVENTS
-          - REFRESH_USER_SEARCH
-          - RUN_TASK
-          - TASK_UNMANAGE_PASSWORD
-          - TASK_RESET_PASSWORD
-          - TASK_UPDATE_PERMISSION
-          - TASK_REFRESH_USER_CACHE
-          - TASK_REFRESH_USER_META_CACHE
-          - TASK_SFTP_PULLER
-          - TASK_LOGIN_ATTEMPT_CLEANUP
-          - TASK_REPORT_STORE_CLEANUP
-          - TASK_STORAGE_CLEANUP
-          - TASK_ACTIVATION_CLEANUP
-          - TASK_API_METER_PROMOTE
-          - TASK_EMAIL_LOGIN_REPORT
-          - TASK_NYMITY_SYNC_ACCOUNT
-          - TASK_EMAIL_FULL_LOGIN_REPORT
-          - TASK_IMPORT_PICK_TAGS
-          - TASK_DYNAMIC_REPORT
-          - TASK_IMPORT_CUSTOM_META_TAG
-          - TASK_TOKEN_EXP_EMAIL
-          - TASK_EMAIL_NEW_USER_REPORT
-        percentDone:
-          type: integer
-          format: int64
-        currentMessage:
-          type: string
-        writeCount:
-          type: integer
-          format: int64
-        readCount:
-          type: integer
-          format: int64
-        totalCount:
-          type: integer
-          format: int64
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/BatchJobError'
-          uniqueItems: true
-        parameters:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/BatchJobParameter'
-        startedByUserId:
-          type: string
-        targetAccountId:
-          type: string
-    UserMetaTag:
-      properties:
-        id:
-          type: string
-          format: uuid
-        value:
-          type: string
-        metaTagId:
-          type: string
-          format: uuid
-        metaTagName:
-          type: string
-    UploadStatus:
-      properties:
-        message:
-          type: string
-    ClientApplicationRole:
-      properties:
-        id:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        permissions:
-          type: string
     UserExtensionDTO:
       properties:
         userMgrId:
@@ -1427,38 +1405,6 @@ components:
           type: string
         totpEnabled:
           type: boolean
-    UserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        applicationClientId:
-          type: string
-    AccountClientTrustArcLicense:
-      properties:
-        licenseId:
-          type: string
-        emptyJustification:
-          type: string
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        clientId:
-          type: string
-        modifiedById:
-          type: string
-    BatchJobParameter:
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        value:
-          type: string
     ClientApplication:
       discriminator:
         propertyName: type
@@ -1542,72 +1488,126 @@ components:
           type: string
       required:
       - clientId
-    PermissionProfile:
+    PageUserCredentials:
       properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        externalId:
-          type: string
-        applicationRoles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/PermissionProfileUserGroup'
-          uniqueItems: true
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        modifiedById:
-          type: string
-        userCount:
+        totalElements:
           type: integer
           format: int64
-        accountId:
-          type: string
-    SortObject:
-      properties:
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCredentials'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
         empty:
           type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    ClientExtensionLicense:
+    InternalClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          siteUri:
+            type: string
+          logoUri:
+            type: string
+          helpUri:
+            type: string
+          redirectPriority:
+            type: integer
+            format: int32
+          showOnTopheader:
+            type: boolean
+      required:
+      - clientId
+    GrantedAuthority:
       properties:
-        id:
+        authority:
           type: string
-          format: uuid
-        identifier:
+    BatchJobError:
+      properties:
+        entry:
           type: string
+        message:
+          type: string
+    PermissionProfileUserGroup:
+      properties:
         name:
           type: string
-    Address:
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
+    ReportStore:
       properties:
-        formatted:
-          type: string
-        streetAddress:
-          type: string
-        locality:
-          type: string
-        region:
-          type: string
-        postalCode:
-          type: string
-        country:
+        id:
           type: string
         type:
           type: string
-        primary:
+          enum:
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - EXPORT_LOGIN_REPORT
+          - EXPORT_FULL_LOGIN_REPORT
+          - EXPORT_USER_GROUP
+          - EXPORT_NEW_USER_REPORT
+        fileName:
+          type: string
+        file:
+          type: string
+          format: byte
+          writeOnly: true
+        fileType:
+          type: string
+          enum:
+          - CSV
+        createdDate:
+          type: string
+          format: date-time
+        createdById:
+          type: string
+        ownerAccountId:
+          type: string
+    UploadStatus:
+      properties:
+        message:
+          type: string
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
           type: boolean
   securitySchemes:
     guardianAuth:

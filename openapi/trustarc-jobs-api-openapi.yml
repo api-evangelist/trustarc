@@ -347,23 +347,43 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PageableObject:
+    PageBatchJob:
       properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
+        totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchJob'
+        number:
+          type: integer
+          format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        unpaged:
+        first:
           type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    BatchJobError:
+      properties:
+        entry:
+          type: string
+        message:
+          type: string
     BatchJob:
       properties:
         id:
@@ -444,6 +464,12 @@ components:
           type: string
         targetAccountId:
           type: string
+    BatchJobInfoWrapper:
+      properties:
+        paramMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BatchJobRequestParam'
     BatchJobParameter:
       properties:
         id:
@@ -452,19 +478,6 @@ components:
           type: string
         value:
           type: string
-    BatchJobError:
-      properties:
-        entry:
-          type: string
-        message:
-          type: string
-    BatchJobInfoWrapper:
-      properties:
-        paramMap:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/BatchJobRequestParam'
-    BatchJobRequestParam: {}
     SortObject:
       properties:
         empty:
@@ -473,36 +486,23 @@ components:
           type: boolean
         unsorted:
           type: boolean
-    PageBatchJob:
+    BatchJobRequestParam: {}
+    PageableObject:
       properties:
-        totalElements:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
           type: integer
           format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/BatchJob'
-        number:
-          type: integer
-          format: int32
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
+        unpaged:
           type: boolean
   securitySchemes:
     guardianAuth:

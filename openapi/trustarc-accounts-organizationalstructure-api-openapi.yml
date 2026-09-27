@@ -213,23 +213,34 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PageableObject:
+    OrganizationalGroupDTO:
       properties:
-        paged:
+        name:
+          type: string
+        externalGroupId:
+          type: string
+        groupType:
+          type: string
+        active:
           type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
+        parentExternalGroupId:
+          type: string
+        childCount:
           type: integer
           format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationalGroupDTO'
+    OrganizationalStructureDTO:
+      properties:
+        accountId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        root:
+          $ref: '#/components/schemas/OrganizationalGroupDTO'
     PageOrganizationalGroupDTO:
       properties:
         totalElements:
@@ -269,34 +280,23 @@ components:
           type: boolean
         unsorted:
           type: boolean
-    OrganizationalStructureDTO:
+    PageableObject:
       properties:
-        accountId:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-        root:
-          $ref: '#/components/schemas/OrganizationalGroupDTO'
-    OrganizationalGroupDTO:
-      properties:
-        name:
-          type: string
-        externalGroupId:
-          type: string
-        groupType:
-          type: string
-        active:
+        paged:
           type: boolean
-        parentExternalGroupId:
-          type: string
-        childCount:
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
           type: integer
           format: int64
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationalGroupDTO'
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2

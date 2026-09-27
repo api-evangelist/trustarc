@@ -136,31 +136,24 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    SortObject:
+    AccountLongExpToken:
       properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
+        id:
+          type: string
+          format: uuid
+        expiresOn:
+          type: string
+          format: date-time
+        createdDate:
+          type: string
+          format: date-time
+        token:
+          type: string
+          readOnly: true
+        accountId:
+          type: string
+        userId:
+          type: string
     SliceAccountLongExpToken:
       properties:
         pageable:
@@ -186,24 +179,31 @@ components:
           format: int32
         empty:
           type: boolean
-    AccountLongExpToken:
+    PageableObject:
       properties:
-        id:
-          type: string
-          format: uuid
-        expiresOn:
-          type: string
-          format: date-time
-        createdDate:
-          type: string
-          format: date-time
-        token:
-          type: string
-          readOnly: true
-        accountId:
-          type: string
-        userId:
-          type: string
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2

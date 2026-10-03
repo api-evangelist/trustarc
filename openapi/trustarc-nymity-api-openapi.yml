@@ -69,6 +69,14 @@ components:
           format: int64
         accountSynced:
           type: boolean
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
     BatchJob:
       properties:
         id:
@@ -148,14 +156,6 @@ components:
         startedByUserId:
           type: string
         targetAccountId:
-          type: string
-    BatchJobParameter:
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        value:
           type: string
     BatchJobError:
       properties:

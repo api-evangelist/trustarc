@@ -224,6 +224,109 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    RemoveOperation:
+      allOf:
+      - $ref: '#/components/schemas/PatchOperation'
+      - type: object
+        properties:
+          value:
+            $ref: '#/components/schemas/JsonNode'
+      required:
+      - path
+    PatchRequest:
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        id:
+          type: string
+        externalId:
+          type: string
+        Operations:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/AddOperation'
+            - $ref: '#/components/schemas/RemoveOperation'
+            - $ref: '#/components/schemas/ReplaceOperation'
+        meta:
+          $ref: '#/components/schemas/Meta'
+      required:
+      - Operations
+    AddOperation:
+      allOf:
+      - $ref: '#/components/schemas/PatchOperation'
+      - type: object
+        properties:
+          value:
+            $ref: '#/components/schemas/JsonNode'
+    ScimMember:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        $ref:
+          type: string
+          format: uri
+    PatchOperation:
+      discriminator:
+        propertyName: op
+      properties:
+        path:
+          type: string
+        removeOpValue:
+          oneOf:
+          - $ref: '#/components/schemas/AddOperation'
+          - $ref: '#/components/schemas/RemoveOperation'
+          - $ref: '#/components/schemas/ReplaceOperation'
+          writeOnly: true
+        op:
+          type: string
+      required:
+      - op
+    ScimGroupResource:
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        id:
+          type: string
+        externalId:
+          type: string
+        meta:
+          $ref: '#/components/schemas/Meta'
+        displayName:
+          type: string
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimMember'
+    Meta:
+      properties:
+        resourceType:
+          type: string
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        location:
+          type: string
+          format: uri
+        version:
+          type: string
+        createdMillis:
+          $ref: '#/components/schemas/Meta'
+        lastModifiedMillis:
+          $ref: '#/components/schemas/Meta'
     ReplaceOperation:
       allOf:
       - $ref: '#/components/schemas/PatchOperation'
@@ -314,109 +417,6 @@ components:
           type: boolean
         embeddedValue:
           type: boolean
-    Meta:
-      properties:
-        resourceType:
-          type: string
-        created:
-          type: string
-          format: date-time
-        lastModified:
-          type: string
-          format: date-time
-        location:
-          type: string
-          format: uri
-        version:
-          type: string
-        createdMillis:
-          $ref: '#/components/schemas/Meta'
-        lastModifiedMillis:
-          $ref: '#/components/schemas/Meta'
-    AddOperation:
-      allOf:
-      - $ref: '#/components/schemas/PatchOperation'
-      - type: object
-        properties:
-          value:
-            $ref: '#/components/schemas/JsonNode'
-    ScimGroupResource:
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        id:
-          type: string
-        externalId:
-          type: string
-        meta:
-          $ref: '#/components/schemas/Meta'
-        displayName:
-          type: string
-        members:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScimMember'
-    ScimMember:
-      properties:
-        value:
-          type: string
-        display:
-          type: string
-        type:
-          type: string
-        $ref:
-          type: string
-          format: uri
-    RemoveOperation:
-      allOf:
-      - $ref: '#/components/schemas/PatchOperation'
-      - type: object
-        properties:
-          value:
-            $ref: '#/components/schemas/JsonNode'
-      required:
-      - path
-    PatchRequest:
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        id:
-          type: string
-        externalId:
-          type: string
-        Operations:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/AddOperation'
-            - $ref: '#/components/schemas/RemoveOperation'
-            - $ref: '#/components/schemas/ReplaceOperation'
-        meta:
-          $ref: '#/components/schemas/Meta'
-      required:
-      - Operations
-    PatchOperation:
-      discriminator:
-        propertyName: op
-      properties:
-        path:
-          type: string
-        removeOpValue:
-          oneOf:
-          - $ref: '#/components/schemas/AddOperation'
-          - $ref: '#/components/schemas/RemoveOperation'
-          - $ref: '#/components/schemas/ReplaceOperation'
-          writeOnly: true
-        op:
-          type: string
-      required:
-      - op
   securitySchemes:
     guardianAuth:
       type: oauth2

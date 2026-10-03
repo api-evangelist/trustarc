@@ -140,36 +140,13 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PageUserAction:
+    SortObject:
       properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserAction'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
           type: boolean
     UserAction:
       properties:
@@ -215,13 +192,36 @@ components:
           type: string
         ownerAccountId:
           type: string
-    SortObject:
+    PageUserAction:
       properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserAction'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
         empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
           type: boolean
     PageableObject:
       properties:

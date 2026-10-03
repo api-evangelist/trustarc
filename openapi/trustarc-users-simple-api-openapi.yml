@@ -40,14 +40,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    UserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        applicationClientId:
-          type: string
     PermissionProfile:
       properties:
         id:
@@ -80,6 +72,16 @@ components:
           format: int64
         accountId:
           type: string
+    PermissionProfileUserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
     UserMetaTag:
       properties:
         id:
@@ -92,26 +94,6 @@ components:
           format: uuid
         metaTagName:
           type: string
-    PermissionProfileUserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        permissionProfileId:
-          type: string
-          format: uuid
-          writeOnly: true
-    UserExtensionDTO:
-      properties:
-        userMgrId:
-          type: string
-        timeZone:
-          type: string
-        locale:
-          type: string
-        totpEnabled:
-          type: boolean
     SimpleUser:
       properties:
         id:
@@ -132,6 +114,14 @@ components:
           type: array
           items:
             type: string
+    UserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        applicationClientId:
+          type: string
     ClientApplicationRole:
       properties:
         id:
@@ -219,6 +209,16 @@ components:
           uniqueItems: true
         modifiedById:
           type: string
+    UserExtensionDTO:
+      properties:
+        userMgrId:
+          type: string
+        timeZone:
+          type: string
+        locale:
+          type: string
+        totpEnabled:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2

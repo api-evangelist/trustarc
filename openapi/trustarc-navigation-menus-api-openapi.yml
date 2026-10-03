@@ -176,18 +176,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ClientApplicationRole:
-      properties:
-        id:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        permissions:
-          type: string
     ApplicationMenu:
       properties:
         id:
@@ -213,6 +201,18 @@ components:
           type: string
           format: uuid
         clientId:
+          type: string
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
           type: string
   securitySchemes:
     guardianAuth:

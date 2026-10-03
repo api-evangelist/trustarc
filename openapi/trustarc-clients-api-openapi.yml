@@ -586,6 +586,93 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    CustomerClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          requestLimit:
+            type: integer
+            format: int64
+      required:
+      - clientId
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    GrantedAuthority:
+      properties:
+        authority:
+          type: string
+    MetricApi:
+      properties:
+        id:
+          type: string
+          format: uuid
+        method:
+          type: string
+        status:
+          type: integer
+          format: int32
+        path:
+          type: string
+    ClientApplicationKey:
+      properties:
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+    ClientApplicationMetric:
+      properties:
+        id:
+          type: string
+          format: uuid
+        date:
+          type: string
+          format: date-time
+        count:
+          type: integer
+          format: int64
+        applicationId:
+          type: string
+        apiId:
+          type: string
+          format: uuid
+    CustomerMeterDTO:
+      properties:
+        clientId:
+          type: string
+        count:
+          type: integer
+          format: int64
+        apiList:
+          type: array
+          items:
+            $ref: '#/components/schemas/APIMeterDTO'
+    ApiMetricHistogram:
+      properties:
+        metricApi:
+          $ref: '#/components/schemas/MetricApi'
+        histogram:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistogramData'
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
     InternalClientApplication:
       allOf:
       - $ref: '#/components/schemas/ClientApplication'
@@ -604,51 +691,14 @@ components:
             type: boolean
       required:
       - clientId
-    ApiMetricHistogram:
+    HistogramData:
       properties:
-        metricApi:
-          $ref: '#/components/schemas/MetricApi'
-        histogram:
-          type: array
-          items:
-            $ref: '#/components/schemas/HistogramData'
-    GrantedAuthority:
-      properties:
-        authority:
-          type: string
-    MetricApi:
-      properties:
-        id:
-          type: string
-          format: uuid
-        method:
-          type: string
-        status:
-          type: integer
-          format: int32
-        path:
-          type: string
-    CustomerMeterDTO:
-      properties:
-        clientId:
-          type: string
-        count:
+        sumFreq:
           type: integer
           format: int64
-        apiList:
-          type: array
-          items:
-            $ref: '#/components/schemas/APIMeterDTO'
-    CustomerClientApplication:
-      allOf:
-      - $ref: '#/components/schemas/ClientApplication'
-      - type: object
-        properties:
-          requestLimit:
-            type: integer
-            format: int64
-      required:
-      - clientId
+        dateTime:
+          type: string
+          format: date-time
     PageClientApplication:
       properties:
         totalElements:
@@ -683,22 +733,6 @@ components:
           format: int32
         empty:
           type: boolean
-    ClientApplicationMetric:
-      properties:
-        id:
-          type: string
-          format: uuid
-        date:
-          type: string
-          format: date-time
-        count:
-          type: integer
-          format: int64
-        applicationId:
-          type: string
-        apiId:
-          type: string
-          format: uuid
     APIMeterDTO:
       properties:
         api:
@@ -709,35 +743,6 @@ components:
         count:
           type: integer
           format: int64
-    ClientMetricHistogram:
-      properties:
-        clientId:
-          type: string
-        buckets:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiMetricHistogram'
-        dateTimes:
-          type: array
-          items:
-            type: string
-            format: date-time
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    HistogramData:
-      properties:
-        sumFreq:
-          type: integer
-          format: int64
-        dateTime:
-          type: string
-          format: date-time
     ClientApplication:
       discriminator:
         propertyName: type
@@ -821,24 +826,19 @@ components:
           type: string
       required:
       - clientId
-    ClientApplicationRole:
-      properties:
-        id:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        permissions:
-          type: string
-    ClientApplicationKey:
+    ClientMetricHistogram:
       properties:
         clientId:
           type: string
-        clientSecret:
-          type: string
+        buckets:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiMetricHistogram'
+        dateTimes:
+          type: array
+          items:
+            type: string
+            format: date-time
     PageableObject:
       properties:
         paged:

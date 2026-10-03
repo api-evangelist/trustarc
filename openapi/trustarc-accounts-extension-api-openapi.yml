@@ -232,32 +232,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    CustomerAccountExtension:
-      properties:
-        id:
-          type: string
-        uploadHome:
-          type: string
-        defaultUserRoles:
-          type: string
-        defaultUserGroups:
-          type: string
-        applicationLicenses:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientExtensionLicense'
-          uniqueItems: true
-        trustArcLicenses:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountClientTrustArcLicense'
-          uniqueItems: true
-        extLoginOnly:
-          type: boolean
-        accountId:
-          type: string
-        adminPersonId:
-          type: string
     AccountClientTrustArcLicense:
       properties:
         licenseId:
@@ -274,22 +248,14 @@ components:
           type: string
         modifiedById:
           type: string
-    CustomerAccountExtensionClientExtensionLicense:
+    SortObject:
       properties:
-        attributes:
-          type: object
-          additionalProperties:
-            type: string
-        license:
-          $ref: '#/components/schemas/ClientExtensionLicense'
-    SSOInfoDTO:
-      properties:
-        status:
-          type: string
-          enum:
-          - SSO_ONLY
-          - HYBRID
-          - NONE
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
     PageCustomerAccountExtension:
       properties:
         totalElements:
@@ -321,14 +287,6 @@ components:
           format: int32
         empty:
           type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     ClientExtensionLicense:
       properties:
         id:
@@ -337,6 +295,40 @@ components:
         identifier:
           type: string
         name:
+          type: string
+    CustomerAccountExtensionClientExtensionLicense:
+      properties:
+        attributes:
+          type: object
+          additionalProperties:
+            type: string
+        license:
+          $ref: '#/components/schemas/ClientExtensionLicense'
+    CustomerAccountExtension:
+      properties:
+        id:
+          type: string
+        uploadHome:
+          type: string
+        defaultUserRoles:
+          type: string
+        defaultUserGroups:
+          type: string
+        applicationLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientExtensionLicense'
+          uniqueItems: true
+        trustArcLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountClientTrustArcLicense'
+          uniqueItems: true
+        extLoginOnly:
+          type: boolean
+        accountId:
+          type: string
+        adminPersonId:
           type: string
     PageableObject:
       properties:
@@ -355,6 +347,14 @@ components:
           $ref: '#/components/schemas/SortObject'
         unpaged:
           type: boolean
+    SSOInfoDTO:
+      properties:
+        status:
+          type: string
+          enum:
+          - SSO_ONLY
+          - HYBRID
+          - NONE
   securitySchemes:
     guardianAuth:
       type: oauth2

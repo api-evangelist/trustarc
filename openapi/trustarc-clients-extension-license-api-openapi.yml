@@ -111,24 +111,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ClientExtensionLicense:
-      properties:
-        id:
-          type: string
-          format: uuid
-        identifier:
-          type: string
-        name:
-          type: string
-    ClientExtensionAttribute:
-      properties:
-        id:
-          type: string
-          format: uuid
-        identifier:
-          type: string
-        displayName:
-          type: string
     ClientExtensionLicenseAttribute:
       properties:
         value:
@@ -139,6 +121,24 @@ components:
           $ref: '#/components/schemas/ClientExtensionLicense'
         attribute:
           $ref: '#/components/schemas/ClientExtensionAttribute'
+    ClientExtensionAttribute:
+      properties:
+        id:
+          type: string
+          format: uuid
+        identifier:
+          type: string
+        displayName:
+          type: string
+    ClientExtensionLicense:
+      properties:
+        id:
+          type: string
+          format: uuid
+        identifier:
+          type: string
+        name:
+          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2

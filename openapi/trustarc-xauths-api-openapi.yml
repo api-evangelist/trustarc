@@ -235,42 +235,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PageEntryStringString:
-      properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            type: object
-            properties:
-              value:
-                type: string
-              key:
-                type: string
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
     ExternalAuthConfig:
       properties:
         id:
@@ -412,6 +376,90 @@ components:
           format: int64
         accountId:
           type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PermissionProfileUserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
+    ExternalAuthConfigUserGroup:
+      properties:
+        name:
+          type: string
+        externalAuthConfigId:
+          type: string
+          writeOnly: true
+        clientId:
+          type: string
+    PageEntryStringString:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              key:
+                type: string
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    ExAuthMetaTag:
+      properties:
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
     PageExternalAuthConfig:
       properties:
         totalElements:
@@ -443,54 +491,6 @@ components:
           format: int32
         empty:
           type: boolean
-    ExternalAuthConfigUserGroup:
-      properties:
-        name:
-          type: string
-        externalAuthConfigId:
-          type: string
-          writeOnly: true
-        clientId:
-          type: string
-    PermissionProfileUserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        permissionProfileId:
-          type: string
-          format: uuid
-          writeOnly: true
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    ExAuthMetaTag:
-      properties:
-        value:
-          type: string
-        metaTagId:
-          type: string
-          format: uuid
-        metaTagName:
-          type: string
-    ClientApplicationRole:
-      properties:
-        id:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        permissions:
-          type: string
     PageableObject:
       properties:
         paged:

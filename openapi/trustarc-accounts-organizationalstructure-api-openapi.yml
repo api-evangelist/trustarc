@@ -213,34 +213,14 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    OrganizationalGroupDTO:
+    SortObject:
       properties:
-        name:
-          type: string
-        externalGroupId:
-          type: string
-        groupType:
-          type: string
-        active:
+        empty:
           type: boolean
-        parentExternalGroupId:
-          type: string
-        childCount:
-          type: integer
-          format: int64
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationalGroupDTO'
-    OrganizationalStructureDTO:
-      properties:
-        accountId:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-        root:
-          $ref: '#/components/schemas/OrganizationalGroupDTO'
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
     PageOrganizationalGroupDTO:
       properties:
         totalElements:
@@ -272,14 +252,15 @@ components:
           format: int32
         empty:
           type: boolean
-    SortObject:
+    OrganizationalStructureDTO:
       properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
+        accountId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        root:
+          $ref: '#/components/schemas/OrganizationalGroupDTO'
     PageableObject:
       properties:
         paged:
@@ -297,6 +278,25 @@ components:
           $ref: '#/components/schemas/SortObject'
         unpaged:
           type: boolean
+    OrganizationalGroupDTO:
+      properties:
+        name:
+          type: string
+        externalGroupId:
+          type: string
+        groupType:
+          type: string
+        active:
+          type: boolean
+        parentExternalGroupId:
+          type: string
+        childCount:
+          type: integer
+          format: int64
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationalGroupDTO'
   securitySchemes:
     guardianAuth:
       type: oauth2

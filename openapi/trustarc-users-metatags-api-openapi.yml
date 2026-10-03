@@ -225,6 +225,32 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    UserMetaTagSearchDTO:
+      properties:
+        primaryTag:
+          type: object
+          properties:
+            value:
+              type: string
+            key:
+              type: string
+        supplementaryTags:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              key:
+                type: string
     PageEntryStringString:
       properties:
         totalElements:
@@ -261,14 +287,6 @@ components:
           format: int32
         empty:
           type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     SliceUserMetaTagSearchDTO:
       properties:
         pageable:
@@ -294,24 +312,6 @@ components:
           format: int32
         empty:
           type: boolean
-    UserMetaTagSearchDTO:
-      properties:
-        primaryTag:
-          type: object
-          properties:
-            value:
-              type: string
-            key:
-              type: string
-        supplementaryTags:
-          type: array
-          items:
-            type: object
-            properties:
-              value:
-                type: string
-              key:
-                type: string
     PageableObject:
       properties:
         paged:

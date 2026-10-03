@@ -189,17 +189,14 @@ components:
           format: int32
         empty:
           type: boolean
-    MetaTag:
+    SortObject:
       properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        required:
+        empty:
           type: boolean
-        displayName:
-          type: string
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
     PageableObject:
       properties:
         paged:
@@ -217,14 +214,17 @@ components:
           $ref: '#/components/schemas/SortObject'
         unpaged:
           type: boolean
-    SortObject:
+    MetaTag:
       properties:
-        empty:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        required:
           type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
+        displayName:
+          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2

@@ -280,12 +280,37 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    BatchJobError:
+    PagePickTag:
       properties:
-        entry:
-          type: string
-        message:
-          type: string
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/PickTag'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
     BatchJob:
       properties:
         id:
@@ -366,54 +391,6 @@ components:
           type: string
         targetAccountId:
           type: string
-    PagePickTag:
-      properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/PickTag'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
-    JsonPatch: {}
-    BatchJobParameter:
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        value:
-          type: string
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
     PickTag:
       properties:
         id:
@@ -428,6 +405,29 @@ components:
           items:
             type: string
         accountId:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    JsonPatch: {}
+    BatchJobError:
+      properties:
+        entry:
+          type: string
+        message:
+          type: string
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
           type: string
     PageableObject:
       properties:

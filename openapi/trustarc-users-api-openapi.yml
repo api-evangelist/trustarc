@@ -2044,154 +2044,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    Meta:
-      properties:
-        resourceType:
-          type: string
-        created:
-          type: string
-          format: date-time
-        lastModified:
-          type: string
-          format: date-time
-        location:
-          type: string
-          format: uri
-        version:
-          type: string
-        createdMillis:
-          $ref: '#/components/schemas/Meta'
-        lastModifiedMillis:
-          $ref: '#/components/schemas/Meta'
-    InstantMessagingAddress:
-      properties:
-        value:
-          type: string
-        display:
-          type: string
-        type:
-          type: string
-        primary:
-          type: boolean
-    UserMetaTag:
-      properties:
-        id:
-          type: string
-          format: uuid
-        value:
-          type: string
-        metaTagId:
-          type: string
-          format: uuid
-        metaTagName:
-          type: string
-    ScimGroup:
-      properties:
-        value:
-          type: string
-        display:
-          type: string
-        type:
-          type: string
-        $ref:
-          type: string
-          format: uri
-    ListResponseScimUserResource:
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        totalResults:
-          type: integer
-          format: int32
-        startIndex:
-          type: integer
-          format: int32
-        itemsPerPage:
-          type: integer
-          format: int32
-        Resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScimUserResource'
-      required:
-      - Resources
-    PatchOperation:
-      discriminator:
-        propertyName: op
-      properties:
-        path:
-          type: string
-        removeOpValue:
-          oneOf:
-          - $ref: '#/components/schemas/AddOperation'
-          - $ref: '#/components/schemas/RemoveOperation'
-          - $ref: '#/components/schemas/ReplaceOperation'
-          writeOnly: true
-        op:
-          type: string
-      required:
-      - op
-    SliceUserCredentials:
-      properties:
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserCredentials'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
-    Address:
-      properties:
-        formatted:
-          type: string
-        streetAddress:
-          type: string
-        locality:
-          type: string
-        region:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-        type:
-          type: string
-        primary:
-          type: boolean
-    ReplaceOperation:
-      allOf:
-      - $ref: '#/components/schemas/PatchOperation'
-      - type: object
-        properties:
-          value:
-            $ref: '#/components/schemas/JsonNode'
-    UserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        applicationClientId:
-          type: string
     PermissionProfile:
       properties:
         id:
@@ -2224,27 +2076,6 @@ components:
           format: int64
         accountId:
           type: string
-    Entitlement:
-      properties:
-        value:
-          type: string
-        display:
-          type: string
-        type:
-          type: string
-        primary:
-          type: boolean
-    X509Certificate:
-      properties:
-        value:
-          type: string
-          format: byte
-        display:
-          type: string
-        type:
-          type: string
-        primary:
-          type: boolean
     Photo:
       properties:
         value:
@@ -2256,88 +2087,45 @@ components:
           type: string
         primary:
           type: boolean
-    UserCredentials:
+    PatchOperation:
+      discriminator:
+        propertyName: op
       properties:
-        id:
+        path:
           type: string
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        firstName:
-          type: string
-        lastName:
-          type: string
-        usageConfirmed:
-          type: boolean
-        userIdentifier:
-          type: string
-        orgIdentifier:
-          type: string
-        nymityId:
-          type: string
-        status:
-          type: string
-          enum:
-          - Active
-          - Inactive
-        extension:
-          $ref: '#/components/schemas/UserExtensionDTO'
-        applicationRoles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        metaTags:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/UserMetaTag'
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserGroup'
-          uniqueItems: true
-        permissionProfiles:
-          type: array
-          items:
-            $ref: '#/components/schemas/PermissionProfile'
-          uniqueItems: true
-        location:
-          type: string
-        fullName:
-          type: string
-        password:
-          type: string
+        removeOpValue:
+          oneOf:
+          - $ref: '#/components/schemas/AddOperation'
+          - $ref: '#/components/schemas/RemoveOperation'
+          - $ref: '#/components/schemas/ReplaceOperation'
           writeOnly: true
-        accountId:
+        op:
           type: string
-        username:
-          type: string
-        credentialsNonExpired:
-          type: boolean
-        permissionProfileId:
-          type: string
-          format: uuid
-        phone:
-          type: string
-        jobTitle:
-          type: string
-        expertiseList:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        modifiedById:
-          type: string
-    SortObject:
+      required:
+      - op
+    UserGroup:
       properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
+        name:
+          type: string
+        clientId:
+          type: string
+        applicationClientId:
+          type: string
+    ScimUserName:
+      properties:
+        familyName:
+          type: string
+        givenName:
+          type: string
+    Entitlement:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        primary:
           type: boolean
     PatchRequest:
       properties:
@@ -2361,22 +2149,78 @@ components:
           $ref: '#/components/schemas/Meta'
       required:
       - Operations
-    ClientApplicationRole:
-      properties:
-        id:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        permissions:
-          type: string
-    Email:
+    AddOperation:
+      allOf:
+      - $ref: '#/components/schemas/PatchOperation'
+      - type: object
+        properties:
+          value:
+            $ref: '#/components/schemas/JsonNode'
+    ScimGroup:
       properties:
         value:
           type: string
+        display:
+          type: string
+        type:
+          type: string
+        $ref:
+          type: string
+          format: uri
+    ErrorList:
+      properties:
+        entryNumber:
+          type: integer
+          format: int64
+        message:
+          type: string
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    SliceUserCredentials:
+      properties:
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCredentials'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    X509Certificate:
+      properties:
+        value:
+          type: string
+          format: byte
         display:
           type: string
         type:
@@ -2473,13 +2317,141 @@ components:
           items:
             $ref: '#/components/schemas/X509Certificate'
           writeOnly: true
-    ErrorList:
+    BatchUpsertResult:
       properties:
-        entryNumber:
+        createCount:
           type: integer
           format: int64
-        message:
+        updateCount:
+          type: integer
+          format: int64
+        errorList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorList'
+    Meta:
+      properties:
+        resourceType:
           type: string
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        location:
+          type: string
+          format: uri
+        version:
+          type: string
+        createdMillis:
+          $ref: '#/components/schemas/Meta'
+        lastModifiedMillis:
+          $ref: '#/components/schemas/Meta'
+    ListResponseScimUserResource:
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        totalResults:
+          type: integer
+          format: int32
+        startIndex:
+          type: integer
+          format: int32
+        itemsPerPage:
+          type: integer
+          format: int32
+        Resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimUserResource'
+      required:
+      - Resources
+    UserCredentials:
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        firstName:
+          type: string
+        lastName:
+          type: string
+        usageConfirmed:
+          type: boolean
+        userIdentifier:
+          type: string
+        orgIdentifier:
+          type: string
+        nymityId:
+          type: string
+        status:
+          type: string
+          enum:
+          - Active
+          - Inactive
+        extension:
+          $ref: '#/components/schemas/UserExtensionDTO'
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        metaTags:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/UserMetaTag'
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserGroup'
+          uniqueItems: true
+        permissionProfiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfile'
+          uniqueItems: true
+        location:
+          type: string
+        fullName:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+        accountId:
+          type: string
+        username:
+          type: string
+        credentialsNonExpired:
+          type: boolean
+        permissionProfileId:
+          type: string
+          format: uuid
+        phone:
+          type: string
+        jobTitle:
+          type: string
+        expertiseList:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        modifiedById:
+          type: string
+    ReplaceOperation:
+      allOf:
+      - $ref: '#/components/schemas/PatchOperation'
+      - type: object
+        properties:
+          value:
+            $ref: '#/components/schemas/JsonNode'
     UserExtensionDTO:
       properties:
         userMgrId:
@@ -2489,57 +2461,6 @@ components:
         locale:
           type: string
         totpEnabled:
-          type: boolean
-    Role:
-      properties:
-        value:
-          type: string
-        display:
-          type: string
-        type:
-          type: string
-        primary:
-          type: boolean
-    PageUserCredentials:
-      properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserCredentials'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
-    PhoneNumber:
-      properties:
-        value:
-          type: string
-        display:
-          type: string
-        type:
-          type: string
-        primary:
           type: boolean
     JsonNode:
       properties:
@@ -2602,19 +2523,6 @@ components:
           type: boolean
         embeddedValue:
           type: boolean
-    ScimUserName:
-      properties:
-        familyName:
-          type: string
-        givenName:
-          type: string
-    AddOperation:
-      allOf:
-      - $ref: '#/components/schemas/PatchOperation'
-      - type: object
-        properties:
-          value:
-            $ref: '#/components/schemas/JsonNode'
     RemoveOperation:
       allOf:
       - $ref: '#/components/schemas/PatchOperation'
@@ -2624,6 +2532,34 @@ components:
             $ref: '#/components/schemas/JsonNode'
       required:
       - path
+    InstantMessagingAddress:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    PhoneNumber:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
     PermissionProfileUserGroup:
       properties:
         name:
@@ -2634,34 +2570,98 @@ components:
           type: string
           format: uuid
           writeOnly: true
-    BatchUpsertResult:
+    Role:
       properties:
-        createCount:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    UserMetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
+    PageUserCredentials:
+      properties:
+        totalElements:
           type: integer
           format: int64
-        updateCount:
+        totalPages:
           type: integer
-          format: int64
-        errorList:
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
           type: array
           items:
-            $ref: '#/components/schemas/ErrorList'
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
+            $ref: '#/components/schemas/UserCredentials'
+        number:
           type: integer
           format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
         sort:
           $ref: '#/components/schemas/SortObject'
-        unpaged:
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    Email:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
+    Address:
+      properties:
+        formatted:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        region:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        primary:
           type: boolean
   securitySchemes:
     guardianAuth:

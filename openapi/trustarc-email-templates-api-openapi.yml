@@ -237,34 +237,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    CustomerEmailTemplate:
-      properties:
-        id:
-          type: string
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        type:
-          type: string
-          enum:
-          - FORGOT_PASSWORD
-          - NEW_USER
-          - IMPORT_JOB
-          - EXPORT_JOB
-          - LOGIN_REPORT
-          - FULL_LOGIN_REPORT
-          - EXPIRE_TOKEN
-          - OTP
-          - NEW_USER_REPORT
-        content:
-          type: string
-        accountId:
-          type: string
-        modifiedById:
-          type: string
     PageCustomerEmailTemplate:
       properties:
         totalElements:
@@ -296,6 +268,42 @@ components:
           format: int32
         empty:
           type: boolean
+    CustomerEmailTemplate:
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        type:
+          type: string
+          enum:
+          - FORGOT_PASSWORD
+          - NEW_USER
+          - IMPORT_JOB
+          - EXPORT_JOB
+          - LOGIN_REPORT
+          - FULL_LOGIN_REPORT
+          - EXPIRE_TOKEN
+          - OTP
+          - NEW_USER_REPORT
+        content:
+          type: string
+        accountId:
+          type: string
+        modifiedById:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
     PageableObject:
       properties:
         paged:
@@ -312,14 +320,6 @@ components:
         sort:
           $ref: '#/components/schemas/SortObject'
         unpaged:
-          type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
           type: boolean
   securitySchemes:
     guardianAuth:

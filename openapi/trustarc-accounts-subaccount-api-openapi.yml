@@ -226,57 +226,44 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    InternalClientApplication:
+    CustomerClientApplication:
       allOf:
       - $ref: '#/components/schemas/ClientApplication'
       - type: object
         properties:
-          siteUri:
-            type: string
-          logoUri:
-            type: string
-          helpUri:
-            type: string
-          redirectPriority:
+          requestLimit:
             type: integer
-            format: int32
-          showOnTopheader:
-            type: boolean
+            format: int64
       required:
       - clientId
-    MetaTag:
+    AccountClientTrustArcLicense:
       properties:
-        id:
+        licenseId:
           type: string
-          format: uuid
-        name:
+        emptyJustification:
           type: string
-        required:
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+        modifiedById:
+          type: string
+    SortObject:
+      properties:
+        empty:
           type: boolean
-        displayName:
-          type: string
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
     GrantedAuthority:
       properties:
         authority:
           type: string
-    Address:
-      properties:
-        formatted:
-          type: string
-        streetAddress:
-          type: string
-        locality:
-          type: string
-        region:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-        type:
-          type: string
-        primary:
-          type: boolean
     PageCustomerAccount:
       properties:
         totalElements:
@@ -308,57 +295,14 @@ components:
           format: int32
         empty:
           type: boolean
-    CustomerClientApplication:
-      allOf:
-      - $ref: '#/components/schemas/ClientApplication'
-      - type: object
-        properties:
-          requestLimit:
-            type: integer
-            format: int64
-      required:
-      - clientId
-    CustomerAccountExtension:
+    ClientExtensionLicense:
       properties:
         id:
           type: string
-        uploadHome:
+          format: uuid
+        identifier:
           type: string
-        defaultUserRoles:
-          type: string
-        defaultUserGroups:
-          type: string
-        applicationLicenses:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientExtensionLicense'
-          uniqueItems: true
-        trustArcLicenses:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountClientTrustArcLicense'
-          uniqueItems: true
-        extLoginOnly:
-          type: boolean
-        accountId:
-          type: string
-        adminPersonId:
-          type: string
-    AccountClientTrustArcLicense:
-      properties:
-        licenseId:
-          type: string
-        emptyJustification:
-          type: string
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        clientId:
-          type: string
-        modifiedById:
+        name:
           type: string
     CustomerAccount:
       properties:
@@ -477,14 +421,80 @@ components:
           type: string
       required:
       - legalName
-    SortObject:
+    ClientApplicationRole:
       properties:
-        empty:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
+    InternalClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          siteUri:
+            type: string
+          logoUri:
+            type: string
+          helpUri:
+            type: string
+          redirectPriority:
+            type: integer
+            format: int32
+          showOnTopheader:
+            type: boolean
+      required:
+      - clientId
+    Address:
+      properties:
+        formatted:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        region:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        primary:
           type: boolean
-        sorted:
+    CustomerAccountExtension:
+      properties:
+        id:
+          type: string
+        uploadHome:
+          type: string
+        defaultUserRoles:
+          type: string
+        defaultUserGroups:
+          type: string
+        applicationLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientExtensionLicense'
+          uniqueItems: true
+        trustArcLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountClientTrustArcLicense'
+          uniqueItems: true
+        extLoginOnly:
           type: boolean
-        unsorted:
-          type: boolean
+        accountId:
+          type: string
+        adminPersonId:
+          type: string
     ClientApplication:
       discriminator:
         propertyName: type
@@ -568,27 +578,6 @@ components:
           type: string
       required:
       - clientId
-    ClientExtensionLicense:
-      properties:
-        id:
-          type: string
-          format: uuid
-        identifier:
-          type: string
-        name:
-          type: string
-    ClientApplicationRole:
-      properties:
-        id:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        permissions:
-          type: string
     PageableObject:
       properties:
         paged:
@@ -606,6 +595,17 @@ components:
           $ref: '#/components/schemas/SortObject'
         unpaged:
           type: boolean
+    MetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        required:
+          type: boolean
+        displayName:
+          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2

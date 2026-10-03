@@ -162,6 +162,14 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
     UserActivation:
       properties:
         id:
@@ -212,14 +220,6 @@ components:
           type: integer
           format: int32
         empty:
-          type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
           type: boolean
     UserProfile:
       properties:

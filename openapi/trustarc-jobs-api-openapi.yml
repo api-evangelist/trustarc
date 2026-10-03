@@ -378,12 +378,7 @@ components:
           format: int32
         empty:
           type: boolean
-    BatchJobError:
-      properties:
-        entry:
-          type: string
-        message:
-          type: string
+    BatchJobRequestParam: {}
     BatchJob:
       properties:
         id:
@@ -464,20 +459,6 @@ components:
           type: string
         targetAccountId:
           type: string
-    BatchJobInfoWrapper:
-      properties:
-        paramMap:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/BatchJobRequestParam'
-    BatchJobParameter:
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        value:
-          type: string
     SortObject:
       properties:
         empty:
@@ -486,7 +467,26 @@ components:
           type: boolean
         unsorted:
           type: boolean
-    BatchJobRequestParam: {}
+    BatchJobInfoWrapper:
+      properties:
+        paramMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BatchJobRequestParam'
+    BatchJobError:
+      properties:
+        entry:
+          type: string
+        message:
+          type: string
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
     PageableObject:
       properties:
         paged:

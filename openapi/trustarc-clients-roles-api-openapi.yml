@@ -117,6 +117,14 @@ components:
           format: int32
         empty:
           type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
     ClientApplicationRole:
       properties:
         id:
@@ -145,14 +153,6 @@ components:
         sort:
           $ref: '#/components/schemas/SortObject'
         unpaged:
-          type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
           type: boolean
   securitySchemes:
     guardianAuth:

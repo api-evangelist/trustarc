@@ -37,18 +37,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    UserSSOConfig:
-      properties:
-        configs:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExternalAuthConfig'
-        usernameHint:
-          type: string
-        hasGoogleAuth:
-          type: boolean
-        saml2Only:
-          type: boolean
     ExternalAuthConfig:
       properties:
         id:
@@ -190,15 +178,6 @@ components:
           format: int64
         accountId:
           type: string
-    ExternalAuthConfigUserGroup:
-      properties:
-        name:
-          type: string
-        externalAuthConfigId:
-          type: string
-          writeOnly: true
-        clientId:
-          type: string
     PermissionProfileUserGroup:
       properties:
         name:
@@ -209,6 +188,15 @@ components:
           type: string
           format: uuid
           writeOnly: true
+    ExternalAuthConfigUserGroup:
+      properties:
+        name:
+          type: string
+        externalAuthConfigId:
+          type: string
+          writeOnly: true
+        clientId:
+          type: string
     ExAuthMetaTag:
       properties:
         value:
@@ -230,6 +218,18 @@ components:
           type: string
         permissions:
           type: string
+    UserSSOConfig:
+      properties:
+        configs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalAuthConfig'
+        usernameHint:
+          type: string
+        hasGoogleAuth:
+          type: boolean
+        saml2Only:
+          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2

@@ -96,6 +96,21 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    Preface:
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - CHANGE_PASSWORD_WARN
+          - ANNOUNCE_PAGE
+          - NONE
+        viewName:
+          type: string
+        mandatory:
+          type: boolean
     SortObject:
       properties:
         empty:
@@ -120,21 +135,6 @@ components:
         sort:
           $ref: '#/components/schemas/SortObject'
         unpaged:
-          type: boolean
-    Preface:
-      properties:
-        id:
-          type: string
-          format: uuid
-        type:
-          type: string
-          enum:
-          - CHANGE_PASSWORD_WARN
-          - ANNOUNCE_PAGE
-          - NONE
-        viewName:
-          type: string
-        mandatory:
           type: boolean
     PagePreface:
       properties:

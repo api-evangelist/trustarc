@@ -86,15 +86,6 @@ components:
           type: string
         displayName:
           type: string
-    ClientExtensionLicense:
-      properties:
-        id:
-          type: string
-          format: uuid
-        identifier:
-          type: string
-        name:
-          type: string
     ClientExtension:
       properties:
         id:
@@ -115,6 +106,15 @@ components:
         clientSecretChangedDate:
           type: string
           format: date-time
+    ClientExtensionLicense:
+      properties:
+        id:
+          type: string
+          format: uuid
+        identifier:
+          type: string
+        name:
+          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2

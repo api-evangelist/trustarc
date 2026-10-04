@@ -55,6 +55,12 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    BatchJobError:
+      properties:
+        entry:
+          type: string
+        message:
+          type: string
     NymitySyncInfo:
       properties:
         accountId:
@@ -156,12 +162,6 @@ components:
         startedByUserId:
           type: string
         targetAccountId:
-          type: string
-    BatchJobError:
-      properties:
-        entry:
-          type: string
-        message:
           type: string
   securitySchemes:
     guardianAuth:

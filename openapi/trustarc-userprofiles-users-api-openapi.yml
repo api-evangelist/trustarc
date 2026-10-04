@@ -197,46 +197,16 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PermissionProfile:
+    PermissionProfileUserGroup:
       properties:
-        id:
-          type: string
-          format: uuid
         name:
           type: string
-        externalId:
+        clientId:
           type: string
-        applicationRoles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/PermissionProfileUserGroup'
-          uniqueItems: true
-        createdDate:
+        permissionProfileId:
           type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        modifiedById:
-          type: string
-        userCount:
-          type: integer
-          format: int64
-        accountId:
-          type: string
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
+          format: uuid
+          writeOnly: true
     UserProfileUser:
       properties:
         remarks:
@@ -250,16 +220,6 @@ components:
         remark:
           type: string
           writeOnly: true
-    PermissionProfileUserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        permissionProfileId:
-          type: string
-          format: uuid
-          writeOnly: true
     UserMetaTag:
       properties:
         id:
@@ -272,6 +232,23 @@ components:
           format: uuid
         metaTagName:
           type: string
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
     PageUserProfileUser:
       properties:
         totalElements:
@@ -303,13 +280,47 @@ components:
           format: int32
         empty:
           type: boolean
-    UserGroup:
+    UserExtensionDTO:
       properties:
+        userMgrId:
+          type: string
+        timeZone:
+          type: string
+        locale:
+          type: string
+        totpEnabled:
+          type: boolean
+    PermissionProfile:
+      properties:
+        id:
+          type: string
+          format: uuid
         name:
           type: string
-        clientId:
+        externalId:
           type: string
-        applicationClientId:
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfileUserGroup'
+          uniqueItems: true
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        modifiedById:
+          type: string
+        userCount:
+          type: integer
+          format: int64
+        accountId:
           type: string
     ClientApplicationRole:
       properties:
@@ -398,33 +409,22 @@ components:
           uniqueItems: true
         modifiedById:
           type: string
-    UserExtensionDTO:
+    SortObject:
       properties:
-        userMgrId:
-          type: string
-        timeZone:
-          type: string
-        locale:
-          type: string
-        totpEnabled:
+        empty:
           type: boolean
-    PageableObject:
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    UserGroup:
       properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
+        name:
+          type: string
+        clientId:
+          type: string
+        applicationClientId:
+          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2

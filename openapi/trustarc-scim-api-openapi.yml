@@ -103,72 +103,47 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PatchConfig:
+    ServiceProviderConfigResource:
       properties:
-        supported:
-          type: boolean
-      required:
-      - supported
-    AuthenticationScheme:
-      properties:
-        name:
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        id:
           type: string
-        description:
+        externalId:
           type: string
-        specUri:
-          type: string
-          format: uri
         documentationUri:
           type: string
-          format: uri
-        type:
-          type: string
-        primary:
-          type: boolean
+        patch:
+          $ref: '#/components/schemas/PatchConfig'
+        bulk:
+          $ref: '#/components/schemas/BulkConfig'
+        filter:
+          $ref: '#/components/schemas/FilterConfig'
+        changePassword:
+          $ref: '#/components/schemas/ChangePasswordConfig'
+        sort:
+          $ref: '#/components/schemas/SortConfig'
+        etag:
+          $ref: '#/components/schemas/ETagConfig'
+        pagination:
+          $ref: '#/components/schemas/PaginationConfig'
+        authenticationSchemes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuthenticationScheme'
+        meta:
+          $ref: '#/components/schemas/Meta'
       required:
-      - description
-      - name
-    BulkConfig:
-      properties:
-        supported:
-          type: boolean
-        maxOperations:
-          type: integer
-          format: int32
-        maxPayloadSize:
-          type: integer
-          format: int32
-      required:
-      - maxOperations
-      - maxPayloadSize
-      - supported
-    SchemaExtension:
-      properties:
-        schema:
-          type: string
-          format: uri
-        required:
-          type: boolean
-      required:
-      - required
-      - schema
-    PaginationConfig:
-      properties:
-        cursor:
-          type: boolean
-        index:
-          type: boolean
-        defaultPaginationMethod:
-          type: string
-        defaultPageSize:
-          type: integer
-          format: int32
-        maxPageSize:
-          type: integer
-          format: int32
-        cursorTimeout:
-          type: integer
-          format: int32
+      - authenticationSchemes
+      - bulk
+      - changePassword
+      - etag
+      - filter
+      - patch
+      - sort
     SchemaResource:
       properties:
         schemas:
@@ -193,100 +168,6 @@ components:
       required:
       - attributes
       - id
-    FilterConfig:
-      properties:
-        supported:
-          type: boolean
-        maxResults:
-          type: integer
-          format: int32
-      required:
-      - maxResults
-      - supported
-    Meta:
-      properties:
-        resourceType:
-          type: string
-        created:
-          type: string
-          format: date-time
-        lastModified:
-          type: string
-          format: date-time
-        location:
-          type: string
-          format: uri
-        version:
-          type: string
-        createdMillis:
-          $ref: '#/components/schemas/Meta'
-        lastModifiedMillis:
-          $ref: '#/components/schemas/Meta'
-    SortConfig:
-      properties:
-        supported:
-          type: boolean
-      required:
-      - supported
-    ResourceTypeResource:
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        id:
-          type: string
-        externalId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        endpoint:
-          type: string
-          format: uri
-        schema:
-          type: string
-          format: uri
-        schemaExtensions:
-          type: array
-          items:
-            $ref: '#/components/schemas/SchemaExtension'
-        meta:
-          $ref: '#/components/schemas/Meta'
-      required:
-      - endpoint
-      - name
-      - schema
-    ListResponseResourceTypeResource:
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        totalResults:
-          type: integer
-          format: int32
-        startIndex:
-          type: integer
-          format: int32
-        itemsPerPage:
-          type: integer
-          format: int32
-        Resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResourceTypeResource'
-      required:
-      - Resources
-    ChangePasswordConfig:
-      properties:
-        supported:
-          type: boolean
-      required:
-      - supported
     AttributeDefinition:
       properties:
         name:
@@ -349,7 +230,29 @@ components:
       - required
       - returned
       - type
-    ServiceProviderConfigResource:
+    FilterConfig:
+      properties:
+        supported:
+          type: boolean
+        maxResults:
+          type: integer
+          format: int32
+      required:
+      - maxResults
+      - supported
+    PatchConfig:
+      properties:
+        supported:
+          type: boolean
+      required:
+      - supported
+    SortConfig:
+      properties:
+        supported:
+          type: boolean
+      required:
+      - supported
+    ResourceTypeResource:
       properties:
         schemas:
           type: array
@@ -360,42 +263,62 @@ components:
           type: string
         externalId:
           type: string
-        documentationUri:
+        name:
           type: string
-        patch:
-          $ref: '#/components/schemas/PatchConfig'
-        bulk:
-          $ref: '#/components/schemas/BulkConfig'
-        filter:
-          $ref: '#/components/schemas/FilterConfig'
-        changePassword:
-          $ref: '#/components/schemas/ChangePasswordConfig'
-        sort:
-          $ref: '#/components/schemas/SortConfig'
-        etag:
-          $ref: '#/components/schemas/ETagConfig'
-        pagination:
-          $ref: '#/components/schemas/PaginationConfig'
-        authenticationSchemes:
+        description:
+          type: string
+        endpoint:
+          type: string
+          format: uri
+        schema:
+          type: string
+          format: uri
+        schemaExtensions:
           type: array
           items:
-            $ref: '#/components/schemas/AuthenticationScheme'
+            $ref: '#/components/schemas/SchemaExtension'
         meta:
           $ref: '#/components/schemas/Meta'
       required:
-      - authenticationSchemes
-      - bulk
-      - changePassword
-      - etag
-      - filter
-      - patch
-      - sort
-    ETagConfig:
+      - endpoint
+      - name
+      - schema
+    BulkConfig:
       properties:
         supported:
           type: boolean
+        maxOperations:
+          type: integer
+          format: int32
+        maxPayloadSize:
+          type: integer
+          format: int32
       required:
+      - maxOperations
+      - maxPayloadSize
       - supported
+    ListResponseResourceTypeResource:
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        totalResults:
+          type: integer
+          format: int32
+        startIndex:
+          type: integer
+          format: int32
+        itemsPerPage:
+          type: integer
+          format: int32
+        Resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceTypeResource'
+      required:
+      - Resources
     ListResponseSchemaResource:
       properties:
         schemas:
@@ -418,6 +341,83 @@ components:
             $ref: '#/components/schemas/SchemaResource'
       required:
       - Resources
+    PaginationConfig:
+      properties:
+        cursor:
+          type: boolean
+        index:
+          type: boolean
+        defaultPaginationMethod:
+          type: string
+        defaultPageSize:
+          type: integer
+          format: int32
+        maxPageSize:
+          type: integer
+          format: int32
+        cursorTimeout:
+          type: integer
+          format: int32
+    ChangePasswordConfig:
+      properties:
+        supported:
+          type: boolean
+      required:
+      - supported
+    ETagConfig:
+      properties:
+        supported:
+          type: boolean
+      required:
+      - supported
+    AuthenticationScheme:
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        specUri:
+          type: string
+          format: uri
+        documentationUri:
+          type: string
+          format: uri
+        type:
+          type: string
+        primary:
+          type: boolean
+      required:
+      - description
+      - name
+    SchemaExtension:
+      properties:
+        schema:
+          type: string
+          format: uri
+        required:
+          type: boolean
+      required:
+      - required
+      - schema
+    Meta:
+      properties:
+        resourceType:
+          type: string
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        location:
+          type: string
+          format: uri
+        version:
+          type: string
+        createdMillis:
+          $ref: '#/components/schemas/Meta'
+        lastModifiedMillis:
+          $ref: '#/components/schemas/Meta'
   securitySchemes:
     guardianAuth:
       type: oauth2

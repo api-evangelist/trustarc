@@ -213,13 +213,50 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    SortObject:
+    OrganizationalGroupDTO:
       properties:
-        empty:
+        name:
+          type: string
+        externalGroupId:
+          type: string
+        groupType:
+          type: string
+        active:
           type: boolean
-        sorted:
+        parentExternalGroupId:
+          type: string
+        childCount:
+          type: integer
+          format: int64
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationalGroupDTO'
+    OrganizationalStructureDTO:
+      properties:
+        accountId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        root:
+          $ref: '#/components/schemas/OrganizationalGroupDTO'
+    PageableObject:
+      properties:
+        paged:
           type: boolean
-        unsorted:
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
           type: boolean
     PageOrganizationalGroupDTO:
       properties:
@@ -252,51 +289,14 @@ components:
           format: int32
         empty:
           type: boolean
-    OrganizationalStructureDTO:
+    SortObject:
       properties:
-        accountId:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-        root:
-          $ref: '#/components/schemas/OrganizationalGroupDTO'
-    PageableObject:
-      properties:
-        paged:
+        empty:
           type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
+        sorted:
           type: boolean
-    OrganizationalGroupDTO:
-      properties:
-        name:
-          type: string
-        externalGroupId:
-          type: string
-        groupType:
-          type: string
-        active:
+        unsorted:
           type: boolean
-        parentExternalGroupId:
-          type: string
-        childCount:
-          type: integer
-          format: int64
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationalGroupDTO'
   securitySchemes:
     guardianAuth:
       type: oauth2

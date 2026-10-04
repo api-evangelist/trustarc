@@ -299,6 +299,45 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    PermissionProfileUserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
+    AuthoritiesOnly:
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserGroup'
+          uniqueItems: true
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
     PermissionProfile:
       properties:
         id:
@@ -362,6 +401,18 @@ components:
           format: int32
         empty:
           type: boolean
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
     SortObject:
       properties:
         empty:
@@ -370,16 +421,14 @@ components:
           type: boolean
         unsorted:
           type: boolean
-    PermissionProfileUserGroup:
+    UserGroup:
       properties:
         name:
           type: string
         clientId:
           type: string
-        permissionProfileId:
+        applicationClientId:
           type: string
-          format: uuid
-          writeOnly: true
     SimpleUserPermission:
       properties:
         id:
@@ -396,55 +445,6 @@ components:
             type: string
             format: uuid
           uniqueItems: true
-    UserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        applicationClientId:
-          type: string
-    ClientApplicationRole:
-      properties:
-        id:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        permissions:
-          type: string
-    AuthoritiesOnly:
-      properties:
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserGroup'
-          uniqueItems: true
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2

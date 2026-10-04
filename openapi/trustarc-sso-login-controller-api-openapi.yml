@@ -37,6 +37,34 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    PermissionProfileUserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
+    ExAuthMetaTag:
+      properties:
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
+    ExternalAuthConfigUserGroup:
+      properties:
+        name:
+          type: string
+        externalAuthConfigId:
+          type: string
+          writeOnly: true
+        clientId:
+          type: string
     ExternalAuthConfig:
       properties:
         id:
@@ -177,34 +205,6 @@ components:
           type: integer
           format: int64
         accountId:
-          type: string
-    PermissionProfileUserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        permissionProfileId:
-          type: string
-          format: uuid
-          writeOnly: true
-    ExternalAuthConfigUserGroup:
-      properties:
-        name:
-          type: string
-        externalAuthConfigId:
-          type: string
-          writeOnly: true
-        clientId:
-          type: string
-    ExAuthMetaTag:
-      properties:
-        value:
-          type: string
-        metaTagId:
-          type: string
-          format: uuid
-        metaTagName:
           type: string
     ClientApplicationRole:
       properties:

@@ -917,6 +917,61 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    Address:
+      properties:
+        formatted:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        region:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    PageCustomerAccount:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerAccount'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    BatchJobError:
+      properties:
+        entry:
+          type: string
+        message:
+          type: string
     PermissionProfile:
       properties:
         id:
@@ -949,6 +1004,216 @@ components:
           format: int64
         accountId:
           type: string
+    Response:
+      properties:
+        size:
+          type: integer
+          format: int32
+    MetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        required:
+          type: boolean
+        displayName:
+          type: string
+    ClientExtensionLicense:
+      properties:
+        id:
+          type: string
+          format: uuid
+        identifier:
+          type: string
+        name:
+          type: string
+    ReportStore:
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - EXPORT_LOGIN_REPORT
+          - EXPORT_FULL_LOGIN_REPORT
+          - EXPORT_USER_GROUP
+          - EXPORT_NEW_USER_REPORT
+        fileName:
+          type: string
+        file:
+          type: string
+          format: byte
+          writeOnly: true
+        fileType:
+          type: string
+          enum:
+          - CSV
+        createdDate:
+          type: string
+          format: date-time
+        createdById:
+          type: string
+        ownerAccountId:
+          type: string
+    CustomerClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          requestLimit:
+            type: integer
+            format: int64
+      required:
+      - clientId
+    UserCredentials:
+      properties:
+        id:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        firstName:
+          type: string
+        lastName:
+          type: string
+        usageConfirmed:
+          type: boolean
+        userIdentifier:
+          type: string
+        orgIdentifier:
+          type: string
+        nymityId:
+          type: string
+        status:
+          type: string
+          enum:
+          - Active
+          - Inactive
+        extension:
+          $ref: '#/components/schemas/UserExtensionDTO'
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        metaTags:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/UserMetaTag'
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserGroup'
+          uniqueItems: true
+        permissionProfiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfile'
+          uniqueItems: true
+        location:
+          type: string
+        fullName:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+        accountId:
+          type: string
+        username:
+          type: string
+        credentialsNonExpired:
+          type: boolean
+        permissionProfileId:
+          type: string
+          format: uuid
+        phone:
+          type: string
+        jobTitle:
+          type: string
+        expertiseList:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        modifiedById:
+          type: string
+    UploadStatus:
+      properties:
+        message:
+          type: string
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+    UserMetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    InternalClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          siteUri:
+            type: string
+          logoUri:
+            type: string
+          helpUri:
+            type: string
+          redirectPriority:
+            type: integer
+            format: int32
+          showOnTopheader:
+            type: boolean
+      required:
+      - clientId
+    UserExtensionDTO:
+      properties:
+        userMgrId:
+          type: string
+        timeZone:
+          type: string
+        locale:
+          type: string
+        totpEnabled:
+          type: boolean
     BatchJob:
       properties:
         id:
@@ -1029,45 +1294,35 @@ components:
           type: string
         targetAccountId:
           type: string
-    ClientExtensionLicense:
+    GrantedAuthority:
+      properties:
+        authority:
+          type: string
+    CustomerAccountExtension:
       properties:
         id:
           type: string
-          format: uuid
-        identifier:
+        uploadHome:
           type: string
-        name:
+        defaultUserRoles:
           type: string
-    ReportStore:
-      properties:
-        id:
+        defaultUserGroups:
           type: string
-        type:
+        applicationLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientExtensionLicense'
+          uniqueItems: true
+        trustArcLicenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountClientTrustArcLicense'
+          uniqueItems: true
+        extLoginOnly:
+          type: boolean
+        accountId:
           type: string
-          enum:
-          - EXPORT_USER
-          - EXPORT_USER_ACTION
-          - EXPORT_USER_AUDIT_EVENTS
-          - EXPORT_LOGIN_REPORT
-          - EXPORT_FULL_LOGIN_REPORT
-          - EXPORT_USER_GROUP
-          - EXPORT_NEW_USER_REPORT
-        fileName:
-          type: string
-        file:
-          type: string
-          format: byte
-          writeOnly: true
-        fileType:
-          type: string
-          enum:
-          - CSV
-        createdDate:
-          type: string
-          format: date-time
-        createdById:
-          type: string
-        ownerAccountId:
+        adminPersonId:
           type: string
     UserGroup:
       properties:
@@ -1077,13 +1332,23 @@ components:
           type: string
         applicationClientId:
           type: string
-    BatchJobError:
+    AccountClientTrustArcLicense:
       properties:
-        entry:
+        licenseId:
           type: string
-        message:
+        emptyJustification:
           type: string
-    PageCustomerAccount:
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+        modifiedById:
+          type: string
+    PageUserCredentials:
       properties:
         totalElements:
           type: integer
@@ -1099,7 +1364,7 @@ components:
         content:
           type: array
           items:
-            $ref: '#/components/schemas/CustomerAccount'
+            $ref: '#/components/schemas/UserCredentials'
         number:
           type: integer
           format: int32
@@ -1114,11 +1379,16 @@ components:
           format: int32
         empty:
           type: boolean
-    Response:
+    PermissionProfileUserGroup:
       properties:
-        size:
-          type: integer
-          format: int32
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
     ClientApplication:
       discriminator:
         propertyName: type
@@ -1202,53 +1472,6 @@ components:
           type: string
       required:
       - clientId
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    CustomerClientApplication:
-      allOf:
-      - $ref: '#/components/schemas/ClientApplication'
-      - type: object
-        properties:
-          requestLimit:
-            type: integer
-            format: int64
-      required:
-      - clientId
-    AccountClientTrustArcLicense:
-      properties:
-        licenseId:
-          type: string
-        emptyJustification:
-          type: string
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        clientId:
-          type: string
-        modifiedById:
-          type: string
-    UploadStatus:
-      properties:
-        message:
-          type: string
     CustomerAccount:
       properties:
         id:
@@ -1366,164 +1589,6 @@ components:
           type: string
       required:
       - legalName
-    UserCredentials:
-      properties:
-        id:
-          type: string
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        firstName:
-          type: string
-        lastName:
-          type: string
-        usageConfirmed:
-          type: boolean
-        userIdentifier:
-          type: string
-        orgIdentifier:
-          type: string
-        nymityId:
-          type: string
-        status:
-          type: string
-          enum:
-          - Active
-          - Inactive
-        extension:
-          $ref: '#/components/schemas/UserExtensionDTO'
-        applicationRoles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        metaTags:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/UserMetaTag'
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserGroup'
-          uniqueItems: true
-        permissionProfiles:
-          type: array
-          items:
-            $ref: '#/components/schemas/PermissionProfile'
-          uniqueItems: true
-        location:
-          type: string
-        fullName:
-          type: string
-        password:
-          type: string
-          writeOnly: true
-        accountId:
-          type: string
-        username:
-          type: string
-        credentialsNonExpired:
-          type: boolean
-        permissionProfileId:
-          type: string
-          format: uuid
-        phone:
-          type: string
-        jobTitle:
-          type: string
-        expertiseList:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        modifiedById:
-          type: string
-    UserExtensionDTO:
-      properties:
-        userMgrId:
-          type: string
-        timeZone:
-          type: string
-        locale:
-          type: string
-        totpEnabled:
-          type: boolean
-    BatchJobParameter:
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        value:
-          type: string
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    GrantedAuthority:
-      properties:
-        authority:
-          type: string
-    PermissionProfileUserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        permissionProfileId:
-          type: string
-          format: uuid
-          writeOnly: true
-    UserMetaTag:
-      properties:
-        id:
-          type: string
-          format: uuid
-        value:
-          type: string
-        metaTagId:
-          type: string
-          format: uuid
-        metaTagName:
-          type: string
-    PageUserCredentials:
-      properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserCredentials'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
     ClientApplicationRole:
       properties:
         id:
@@ -1536,79 +1601,14 @@ components:
           type: string
         permissions:
           type: string
-    InternalClientApplication:
-      allOf:
-      - $ref: '#/components/schemas/ClientApplication'
-      - type: object
-        properties:
-          siteUri:
-            type: string
-          logoUri:
-            type: string
-          helpUri:
-            type: string
-          redirectPriority:
-            type: integer
-            format: int32
-          showOnTopheader:
-            type: boolean
-      required:
-      - clientId
-    Address:
+    SortObject:
       properties:
-        formatted:
-          type: string
-        streetAddress:
-          type: string
-        locality:
-          type: string
-        region:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-        type:
-          type: string
-        primary:
+        empty:
           type: boolean
-    CustomerAccountExtension:
-      properties:
-        id:
-          type: string
-        uploadHome:
-          type: string
-        defaultUserRoles:
-          type: string
-        defaultUserGroups:
-          type: string
-        applicationLicenses:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientExtensionLicense'
-          uniqueItems: true
-        trustArcLicenses:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountClientTrustArcLicense'
-          uniqueItems: true
-        extLoginOnly:
+        sorted:
           type: boolean
-        accountId:
-          type: string
-        adminPersonId:
-          type: string
-    MetaTag:
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        required:
+        unsorted:
           type: boolean
-        displayName:
-          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2

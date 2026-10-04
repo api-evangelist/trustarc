@@ -280,36 +280,51 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PagePickTag:
+    BatchJobError:
       properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
+        entry:
+          type: string
+        message:
+          type: string
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+    PickTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        displayName:
+          type: string
+        values:
           type: array
           items:
-            $ref: '#/components/schemas/PickTag'
-        number:
+            type: string
+        accountId:
+          type: string
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
           type: integer
           format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
         sort:
           $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
+        unpaged:
           type: boolean
     BatchJob:
       properties:
@@ -391,21 +406,37 @@ components:
           type: string
         targetAccountId:
           type: string
-    PickTag:
+    PagePickTag:
       properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        displayName:
-          type: string
-        values:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
           type: array
           items:
-            type: string
-        accountId:
-          type: string
+            $ref: '#/components/schemas/PickTag'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
     SortObject:
       properties:
         empty:
@@ -415,37 +446,6 @@ components:
         unsorted:
           type: boolean
     JsonPatch: {}
-    BatchJobError:
-      properties:
-        entry:
-          type: string
-        message:
-          type: string
-    BatchJobParameter:
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        value:
-          type: string
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2

@@ -127,13 +127,22 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    SortObject:
+    PageableObject:
       properties:
-        empty:
+        paged:
           type: boolean
-        sorted:
-          type: boolean
-        unsorted:
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
           type: boolean
     ReportStoreRequestParam:
       properties:
@@ -149,54 +158,6 @@ components:
       - accountId
       - createdEnd
       - createdStart
-    ReportStore:
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-          - EXPORT_USER
-          - EXPORT_USER_ACTION
-          - EXPORT_USER_AUDIT_EVENTS
-          - EXPORT_LOGIN_REPORT
-          - EXPORT_FULL_LOGIN_REPORT
-          - EXPORT_USER_GROUP
-          - EXPORT_NEW_USER_REPORT
-        fileName:
-          type: string
-        file:
-          type: string
-          format: byte
-          writeOnly: true
-        fileType:
-          type: string
-          enum:
-          - CSV
-        createdDate:
-          type: string
-          format: date-time
-        createdById:
-          type: string
-        ownerAccountId:
-          type: string
-    ReportStoreRequest:
-      properties:
-        type:
-          type: string
-          enum:
-          - EXPORT_USER
-          - EXPORT_USER_ACTION
-          - EXPORT_USER_AUDIT_EVENTS
-          - EXPORT_LOGIN_REPORT
-          - EXPORT_FULL_LOGIN_REPORT
-          - EXPORT_USER_GROUP
-          - EXPORT_NEW_USER_REPORT
-        param:
-          $ref: '#/components/schemas/ReportStoreRequestParam'
-      required:
-      - param
-      - type
     PageReportStore:
       properties:
         totalElements:
@@ -228,23 +189,62 @@ components:
           format: int32
         empty:
           type: boolean
-    PageableObject:
+    ReportStore:
       properties:
-        paged:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - EXPORT_LOGIN_REPORT
+          - EXPORT_FULL_LOGIN_REPORT
+          - EXPORT_USER_GROUP
+          - EXPORT_NEW_USER_REPORT
+        fileName:
+          type: string
+        file:
+          type: string
+          format: byte
+          writeOnly: true
+        fileType:
+          type: string
+          enum:
+          - CSV
+        createdDate:
+          type: string
+          format: date-time
+        createdById:
+          type: string
+        ownerAccountId:
+          type: string
+    SortObject:
+      properties:
+        empty:
           type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
+        sorted:
           type: boolean
+        unsorted:
+          type: boolean
+    ReportStoreRequest:
+      properties:
+        type:
+          type: string
+          enum:
+          - EXPORT_USER
+          - EXPORT_USER_ACTION
+          - EXPORT_USER_AUDIT_EVENTS
+          - EXPORT_LOGIN_REPORT
+          - EXPORT_FULL_LOGIN_REPORT
+          - EXPORT_USER_GROUP
+          - EXPORT_NEW_USER_REPORT
+        param:
+          $ref: '#/components/schemas/ReportStoreRequestParam'
+      required:
+      - param
+      - type
   securitySchemes:
     guardianAuth:
       type: oauth2

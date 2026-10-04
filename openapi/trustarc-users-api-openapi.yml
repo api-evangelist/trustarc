@@ -2044,6 +2044,101 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    Address:
+      properties:
+        formatted:
+          type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        region:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    RemoveOperation:
+      allOf:
+      - $ref: '#/components/schemas/PatchOperation'
+      - type: object
+        properties:
+          value:
+            $ref: '#/components/schemas/JsonNode'
+      required:
+      - path
+    JsonNode:
+      properties:
+        container:
+          type: boolean
+        integralNumber:
+          type: boolean
+        string:
+          type: boolean
+        missingNode:
+          type: boolean
+        valueNode:
+          type: boolean
+        object:
+          type: boolean
+        pojo:
+          type: boolean
+        floatingPointNumber:
+          type: boolean
+        short:
+          type: boolean
+        int:
+          type: boolean
+        long:
+          type: boolean
+        double:
+          type: boolean
+        bigDecimal:
+          type: boolean
+        bigInteger:
+          type: boolean
+        textual:
+          type: boolean
+          deprecated: true
+        boolean:
+          type: boolean
+        binary:
+          type: boolean
+        array:
+          type: boolean
+        empty:
+          type: boolean
+        'null':
+          type: boolean
+        float:
+          type: boolean
+        nodeType:
+          type: string
+          enum:
+          - ARRAY
+          - BINARY
+          - BOOLEAN
+          - MISSING
+          - 'NULL'
+          - NUMBER
+          - OBJECT
+          - POJO
+          - STRING
+        number:
+          type: boolean
+        embeddedValue:
+          type: boolean
+    ErrorList:
+      properties:
+        entryNumber:
+          type: integer
+          format: int64
+        message:
+          type: string
     PermissionProfile:
       properties:
         id:
@@ -2076,48 +2171,7 @@ components:
           format: int64
         accountId:
           type: string
-    Photo:
-      properties:
-        value:
-          type: string
-          format: uri
-        display:
-          type: string
-        type:
-          type: string
-        primary:
-          type: boolean
-    PatchOperation:
-      discriminator:
-        propertyName: op
-      properties:
-        path:
-          type: string
-        removeOpValue:
-          oneOf:
-          - $ref: '#/components/schemas/AddOperation'
-          - $ref: '#/components/schemas/RemoveOperation'
-          - $ref: '#/components/schemas/ReplaceOperation'
-          writeOnly: true
-        op:
-          type: string
-      required:
-      - op
-    UserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        applicationClientId:
-          type: string
-    ScimUserName:
-      properties:
-        familyName:
-          type: string
-        givenName:
-          type: string
-    Entitlement:
+    PhoneNumber:
       properties:
         value:
           type: string
@@ -2127,28 +2181,6 @@ components:
           type: string
         primary:
           type: boolean
-    PatchRequest:
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        id:
-          type: string
-        externalId:
-          type: string
-        Operations:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/AddOperation'
-            - $ref: '#/components/schemas/RemoveOperation'
-            - $ref: '#/components/schemas/ReplaceOperation'
-        meta:
-          $ref: '#/components/schemas/Meta'
-      required:
-      - Operations
     AddOperation:
       allOf:
       - $ref: '#/components/schemas/PatchOperation'
@@ -2156,77 +2188,6 @@ components:
         properties:
           value:
             $ref: '#/components/schemas/JsonNode'
-    ScimGroup:
-      properties:
-        value:
-          type: string
-        display:
-          type: string
-        type:
-          type: string
-        $ref:
-          type: string
-          format: uri
-    ErrorList:
-      properties:
-        entryNumber:
-          type: integer
-          format: int64
-        message:
-          type: string
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    SliceUserCredentials:
-      properties:
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserCredentials'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
-    X509Certificate:
-      properties:
-        value:
-          type: string
-          format: byte
-        display:
-          type: string
-        type:
-          type: string
-        primary:
-          type: boolean
     ScimUserResource:
       properties:
         schemas:
@@ -2317,59 +2278,38 @@ components:
           items:
             $ref: '#/components/schemas/X509Certificate'
           writeOnly: true
-    BatchUpsertResult:
+    Entitlement:
       properties:
-        createCount:
-          type: integer
-          format: int64
-        updateCount:
-          type: integer
-          format: int64
-        errorList:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorList'
-    Meta:
-      properties:
-        resourceType:
+        value:
           type: string
-        created:
+        display:
           type: string
-          format: date-time
-        lastModified:
+        type:
           type: string
-          format: date-time
-        location:
-          type: string
-          format: uri
-        version:
-          type: string
-        createdMillis:
-          $ref: '#/components/schemas/Meta'
-        lastModifiedMillis:
-          $ref: '#/components/schemas/Meta'
-    ListResponseScimUserResource:
+        primary:
+          type: boolean
+    PatchRequest:
       properties:
         schemas:
           type: array
           items:
             type: string
           uniqueItems: true
-        totalResults:
-          type: integer
-          format: int32
-        startIndex:
-          type: integer
-          format: int32
-        itemsPerPage:
-          type: integer
-          format: int32
-        Resources:
+        id:
+          type: string
+        externalId:
+          type: string
+        Operations:
           type: array
           items:
-            $ref: '#/components/schemas/ScimUserResource'
+            oneOf:
+            - $ref: '#/components/schemas/AddOperation'
+            - $ref: '#/components/schemas/RemoveOperation'
+            - $ref: '#/components/schemas/ReplaceOperation'
+        meta:
+          $ref: '#/components/schemas/Meta'
       required:
-      - Resources
+      - Operations
     UserCredentials:
       properties:
         id:
@@ -2445,141 +2385,45 @@ components:
           uniqueItems: true
         modifiedById:
           type: string
-    ReplaceOperation:
-      allOf:
-      - $ref: '#/components/schemas/PatchOperation'
-      - type: object
-        properties:
-          value:
-            $ref: '#/components/schemas/JsonNode'
-    UserExtensionDTO:
+    Photo:
       properties:
-        userMgrId:
+        value:
           type: string
-        timeZone:
+          format: uri
+        display:
           type: string
-        locale:
+        type:
           type: string
-        totpEnabled:
+        primary:
           type: boolean
-    JsonNode:
+    ListResponseScimUserResource:
       properties:
-        container:
-          type: boolean
-        integralNumber:
-          type: boolean
-        string:
-          type: boolean
-        missingNode:
-          type: boolean
-        valueNode:
-          type: boolean
-        object:
-          type: boolean
-        pojo:
-          type: boolean
-        floatingPointNumber:
-          type: boolean
-        short:
-          type: boolean
-        int:
-          type: boolean
-        long:
-          type: boolean
-        double:
-          type: boolean
-        bigDecimal:
-          type: boolean
-        bigInteger:
-          type: boolean
-        textual:
-          type: boolean
-          deprecated: true
-        boolean:
-          type: boolean
-        binary:
-          type: boolean
-        array:
-          type: boolean
-        empty:
-          type: boolean
-        'null':
-          type: boolean
-        float:
-          type: boolean
-        nodeType:
-          type: string
-          enum:
-          - ARRAY
-          - BINARY
-          - BOOLEAN
-          - MISSING
-          - 'NULL'
-          - NUMBER
-          - OBJECT
-          - POJO
-          - STRING
-        number:
-          type: boolean
-        embeddedValue:
-          type: boolean
-    RemoveOperation:
-      allOf:
-      - $ref: '#/components/schemas/PatchOperation'
-      - type: object
-        properties:
-          value:
-            $ref: '#/components/schemas/JsonNode'
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        totalResults:
+          type: integer
+          format: int32
+        startIndex:
+          type: integer
+          format: int32
+        itemsPerPage:
+          type: integer
+          format: int32
+        Resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimUserResource'
       required:
-      - path
-    InstantMessagingAddress:
+      - Resources
+    ScimUserName:
       properties:
-        value:
+        familyName:
           type: string
-        display:
+        givenName:
           type: string
-        type:
-          type: string
-        primary:
-          type: boolean
-    PhoneNumber:
-      properties:
-        value:
-          type: string
-        display:
-          type: string
-        type:
-          type: string
-        primary:
-          type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    PermissionProfileUserGroup:
-      properties:
-        name:
-          type: string
-        clientId:
-          type: string
-        permissionProfileId:
-          type: string
-          format: uuid
-          writeOnly: true
-    Role:
-      properties:
-        value:
-          type: string
-        display:
-          type: string
-        type:
-          type: string
-        primary:
-          type: boolean
     UserMetaTag:
       properties:
         id:
@@ -2592,6 +2436,87 @@ components:
           format: uuid
         metaTagName:
           type: string
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    InstantMessagingAddress:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    UserExtensionDTO:
+      properties:
+        userMgrId:
+          type: string
+        timeZone:
+          type: string
+        locale:
+          type: string
+        totpEnabled:
+          type: boolean
+    UserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        applicationClientId:
+          type: string
+    Meta:
+      properties:
+        resourceType:
+          type: string
+        created:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        location:
+          type: string
+          format: uri
+        version:
+          type: string
+        createdMillis:
+          $ref: '#/components/schemas/Meta'
+        lastModifiedMillis:
+          $ref: '#/components/schemas/Meta'
+    PermissionProfileUserGroup:
+      properties:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
+          type: string
+          format: uuid
+          writeOnly: true
+    ReplaceOperation:
+      allOf:
+      - $ref: '#/components/schemas/PatchOperation'
+      - type: object
+        properties:
+          value:
+            $ref: '#/components/schemas/JsonNode'
     PageUserCredentials:
       properties:
         totalElements:
@@ -2623,6 +2548,55 @@ components:
           format: int32
         empty:
           type: boolean
+    X509Certificate:
+      properties:
+        value:
+          type: string
+          format: byte
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
+    BatchUpsertResult:
+      properties:
+        createCount:
+          type: integer
+          format: int64
+        updateCount:
+          type: integer
+          format: int64
+        errorList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorList'
+    PatchOperation:
+      discriminator:
+        propertyName: op
+      properties:
+        path:
+          type: string
+        removeOpValue:
+          oneOf:
+          - $ref: '#/components/schemas/AddOperation'
+          - $ref: '#/components/schemas/RemoveOperation'
+          - $ref: '#/components/schemas/ReplaceOperation'
+          writeOnly: true
+        op:
+          type: string
+      required:
+      - op
+    Role:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
     Email:
       properties:
         value:
@@ -2633,6 +2607,17 @@ components:
           type: string
         primary:
           type: boolean
+    ScimGroup:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        $ref:
+          type: string
+          format: uri
     ClientApplicationRole:
       properties:
         id:
@@ -2645,23 +2630,38 @@ components:
           type: string
         permissions:
           type: string
-    Address:
+    SortObject:
       properties:
-        formatted:
-          type: string
-        streetAddress:
-          type: string
-        locality:
-          type: string
-        region:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-        type:
-          type: string
-        primary:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    SliceUserCredentials:
+      properties:
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCredentials'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
           type: boolean
   securitySchemes:
     guardianAuth:

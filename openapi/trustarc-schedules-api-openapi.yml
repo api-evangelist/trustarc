@@ -79,20 +79,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ScheduleBuilderTrigger: {}
-    TriggerKey:
-      properties:
-        name:
-          type: string
-        group:
-          type: string
-    JobKey:
-      properties:
-        name:
-          type: string
-        group:
-          type: string
-    TriggerBuilderTrigger: {}
     Trigger:
       properties:
         nextFireTime:
@@ -148,6 +134,20 @@ components:
           format: date-time
         description:
           type: string
+    JobKey:
+      properties:
+        name:
+          type: string
+        group:
+          type: string
+    ScheduleBuilderTrigger: {}
+    TriggerKey:
+      properties:
+        name:
+          type: string
+        group:
+          type: string
+    TriggerBuilderTrigger: {}
   securitySchemes:
     guardianAuth:
       type: oauth2

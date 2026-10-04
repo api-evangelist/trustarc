@@ -586,73 +586,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    CustomerClientApplication:
-      allOf:
-      - $ref: '#/components/schemas/ClientApplication'
-      - type: object
-        properties:
-          requestLimit:
-            type: integer
-            format: int64
-      required:
-      - clientId
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    GrantedAuthority:
-      properties:
-        authority:
-          type: string
-    MetricApi:
-      properties:
-        id:
-          type: string
-          format: uuid
-        method:
-          type: string
-        status:
-          type: integer
-          format: int32
-        path:
-          type: string
-    ClientApplicationKey:
-      properties:
-        clientId:
-          type: string
-        clientSecret:
-          type: string
-    ClientApplicationMetric:
-      properties:
-        id:
-          type: string
-          format: uuid
-        date:
-          type: string
-          format: date-time
-        count:
-          type: integer
-          format: int64
-        applicationId:
-          type: string
-        apiId:
-          type: string
-          format: uuid
-    CustomerMeterDTO:
-      properties:
-        clientId:
-          type: string
-        count:
-          type: integer
-          format: int64
-        apiList:
-          type: array
-          items:
-            $ref: '#/components/schemas/APIMeterDTO'
     ApiMetricHistogram:
       properties:
         metricApi:
@@ -661,88 +594,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/HistogramData'
-    ClientApplicationRole:
-      properties:
-        id:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        permissions:
-          type: string
-    InternalClientApplication:
-      allOf:
-      - $ref: '#/components/schemas/ClientApplication'
-      - type: object
-        properties:
-          siteUri:
-            type: string
-          logoUri:
-            type: string
-          helpUri:
-            type: string
-          redirectPriority:
-            type: integer
-            format: int32
-          showOnTopheader:
-            type: boolean
-      required:
-      - clientId
-    HistogramData:
-      properties:
-        sumFreq:
-          type: integer
-          format: int64
-        dateTime:
-          type: string
-          format: date-time
-    PageClientApplication:
-      properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/ClientApplication'
-            - $ref: '#/components/schemas/CustomerClientApplication'
-            - $ref: '#/components/schemas/InternalClientApplication'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
-    APIMeterDTO:
-      properties:
-        api:
-          type: string
-        status:
-          type: integer
-          format: int32
-        count:
-          type: integer
-          format: int64
     ClientApplication:
       discriminator:
         propertyName: type
@@ -826,19 +677,75 @@ components:
           type: string
       required:
       - clientId
-    ClientMetricHistogram:
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
+    CustomerMeterDTO:
       properties:
         clientId:
           type: string
-        buckets:
+        count:
+          type: integer
+          format: int64
+        apiList:
           type: array
           items:
-            $ref: '#/components/schemas/ApiMetricHistogram'
-        dateTimes:
-          type: array
-          items:
-            type: string
-            format: date-time
+            $ref: '#/components/schemas/APIMeterDTO'
+    ClientApplicationMetric:
+      properties:
+        id:
+          type: string
+          format: uuid
+        date:
+          type: string
+          format: date-time
+        count:
+          type: integer
+          format: int64
+        applicationId:
+          type: string
+        apiId:
+          type: string
+          format: uuid
+    MetricApi:
+      properties:
+        id:
+          type: string
+          format: uuid
+        method:
+          type: string
+        status:
+          type: integer
+          format: int32
+        path:
+          type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    APIMeterDTO:
+      properties:
+        api:
+          type: string
+        status:
+          type: integer
+          format: int32
+        count:
+          type: integer
+          format: int64
     PageableObject:
       properties:
         paged:
@@ -856,6 +763,99 @@ components:
           $ref: '#/components/schemas/SortObject'
         unpaged:
           type: boolean
+    InternalClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          siteUri:
+            type: string
+          logoUri:
+            type: string
+          helpUri:
+            type: string
+          redirectPriority:
+            type: integer
+            format: int32
+          showOnTopheader:
+            type: boolean
+      required:
+      - clientId
+    HistogramData:
+      properties:
+        sumFreq:
+          type: integer
+          format: int64
+        dateTime:
+          type: string
+          format: date-time
+    ClientApplicationKey:
+      properties:
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+    GrantedAuthority:
+      properties:
+        authority:
+          type: string
+    CustomerClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          requestLimit:
+            type: integer
+            format: int64
+      required:
+      - clientId
+    PageClientApplication:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/ClientApplication'
+            - $ref: '#/components/schemas/CustomerClientApplication'
+            - $ref: '#/components/schemas/InternalClientApplication'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    ClientMetricHistogram:
+      properties:
+        clientId:
+          type: string
+        buckets:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiMetricHistogram'
+        dateTimes:
+          type: array
+          items:
+            type: string
+            format: date-time
   securitySchemes:
     guardianAuth:
       type: oauth2

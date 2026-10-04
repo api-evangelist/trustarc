@@ -134,52 +134,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PageUserProfileSessionCountDto:
-      properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserProfileSessionCountDto'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    UserProfileSessionCountDto:
-      properties:
-        userProfile:
-          $ref: '#/components/schemas/UserProfile'
-        sessionCount:
-          type: integer
-          format: int32
     UserProfile:
       properties:
         id:
@@ -244,6 +198,52 @@ components:
         sort:
           $ref: '#/components/schemas/SortObject'
         unpaged:
+          type: boolean
+    PageUserProfileSessionCountDto:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileSessionCountDto'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    UserProfileSessionCountDto:
+      properties:
+        userProfile:
+          $ref: '#/components/schemas/UserProfile'
+        sessionCount:
+          type: integer
+          format: int32
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
           type: boolean
   securitySchemes:
     guardianAuth:

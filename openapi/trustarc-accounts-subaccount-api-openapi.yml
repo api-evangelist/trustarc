@@ -226,44 +226,35 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    CustomerClientApplication:
-      allOf:
-      - $ref: '#/components/schemas/ClientApplication'
-      - type: object
-        properties:
-          requestLimit:
-            type: integer
-            format: int64
-      required:
-      - clientId
-    AccountClientTrustArcLicense:
+    MetaTag:
       properties:
-        licenseId:
+        id:
           type: string
-        emptyJustification:
+          format: uuid
+        name:
           type: string
-        createdDate:
+        required:
+          type: boolean
+        displayName:
           type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        clientId:
-          type: string
-        modifiedById:
-          type: string
-    SortObject:
+    Address:
       properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    GrantedAuthority:
-      properties:
-        authority:
+        formatted:
           type: string
+        streetAddress:
+          type: string
+        locality:
+          type: string
+        region:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        type:
+          type: string
+        primary:
+          type: boolean
     PageCustomerAccount:
       properties:
         totalElements:
@@ -295,15 +286,111 @@ components:
           format: int32
         empty:
           type: boolean
-    ClientExtensionLicense:
+    ClientApplication:
+      discriminator:
+        propertyName: type
       properties:
         id:
           type: string
-          format: uuid
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        clientId:
+          type: string
+          maxLength: 2147483647
+          minLength: 1
+        clientSecret:
+          oneOf:
+          - $ref: '#/components/schemas/ClientApplication'
+          - $ref: '#/components/schemas/CustomerClientApplication'
+          - $ref: '#/components/schemas/InternalClientApplication'
+          writeOnly: true
+        clientName:
+          type: string
+        resourceIds:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        scopes:
+          type: string
+        grantTypes:
+          type: string
+        authorities:
+          type: array
+          items:
+            $ref: '#/components/schemas/GrantedAuthority'
+        redirectUris:
+          type: string
+        autoApproveScopes:
+          type: string
+        allowedAudiences:
+          type: string
+        legacyIdentifier:
+          type: string
+        enabled:
+          type: boolean
+        requiresLicense:
+          type: boolean
+        accessTokenValiditySeconds:
+          type: integer
+          format: int32
+        refreshTokenValiditySeconds:
+          type: integer
+          format: int32
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        type:
+          type: string
+          enum:
+          - Internal
+          - Customer
+        accountId:
+          type: string
+        usingUserGroups:
+          type: boolean
+        delegateUserId:
+          type: string
+        usingUserRoles:
+          type: boolean
+        usingUserRolesOrGroups:
+          type: boolean
+        usingAccountRegistration:
+          type: boolean
+        usingLicense:
+          type: boolean
+        modifiedById:
+          type: string
+      required:
+      - clientId
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
         identifier:
           type: string
         name:
           type: string
+        description:
+          type: string
+        permissions:
+          type: string
+    CustomerClientApplication:
+      allOf:
+      - $ref: '#/components/schemas/ClientApplication'
+      - type: object
+        properties:
+          requestLimit:
+            type: integer
+            format: int64
+      required:
+      - clientId
     CustomerAccount:
       properties:
         id:
@@ -421,18 +508,32 @@ components:
           type: string
       required:
       - legalName
-    ClientApplicationRole:
+    ClientExtensionLicense:
       properties:
         id:
           type: string
+          format: uuid
         identifier:
           type: string
         name:
           type: string
-        description:
-          type: string
-        permissions:
-          type: string
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
     InternalClientApplication:
       allOf:
       - $ref: '#/components/schemas/ClientApplication'
@@ -451,24 +552,10 @@ components:
             type: boolean
       required:
       - clientId
-    Address:
+    GrantedAuthority:
       properties:
-        formatted:
+        authority:
           type: string
-        streetAddress:
-          type: string
-        locality:
-          type: string
-        region:
-          type: string
-        postalCode:
-          type: string
-        country:
-          type: string
-        type:
-          type: string
-        primary:
-          type: boolean
     CustomerAccountExtension:
       properties:
         id:
@@ -495,11 +582,19 @@ components:
           type: string
         adminPersonId:
           type: string
-    ClientApplication:
-      discriminator:
-        propertyName: type
+    SortObject:
       properties:
-        id:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    AccountClientTrustArcLicense:
+      properties:
+        licenseId:
+          type: string
+        emptyJustification:
           type: string
         createdDate:
           type: string
@@ -509,102 +604,7 @@ components:
           format: date-time
         clientId:
           type: string
-          maxLength: 2147483647
-          minLength: 1
-        clientSecret:
-          oneOf:
-          - $ref: '#/components/schemas/ClientApplication'
-          - $ref: '#/components/schemas/CustomerClientApplication'
-          - $ref: '#/components/schemas/InternalClientApplication'
-          writeOnly: true
-        clientName:
-          type: string
-        resourceIds:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        scopes:
-          type: string
-        grantTypes:
-          type: string
-        authorities:
-          type: array
-          items:
-            $ref: '#/components/schemas/GrantedAuthority'
-        redirectUris:
-          type: string
-        autoApproveScopes:
-          type: string
-        allowedAudiences:
-          type: string
-        legacyIdentifier:
-          type: string
-        enabled:
-          type: boolean
-        requiresLicense:
-          type: boolean
-        accessTokenValiditySeconds:
-          type: integer
-          format: int32
-        refreshTokenValiditySeconds:
-          type: integer
-          format: int32
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        type:
-          type: string
-          enum:
-          - Internal
-          - Customer
-        accountId:
-          type: string
-        usingUserGroups:
-          type: boolean
-        delegateUserId:
-          type: string
-        usingUserRoles:
-          type: boolean
-        usingUserRolesOrGroups:
-          type: boolean
-        usingAccountRegistration:
-          type: boolean
-        usingLicense:
-          type: boolean
         modifiedById:
-          type: string
-      required:
-      - clientId
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    MetaTag:
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        required:
-          type: boolean
-        displayName:
           type: string
   securitySchemes:
     guardianAuth:

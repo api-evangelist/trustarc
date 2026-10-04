@@ -347,6 +347,44 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    BatchJobError:
+      properties:
+        entry:
+          type: string
+        message:
+          type: string
+    BatchJobParameter:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
+    BatchJobInfoWrapper:
+      properties:
+        paramMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BatchJobRequestParam'
+    BatchJobRequestParam: {}
     PageBatchJob:
       properties:
         totalElements:
@@ -378,7 +416,6 @@ components:
           format: int32
         empty:
           type: boolean
-    BatchJobRequestParam: {}
     BatchJob:
       properties:
         id:
@@ -466,43 +503,6 @@ components:
         sorted:
           type: boolean
         unsorted:
-          type: boolean
-    BatchJobInfoWrapper:
-      properties:
-        paramMap:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/BatchJobRequestParam'
-    BatchJobError:
-      properties:
-        entry:
-          type: string
-        message:
-          type: string
-    BatchJobParameter:
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        value:
-          type: string
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
           type: boolean
   securitySchemes:
     guardianAuth:

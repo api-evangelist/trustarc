@@ -162,65 +162,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
-    UserActivation:
-      properties:
-        id:
-          type: string
-        type:
-          type: string
-          enum:
-          - NewUser
-          - PasswordReset
-        code:
-          type: string
-        expirationDate:
-          type: string
-          format: date-time
-        expired:
-          type: boolean
-        user:
-          $ref: '#/components/schemas/UserProfile'
-        userProfileId:
-          type: string
-    PageUserActivation:
-      properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/UserActivation'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
     UserProfile:
       properties:
         id:
@@ -285,6 +226,65 @@ components:
         sort:
           $ref: '#/components/schemas/SortObject'
         unpaged:
+          type: boolean
+    UserActivation:
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - NewUser
+          - PasswordReset
+        code:
+          type: string
+        expirationDate:
+          type: string
+          format: date-time
+        expired:
+          type: boolean
+        user:
+          $ref: '#/components/schemas/UserProfile'
+        userProfileId:
+          type: string
+    PageUserActivation:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserActivation'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
           type: boolean
   securitySchemes:
     guardianAuth:

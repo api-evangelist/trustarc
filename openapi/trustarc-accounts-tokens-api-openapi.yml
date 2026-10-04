@@ -136,6 +136,24 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    AccountLongExpToken:
+      properties:
+        id:
+          type: string
+          format: uuid
+        expiresOn:
+          type: string
+          format: date-time
+        createdDate:
+          type: string
+          format: date-time
+        token:
+          type: string
+          readOnly: true
+        accountId:
+          type: string
+        userId:
+          type: string
     SliceAccountLongExpToken:
       properties:
         pageable:
@@ -161,24 +179,6 @@ components:
           format: int32
         empty:
           type: boolean
-    AccountLongExpToken:
-      properties:
-        id:
-          type: string
-          format: uuid
-        expiresOn:
-          type: string
-          format: date-time
-        createdDate:
-          type: string
-          format: date-time
-        token:
-          type: string
-          readOnly: true
-        accountId:
-          type: string
-        userId:
-          type: string
     SortObject:
       properties:
         empty:

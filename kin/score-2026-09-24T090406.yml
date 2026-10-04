@@ -1,38 +1,36 @@
-# Kin Score artifact — trustarc — 2026-08-28T221322
+# Kin Score artifact — trustarc — 2026-09-24T090406
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: trustarc
-  schema_version: 0.15.1
-  scored_at: '2026-08-28'
-  run_ts: 2026-08-28T221322
-  composite: 53.4
+  schema_version: 0.22.0
+  scored_at: '2026-09-24'
+  run_ts: 2026-09-24T090406
+  composite: 51.6
   band: developing
   facets:
-    discoverability: 85.2
-    contract_quality: 47.6
-    governance: 30.3
-    operational_transparency: 52.6
-    developer_ergonomics: 69.0
-    commercial_clarity: 43.4
-    contract_governance: 30.3
-    access_clarity: 43.4
+    discoverability: 63.0
+    contract_quality: 59.4
+    contract_governance: 18.2
+    operational_transparency: 50.0
+    developer_ergonomics: 63.7
+    access_clarity: 23.7
   agent_readiness:
-    score: 50.2
+    score: 38.7
     band: agent-ready
     band_gated_from: agent-native
     dimensions:
       spec_presence: true
-      agentic_access: true
+      agentic_access: derived
       reversibility_documented: false
-      mcp_server: documented
+      mcp_server: false
       auth_clarity: served
       idempotency: false
       error_semantics: documented
       openapi_examples: partial
       rate_limit_signal: documented
       event_surface_described: true
-      agent_skills: true
+      agent_skills: derived
       well_known_catalog: false
       consent_identity: false
       agent_card: false
@@ -41,3 +39,13 @@ kin_score:
       protected_resource_metadata: false
       dynamic_client_registration: false
       agentic_commerce: false
+  provenance:
+    mcp: derived
+    skills: derived
+    agentic_access: derived
+    conformance: first-party
+    contracts:
+      total: 50
+      derived: 0
+      coverage: 0.0
+      callable: 100.0

@@ -1,0 +1,12 @@
+{
+ "url": "https://login.truste.com/v3/api-docs",
+ "requested_url": "https://login.truste.com/v3/api-docs",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 228318,
+ "sha256": "4e6f0e9801b0dedc86d943b55fe4a57891dd7d93a7b6c2926ec6c8aafa442fc9",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.955), but the bytes differ, so the archive is an earlier or reformatted copy."
+}

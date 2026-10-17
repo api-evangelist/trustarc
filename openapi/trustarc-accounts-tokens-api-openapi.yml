@@ -136,49 +136,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    AccountLongExpToken:
-      properties:
-        id:
-          type: string
-          format: uuid
-        expiresOn:
-          type: string
-          format: date-time
-        createdDate:
-          type: string
-          format: date-time
-        token:
-          type: string
-          readOnly: true
-        accountId:
-          type: string
-        userId:
-          type: string
-    SliceAccountLongExpToken:
-      properties:
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            $ref: '#/components/schemas/AccountLongExpToken'
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
     SortObject:
       properties:
         empty:
@@ -204,6 +161,49 @@ components:
           $ref: '#/components/schemas/SortObject'
         unpaged:
           type: boolean
+    SliceAccountLongExpToken:
+      properties:
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountLongExpToken'
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    AccountLongExpToken:
+      properties:
+        id:
+          type: string
+          format: uuid
+        expiresOn:
+          type: string
+          format: date-time
+        createdDate:
+          type: string
+          format: date-time
+        token:
+          type: string
+          readOnly: true
+        accountId:
+          type: string
+        userId:
+          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2

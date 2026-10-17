@@ -134,20 +134,20 @@ components:
           format: date-time
         description:
           type: string
+    ScheduleBuilderTrigger: {}
     JobKey:
       properties:
         name:
           type: string
         group:
           type: string
-    ScheduleBuilderTrigger: {}
+    TriggerBuilderTrigger: {}
     TriggerKey:
       properties:
         name:
           type: string
         group:
           type: string
-    TriggerBuilderTrigger: {}
   securitySchemes:
     guardianAuth:
       type: oauth2

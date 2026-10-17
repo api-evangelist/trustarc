@@ -111,15 +111,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ClientExtensionAttribute:
-      properties:
-        id:
-          type: string
-          format: uuid
-        identifier:
-          type: string
-        displayName:
-          type: string
     ClientExtensionLicenseAttribute:
       properties:
         value:
@@ -138,6 +129,15 @@ components:
         identifier:
           type: string
         name:
+          type: string
+    ClientExtensionAttribute:
+      properties:
+        id:
+          type: string
+          format: uuid
+        identifier:
+          type: string
+        displayName:
           type: string
   securitySchemes:
     guardianAuth:

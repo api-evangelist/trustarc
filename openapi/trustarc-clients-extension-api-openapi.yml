@@ -77,14 +77,14 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ClientExtensionAttribute:
+    ClientExtensionLicense:
       properties:
         id:
           type: string
           format: uuid
         identifier:
           type: string
-        displayName:
+        name:
           type: string
     ClientExtension:
       properties:
@@ -106,14 +106,14 @@ components:
         clientSecretChangedDate:
           type: string
           format: date-time
-    ClientExtensionLicense:
+    ClientExtensionAttribute:
       properties:
         id:
           type: string
           format: uuid
         identifier:
           type: string
-        name:
+        displayName:
           type: string
   securitySchemes:
     guardianAuth:

@@ -224,25 +224,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ScimGroupResource:
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        id:
-          type: string
-        externalId:
-          type: string
-        meta:
-          $ref: '#/components/schemas/Meta'
-        displayName:
-          type: string
-        members:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScimMember'
     ReplaceOperation:
       allOf:
       - $ref: '#/components/schemas/PatchOperation'
@@ -250,15 +231,6 @@ components:
         properties:
           value:
             $ref: '#/components/schemas/JsonNode'
-    RemoveOperation:
-      allOf:
-      - $ref: '#/components/schemas/PatchOperation'
-      - type: object
-        properties:
-          value:
-            $ref: '#/components/schemas/JsonNode'
-      required:
-      - path
     JsonNode:
       properties:
         container:
@@ -320,6 +292,13 @@ components:
           type: boolean
         embeddedValue:
           type: boolean
+    AddOperation:
+      allOf:
+      - $ref: '#/components/schemas/PatchOperation'
+      - type: object
+        properties:
+          value:
+            $ref: '#/components/schemas/JsonNode'
     PatchOperation:
       discriminator:
         propertyName: op
@@ -336,39 +315,6 @@ components:
           type: string
       required:
       - op
-    ListResponseScimGroupResource:
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-          uniqueItems: true
-        totalResults:
-          type: integer
-          format: int32
-        startIndex:
-          type: integer
-          format: int32
-        itemsPerPage:
-          type: integer
-          format: int32
-        Resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScimGroupResource'
-      required:
-      - Resources
-    ScimMember:
-      properties:
-        value:
-          type: string
-        display:
-          type: string
-        type:
-          type: string
-        $ref:
-          type: string
-          format: uri
     PatchRequest:
       properties:
         schemas:
@@ -391,13 +337,6 @@ components:
           $ref: '#/components/schemas/Meta'
       required:
       - Operations
-    AddOperation:
-      allOf:
-      - $ref: '#/components/schemas/PatchOperation'
-      - type: object
-        properties:
-          value:
-            $ref: '#/components/schemas/JsonNode'
     Meta:
       properties:
         resourceType:
@@ -417,6 +356,67 @@ components:
           $ref: '#/components/schemas/Meta'
         lastModifiedMillis:
           $ref: '#/components/schemas/Meta'
+    RemoveOperation:
+      allOf:
+      - $ref: '#/components/schemas/PatchOperation'
+      - type: object
+        properties:
+          value:
+            $ref: '#/components/schemas/JsonNode'
+      required:
+      - path
+    ScimGroupResource:
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        id:
+          type: string
+        externalId:
+          type: string
+        meta:
+          $ref: '#/components/schemas/Meta'
+        displayName:
+          type: string
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimMember'
+    ScimMember:
+      properties:
+        value:
+          type: string
+        display:
+          type: string
+        type:
+          type: string
+        $ref:
+          type: string
+          format: uri
+    ListResponseScimGroupResource:
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          uniqueItems: true
+        totalResults:
+          type: integer
+          format: int32
+        startIndex:
+          type: integer
+          format: int32
+        itemsPerPage:
+          type: integer
+          format: int32
+        Resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimGroupResource'
+      required:
+      - Resources
   securitySchemes:
     guardianAuth:
       type: oauth2

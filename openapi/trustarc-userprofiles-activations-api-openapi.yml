@@ -210,6 +210,14 @@ components:
       required:
       - password
       - username
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
     PageableObject:
       properties:
         paged:
@@ -277,14 +285,6 @@ components:
           type: integer
           format: int32
         empty:
-          type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
           type: boolean
   securitySchemes:
     guardianAuth:

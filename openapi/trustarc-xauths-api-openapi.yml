@@ -235,6 +235,31 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
     PageExternalAuthConfig:
       properties:
         totalElements:
@@ -266,24 +291,49 @@ components:
           format: int32
         empty:
           type: boolean
-    PermissionProfileUserGroup:
+    PermissionProfile:
       properties:
+        id:
+          type: string
+          format: uuid
         name:
           type: string
-        clientId:
+        externalId:
           type: string
-        permissionProfileId:
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfileUserGroup'
+          uniqueItems: true
+        createdDate:
           type: string
-          format: uuid
-          writeOnly: true
-    ExAuthMetaTag:
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        modifiedById:
+          type: string
+        userCount:
+          type: integer
+          format: int64
+        accountId:
+          type: string
+    ClientApplicationRole:
       properties:
-        value:
+        id:
           type: string
-        metaTagId:
+        identifier:
           type: string
-          format: uuid
-        metaTagName:
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
           type: string
     ExternalAuthConfigUserGroup:
       properties:
@@ -294,6 +344,42 @@ components:
           writeOnly: true
         clientId:
           type: string
+    PageEntryStringString:
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: '#/components/schemas/PageableObject'
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              key:
+                type: string
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
     ExternalAuthConfig:
       properties:
         id:
@@ -403,111 +489,25 @@ components:
       required:
       - clientId
       - uriSubdomain
-    PageEntryStringString:
+    PermissionProfileUserGroup:
       properties:
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int32
-        pageable:
-          $ref: '#/components/schemas/PageableObject'
-        size:
-          type: integer
-          format: int32
-        content:
-          type: array
-          items:
-            type: object
-            properties:
-              value:
-                type: string
-              key:
-                type: string
-        number:
-          type: integer
-          format: int32
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
-        empty:
-          type: boolean
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    PermissionProfile:
-      properties:
-        id:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
           type: string
           format: uuid
-        name:
-          type: string
-        externalId:
-          type: string
-        applicationRoles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/PermissionProfileUserGroup'
-          uniqueItems: true
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        modifiedById:
-          type: string
-        userCount:
-          type: integer
-          format: int64
-        accountId:
-          type: string
-    ClientApplicationRole:
+          writeOnly: true
+    ExAuthMetaTag:
       properties:
-        id:
+        value:
           type: string
-        identifier:
+        metaTagId:
           type: string
-        name:
+          format: uuid
+        metaTagName:
           type: string
-        description:
-          type: string
-        permissions:
-          type: string
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2

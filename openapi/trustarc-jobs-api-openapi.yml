@@ -347,12 +347,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    BatchJobError:
-      properties:
-        entry:
-          type: string
-        message:
-          type: string
     BatchJobParameter:
       properties:
         id:
@@ -361,30 +355,6 @@ components:
           type: string
         value:
           type: string
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    BatchJobInfoWrapper:
-      properties:
-        paramMap:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/BatchJobRequestParam'
-    BatchJobRequestParam: {}
     PageBatchJob:
       properties:
         totalElements:
@@ -415,6 +385,38 @@ components:
           type: integer
           format: int32
         empty:
+          type: boolean
+    BatchJobRequestParam: {}
+    BatchJobInfoWrapper:
+      properties:
+        paramMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/BatchJobRequestParam'
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
           type: boolean
     BatchJob:
       properties:
@@ -496,14 +498,12 @@ components:
           type: string
         targetAccountId:
           type: string
-    SortObject:
+    BatchJobError:
       properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
-          type: boolean
+        entry:
+          type: string
+        message:
+          type: string
   securitySchemes:
     guardianAuth:
       type: oauth2

@@ -37,24 +37,61 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PermissionProfileUserGroup:
+    PermissionProfile:
       properties:
+        id:
+          type: string
+          format: uuid
         name:
           type: string
-        clientId:
+        externalId:
           type: string
-        permissionProfileId:
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfileUserGroup'
+          uniqueItems: true
+        createdDate:
           type: string
-          format: uuid
-          writeOnly: true
-    ExAuthMetaTag:
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        modifiedById:
+          type: string
+        userCount:
+          type: integer
+          format: int64
+        accountId:
+          type: string
+    UserSSOConfig:
       properties:
-        value:
+        configs:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalAuthConfig'
+        usernameHint:
           type: string
-        metaTagId:
+        hasGoogleAuth:
+          type: boolean
+        saml2Only:
+          type: boolean
+    ClientApplicationRole:
+      properties:
+        id:
           type: string
-          format: uuid
-        metaTagName:
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
           type: string
     ExternalAuthConfigUserGroup:
       properties:
@@ -174,62 +211,25 @@ components:
       required:
       - clientId
       - uriSubdomain
-    PermissionProfile:
+    PermissionProfileUserGroup:
       properties:
-        id:
+        name:
+          type: string
+        clientId:
+          type: string
+        permissionProfileId:
           type: string
           format: uuid
-        name:
-          type: string
-        externalId:
-          type: string
-        applicationRoles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/PermissionProfileUserGroup'
-          uniqueItems: true
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        modifiedById:
-          type: string
-        userCount:
-          type: integer
-          format: int64
-        accountId:
-          type: string
-    ClientApplicationRole:
+          writeOnly: true
+    ExAuthMetaTag:
       properties:
-        id:
+        value:
           type: string
-        identifier:
+        metaTagId:
           type: string
-        name:
+          format: uuid
+        metaTagName:
           type: string
-        description:
-          type: string
-        permissions:
-          type: string
-    UserSSOConfig:
-      properties:
-        configs:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExternalAuthConfig'
-        usernameHint:
-          type: string
-        hasGoogleAuth:
-          type: boolean
-        saml2Only:
-          type: boolean
   securitySchemes:
     guardianAuth:
       type: oauth2

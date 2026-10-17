@@ -40,101 +40,13 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    PermissionProfileUserGroup:
+    UserGroup:
       properties:
         name:
           type: string
         clientId:
           type: string
-        permissionProfileId:
-          type: string
-          format: uuid
-          writeOnly: true
-    SimpleUser:
-      properties:
-        id:
-          type: string
-        username:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        nymityId:
-          type: string
-        nymityOrgId:
-          type: string
-        accountId:
-          type: string
-        roles:
-          type: array
-          items:
-            type: string
-    UserMetaTag:
-      properties:
-        id:
-          type: string
-          format: uuid
-        value:
-          type: string
-        metaTagId:
-          type: string
-          format: uuid
-        metaTagName:
-          type: string
-    PermissionProfile:
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        externalId:
-          type: string
-        applicationRoles:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClientApplicationRole'
-          uniqueItems: true
-        userGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/PermissionProfileUserGroup'
-          uniqueItems: true
-        createdDate:
-          type: string
-          format: date-time
-        modifiedDate:
-          type: string
-          format: date-time
-        modifiedById:
-          type: string
-        userCount:
-          type: integer
-          format: int64
-        accountId:
-          type: string
-    UserExtensionDTO:
-      properties:
-        userMgrId:
-          type: string
-        timeZone:
-          type: string
-        locale:
-          type: string
-        totpEnabled:
-          type: boolean
-    ClientApplicationRole:
-      properties:
-        id:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        permissions:
+        applicationClientId:
           type: string
     UserCredentials:
       properties:
@@ -211,14 +123,102 @@ components:
           uniqueItems: true
         modifiedById:
           type: string
-    UserGroup:
+    PermissionProfile:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        externalId:
+          type: string
+        applicationRoles:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClientApplicationRole'
+          uniqueItems: true
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionProfileUserGroup'
+          uniqueItems: true
+        createdDate:
+          type: string
+          format: date-time
+        modifiedDate:
+          type: string
+          format: date-time
+        modifiedById:
+          type: string
+        userCount:
+          type: integer
+          format: int64
+        accountId:
+          type: string
+    ClientApplicationRole:
+      properties:
+        id:
+          type: string
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: string
+    UserExtensionDTO:
+      properties:
+        userMgrId:
+          type: string
+        timeZone:
+          type: string
+        locale:
+          type: string
+        totpEnabled:
+          type: boolean
+    UserMetaTag:
+      properties:
+        id:
+          type: string
+          format: uuid
+        value:
+          type: string
+        metaTagId:
+          type: string
+          format: uuid
+        metaTagName:
+          type: string
+    SimpleUser:
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        nymityId:
+          type: string
+        nymityOrgId:
+          type: string
+        accountId:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+    PermissionProfileUserGroup:
       properties:
         name:
           type: string
         clientId:
           type: string
-        applicationClientId:
+        permissionProfileId:
           type: string
+          format: uuid
+          writeOnly: true
   securitySchemes:
     guardianAuth:
       type: oauth2

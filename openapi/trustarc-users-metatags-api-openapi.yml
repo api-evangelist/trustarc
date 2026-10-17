@@ -225,6 +225,49 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    UserMetaTagSearchDTO:
+      properties:
+        primaryTag:
+          type: object
+          properties:
+            value:
+              type: string
+            key:
+              type: string
+        supplementaryTags:
+          type: array
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+              key:
+                type: string
+    SortObject:
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    PageableObject:
+      properties:
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/SortObject'
+        unpaged:
+          type: boolean
     SliceUserMetaTagSearchDTO:
       properties:
         pageable:
@@ -250,24 +293,6 @@ components:
           format: int32
         empty:
           type: boolean
-    UserMetaTagSearchDTO:
-      properties:
-        primaryTag:
-          type: object
-          properties:
-            value:
-              type: string
-            key:
-              type: string
-        supplementaryTags:
-          type: array
-          items:
-            type: object
-            properties:
-              value:
-                type: string
-              key:
-                type: string
     PageEntryStringString:
       properties:
         totalElements:
@@ -303,31 +328,6 @@ components:
           type: integer
           format: int32
         empty:
-          type: boolean
-    PageableObject:
-      properties:
-        paged:
-          type: boolean
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        offset:
-          type: integer
-          format: int64
-        sort:
-          $ref: '#/components/schemas/SortObject'
-        unpaged:
-          type: boolean
-    SortObject:
-      properties:
-        empty:
-          type: boolean
-        sorted:
-          type: boolean
-        unsorted:
           type: boolean
   securitySchemes:
     guardianAuth:

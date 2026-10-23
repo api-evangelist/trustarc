@@ -66,3 +66,9 @@ components:
           tokenUrl: https://login.truste.com/oauth/token
           scopes:
             openid: OpenID
+x-provenance:
+  method: harvested
+  publisher: TrustArc
+  source: https://login.truste.com/v3/api-docs
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
